@@ -124,8 +124,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.051288605, y: -0.17225093}
-  m_Size: {x: 1.1167455, y: 1.7983774}
+  m_Offset: {x: -0.070958376, y: -0.17225093}
+  m_Size: {x: 1.0774059, y: 1.7983774}
   m_Direction: 0
 --- !u!50 &483368451308108363
 Rigidbody2D:
@@ -167,11 +167,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   moveSpeed: 10
-  jumpForce: 7
+  jumpForce: 3.5
   climbSpeed: 3
   moveVal: 0
-  isJumpOn: 0
-  isFallOn: 0
+  isJumpPressed: 0
+  isAscending: 0
+  isDescending: 0
   isClimbOn: 0
   isSlideOn: 0
   isHangingOnEdge: 0
@@ -184,8 +185,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6264259533030125888}
-  - component: {fileID: 6033113130852279707}
-  - component: {fileID: 60502053535063843}
   m_Layer: 0
   m_Name: WallEdgeChecker
   m_TagString: Untagged
@@ -201,45 +200,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1142075033545379511}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.499, y: 1.02, z: 0}
+  m_LocalPosition: {x: 0.45, y: 1.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2036871067009232543}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &6033113130852279707
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1142075033545379511}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.1, y: 0.2}
-  m_Direction: 0
---- !u!58 &60502053535063843
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1142075033545379511}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.05
 --- !u!1 &7309094763924676911
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,7 +216,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5031754048586023013}
-  - component: {fileID: 5341177752772235307}
   m_Layer: 0
   m_Name: WallChecker
   m_TagString: Untagged
@@ -265,29 +231,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7309094763924676911}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.499, y: -0.1, z: 0}
+  m_LocalPosition: {x: 0.45, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2036871067009232543}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &5341177752772235307
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7309094763924676911}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.1, y: 1}
-  m_Direction: 0
 --- !u!1 &8501918725102569422
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +247,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1593159007002452962}
-  - component: {fileID: 2425639125414689952}
   m_Layer: 0
   m_Name: GroundChecker
   m_TagString: Untagged
@@ -320,19 +269,3 @@ Transform:
   m_Father: {fileID: 2036871067009232543}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &2425639125414689952
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8501918725102569422}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.6, y: 0.05}
-  m_Direction: 1
