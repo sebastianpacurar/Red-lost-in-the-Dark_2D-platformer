@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CM2D
   layers:
   - Default
   - TransparentFX
@@ -38,6 +39,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3407508877
+    locked: 0
+  - name: Ground
+    uniqueID: 277604119
+    locked: 0
+  - name: PropsParticle
+    uniqueID: 229564695
+    locked: 0
+  - name: Props
+    uniqueID: 1036578223
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
