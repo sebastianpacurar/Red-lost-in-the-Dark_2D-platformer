@@ -10,21 +10,24 @@ namespace Player {
         [SerializeField] private Transform wallChecker;
         [SerializeField] private LayerMask groundLayer;
 
-        [Header("Simple Physics")]
+        [Header("Move Related X-Axis")]
         [SerializeField] private float moveSpeed;
+        [SerializeField] private float xInputVal;
+
+        [Header("Move Related Y-Axis")]
+        [SerializeField] private bool isGrounded;
         [SerializeField] private float jumpForce;
 
         [Header("WallJumping Related")]
-        [SerializeField] private bool isGrounded;
+        [SerializeField] private Vector2 wallJumpForce;
         [SerializeField] private bool isWallActive;
         [SerializeField] private bool isSliding;
         [SerializeField] private float wallSlidingSpeed;
-        [SerializeField] private float wallJumpDuration;
-        [SerializeField] private Vector2 wallJumpForce;
         [SerializeField] private bool isWallJumping;
         [SerializeField] private bool isWallJumpInProgress;
-        [SerializeField] private float xInputVal;
+        [SerializeField] private float wallJumpDuration;
         [SerializeField] private float wallJumpDirection;
+        [SerializeField] private bool isWallClimbing;
 
         private PlayerControls _controls;
         private Rigidbody2D _rb;
@@ -51,7 +54,6 @@ namespace Player {
                 isFalling = false;
             }
 
-            // activate sliding, and flip the player sprite, so the direction (localScale.x) won't be affected
             if (isWallActive && !isGrounded) {
                 isSliding = true;
             } else {
@@ -59,8 +61,8 @@ namespace Player {
             }
 
             if (isSliding) {
-                _sr.flipX = true;
                 isFalling = false;
+                _sr.flipX = true;
             } else {
                 _sr.flipX = false;
             }
@@ -68,7 +70,9 @@ namespace Player {
 
         private void FixedUpdate() {
             if (isSliding) {
-                _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
+                // allow to slide upwards if simple jump is triggered while facing a wall, else prevent the player from sliding upwards
+                var maxY = isWallClimbing ? float.MaxValue : 0f;
+                _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -wallSlidingSpeed, maxY));
             }
 
             if (isWallJumping) {
@@ -76,17 +80,15 @@ namespace Player {
                 isWallJumpInProgress = true;
 
                 // set direction only once, the first time when isWallJumping is triggered as true
-                if (wallJumpDirection.Equals(0)) {
-                    wallJumpDirection = -transform.localScale.x;
-                }
+                if (wallJumpDirection.Equals(0)) wallJumpDirection = -transform.localScale.x;
 
                 // add wall jump force
                 _rb.AddForce(new Vector2(wallJumpForce.x * wallJumpDirection, wallJumpForce.y), ForceMode2D.Impulse);
             } else if (isWallJumpInProgress) {
-                // apply jump force when player is in ascending mode
+                // apply jump force 
                 _rb.velocity = new Vector2(wallJumpForce.x * wallJumpDirection, _rb.velocity.y);
 
-                //  set the current condition to false, and set direction to 0, when player is in mid air
+                // set the current condition to false, and set direction to 0, when player is in mid air
                 if (_rb.velocity.y <= 7.5f) {
                     isWallJumpInProgress = false;
                     wallJumpDirection = 0f;
@@ -97,6 +99,13 @@ namespace Player {
 
             // clamp ascend speed to 10f;
             _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, float.MinValue, 10f));
+
+            // reduce Air Time through gravity value
+            if (_rb.velocity.y < 0f && !isGrounded) {
+                _rb.gravityScale = 1.5f;
+            } else {
+                _rb.gravityScale = 1f;
+            }
 
             FlipPlayerScale();
             HandleAnimations();
@@ -119,7 +128,11 @@ namespace Player {
             if (isGrounded) {
                 // if grounded apply simple jump
                 _rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+
+                // perform slide upwards when jumping when facing a wall close by
+                if (isWallActive) isWallClimbing = true;
             } else if (isSliding) {
+                isWallClimbing = false;
                 // if sliding start wallJumping process
                 isWallJumping = true;
                 Invoke(nameof(StopWallJump), wallJumpDuration);

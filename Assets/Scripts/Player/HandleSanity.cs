@@ -13,9 +13,12 @@ namespace Player {
         }
 
         private void Update() {
-            if (!_torchLight2D) return;
-            var torchIntensity = _torchLight2D.intensity;
-            _isIntensityIncreasing = !(torchIntensity <= 0.05f);
+            if (_torchLight2D) {
+                var torchIntensity = _torchLight2D.intensity;
+                _isIntensityIncreasing = !(torchIntensity <= 0.05f);
+            } else {
+                _isIntensityIncreasing = false;
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D col) {
@@ -35,10 +38,10 @@ namespace Player {
                 yield return new WaitForSeconds(0.05f);
 
                 if (_isIntensityIncreasing) {
-                    if (playerLight.pointLightInnerRadius < 10f) playerLight.pointLightInnerRadius += 0.05f;
+                    if (playerLight.pointLightInnerRadius <= 10f) playerLight.pointLightInnerRadius += 0.05f;
                     else playerLight.pointLightInnerRadius = 10f;
 
-                    if (playerLight.pointLightOuterRadius < 20) playerLight.pointLightOuterRadius += 0.1f;
+                    if (playerLight.pointLightOuterRadius <= 20) playerLight.pointLightOuterRadius += 0.1f;
                     else playerLight.pointLightOuterRadius = 20f;
                 } else {
                     if (playerLight.pointLightInnerRadius > 1f) playerLight.pointLightInnerRadius -= 0.02f;
