@@ -5,71 +5,150 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace Player {
     public class PlayerController : MonoBehaviour {
+        [Header("OverlapShape Checkers")]
         [SerializeField] private Transform groundChecker;
+        [SerializeField] private Transform wallChecker;
         [SerializeField] private LayerMask groundLayer;
+
+        [Header("Simple Physics")]
         [SerializeField] private float moveSpeed;
         [SerializeField] private float jumpForce;
 
-        private float _xInputVal;
+        [Header("WallJumping Related")]
+        [SerializeField] private bool isGrounded;
+        [SerializeField] private bool isWallActive;
+        [SerializeField] private bool isSliding;
+        [SerializeField] private float wallSlidingSpeed;
+        [SerializeField] private float wallJumpDuration;
+        [SerializeField] private Vector2 wallJumpForce;
+        [SerializeField] private bool isWallJumping;
+        [SerializeField] private bool isWallJumpInProgress;
+        [SerializeField] private float xInputVal;
+        [SerializeField] private float wallJumpDirection;
+
         private PlayerControls _controls;
         private Rigidbody2D _rb;
         private Animator _animator;
+        private SpriteRenderer _sr;
         private AnimationState _state;
 
-        private bool _isJumpPressed;
-        private bool _isFalling;
+        [SerializeField] private bool isFalling;
 
         private static readonly int State = Animator.StringToHash("state");
-        private static readonly int IsFallingState = Animator.StringToHash("isFalling");
-
 
         private void Awake() {
             _controls = new PlayerControls();
             _rb = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
+            _sr = GetComponent<SpriteRenderer>();
         }
 
         private void Update() {
-            if (IsGrounded()) {
-                _isFalling = false;
+            isGrounded = Physics2D.OverlapCapsule(groundChecker.position, new Vector2(0.425f, 0.05f), CapsuleDirection2D.Horizontal, 0, groundLayer);
+            isWallActive = Physics2D.OverlapCapsule(wallChecker.position, new Vector2(0.05f, 0.425f), CapsuleDirection2D.Vertical, 0, groundLayer);
+
+            if (isGrounded) {
+                isFalling = false;
+            }
+
+            // activate sliding, and flip the player sprite, so the direction (localScale.x) won't be affected
+            if (isWallActive && !isGrounded) {
+                isSliding = true;
+            } else {
+                isSliding = false;
+            }
+
+            if (isSliding) {
+                _sr.flipX = true;
+                isFalling = false;
+            } else {
+                _sr.flipX = false;
             }
         }
 
         private void FixedUpdate() {
-            _rb.velocity = new Vector2(_xInputVal * moveSpeed, _rb.velocity.y);
-
-            if (_isJumpPressed) {
-                _rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-                _isJumpPressed = false;
+            if (isSliding) {
+                _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
             }
 
-            FlipPlayer();
-            HandleAnimations();
-        }
+            if (isWallJumping) {
+                // set the next condition to true
+                isWallJumpInProgress = true;
 
-        private bool IsGrounded() {
-            return Physics2D.OverlapCapsule(groundChecker.position, new Vector2(0.425f, 0.05f), CapsuleDirection2D.Horizontal, 0, groundLayer);
+                // set direction only once, the first time when isWallJumping is triggered as true
+                if (wallJumpDirection.Equals(0)) {
+                    wallJumpDirection = -transform.localScale.x;
+                }
+
+                // add wall jump force
+                _rb.AddForce(new Vector2(wallJumpForce.x * wallJumpDirection, wallJumpForce.y), ForceMode2D.Impulse);
+            } else if (isWallJumpInProgress) {
+                // apply jump force when player is in ascending mode
+                _rb.velocity = new Vector2(wallJumpForce.x * wallJumpDirection, _rb.velocity.y);
+
+                //  set the current condition to false, and set direction to 0, when player is in mid air
+                if (_rb.velocity.y <= 7.5f) {
+                    isWallJumpInProgress = false;
+                    wallJumpDirection = 0f;
+                }
+            } else {
+                _rb.velocity = new Vector2(xInputVal * moveSpeed, _rb.velocity.y);
+            }
+
+            // clamp ascend speed to 10f;
+            _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, float.MinValue, 10f));
+
+            FlipPlayerScale();
+            HandleAnimations();
         }
 
         private void Move(InputAction.CallbackContext ctx) {
             switch (ctx.phase) {
                 case InputActionPhase.Started:
                 case InputActionPhase.Performed:
-                    _xInputVal = _controls.Player.Move.ReadValue<float>();
+                    xInputVal = _controls.Player.Move.ReadValue<float>();
                     break;
                 case InputActionPhase.Canceled:
-                    _xInputVal = 0f;
+                    xInputVal = 0f;
                     break;
             }
         }
 
+        // TODO: issue with jumping when next to wall (
         private void Jump(InputAction.CallbackContext ctx) {
-            if (IsGrounded()) _isJumpPressed = true;
+            if (isGrounded) {
+                // if grounded apply simple jump
+                _rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+            } else if (isSliding) {
+                // if sliding start wallJumping process
+                isWallJumping = true;
+                Invoke(nameof(StopWallJump), wallJumpDuration);
+            }
         }
 
-        // called in Descend Animation as event
-        public void SetIsFallingAnimationTrue() {
-            _isFalling = true;
+        // prevent double wall jump in mid air
+        private void StopWallJump() {
+            isWallJumping = false;
+        }
+
+        private void HandleAnimations() {
+            _state = AnimationState.Idle;
+            if (_rb.velocity.x != 0f && isGrounded) _state = AnimationState.Run;
+            if (_rb.velocity.y > 0f && !isGrounded) _state = AnimationState.Ascend;
+            if (_rb.velocity.y < 0f && !isGrounded) _state = AnimationState.Descend;
+            if (isFalling) _state = AnimationState.Fall;
+            if (isSliding) _state = AnimationState.Slide;
+            _animator.SetInteger(State, (int)_state);
+        }
+
+        // x is -1   if   facing left
+        // x is  1   if   facing right
+        private void FlipPlayerScale() {
+            if (_rb.velocity.x < 0f) {
+                transform.localScale = new Vector3(-1f, 1f, 1f);
+            } else if (_rb.velocity.x > 0f) {
+                transform.localScale = new Vector3(1f, 1f, 1f);
+            }
         }
 
         private void OnEnable() {
@@ -88,22 +167,9 @@ namespace Player {
             _controls.Player.Jump.Disable();
         }
 
-        private void HandleAnimations() {
-            _state = AnimationState.Idle;
-            if (_rb.velocity.y > 0f && !IsGrounded()) _state = AnimationState.Ascend;
-            if (_rb.velocity.x != 0f && IsGrounded()) _state = AnimationState.Run;
-            if (_rb.velocity.y < 0f && !IsGrounded()) _state = AnimationState.Descend;
-            _animator.SetInteger(State, (int)_state);
-
-            _animator.SetBool(IsFallingState, _isFalling);
-        }
-
-        private void FlipPlayer() {
-            if (_rb.velocity.x < 0f) {
-                transform.localScale = new Vector3(-1f, 1f, 1f);
-            } else if (_rb.velocity.x > 0f) {
-                transform.localScale = new Vector3(1f, 1f, 1f);
-            }
+        // called in Descend Animation as event
+        public void SetIsFallingTrue() {
+            isFalling = true;
         }
     }
 }

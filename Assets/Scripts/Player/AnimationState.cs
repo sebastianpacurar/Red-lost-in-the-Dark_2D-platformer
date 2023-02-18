@@ -4,8 +4,7 @@ namespace Player {
         Run,
         Ascend,
         Descend,
-        Hide,
-        Hidden,
-        Reveal
+        Fall,
+        Slide,
     }
 }

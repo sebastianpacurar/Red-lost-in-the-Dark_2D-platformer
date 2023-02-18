@@ -120,10 +120,10 @@ TextureImporter:
       name: wall slide-Sheet_0
       rect:
         serializedVersion: 2
-        x: 22
-        y: 15
+        x: 30
+        y: 14
         width: 32
-        height: 34
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,10 +141,10 @@ TextureImporter:
       name: wall slide-Sheet_1
       rect:
         serializedVersion: 2
-        x: 102
-        y: 15
+        x: 110
+        y: 14
         width: 32
-        height: 34
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,10 +162,10 @@ TextureImporter:
       name: wall slide-Sheet_2
       rect:
         serializedVersion: 2
-        x: 182
-        y: 15
+        x: 190
+        y: 14
         width: 32
-        height: 34
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,10 +183,10 @@ TextureImporter:
       name: wall slide-Sheet_3
       rect:
         serializedVersion: 2
-        x: 262
-        y: 15
+        x: 270
+        y: 14
         width: 32
-        height: 34
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
