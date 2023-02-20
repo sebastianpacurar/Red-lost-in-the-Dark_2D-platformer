@@ -1,33 +1,32 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utils;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Player {
     public class PlayerController : MonoBehaviour {
-        [Header("OverlapShape Checkers")]
         [SerializeField] private Transform groundChecker;
         [SerializeField] private Transform wallChecker;
         [SerializeField] private LayerMask groundLayer;
 
-        [Header("Move Related X-Axis")]
         [SerializeField] private float moveSpeed;
-        [SerializeField] private float xInputVal;
-
-        [Header("Move Related Y-Axis")]
-        [SerializeField] private bool isGrounded;
         [SerializeField] private float jumpForce;
 
-        [Header("WallJumping Related")]
         [SerializeField] private Vector2 wallJumpForce;
-        [SerializeField] private bool isWallActive;
-        [SerializeField] private bool isSliding;
-        [SerializeField] private float wallSlidingSpeed;
-        [SerializeField] private bool isWallJumping;
-        [SerializeField] private bool isWallJumpInProgress;
         [SerializeField] private float wallJumpDuration;
-        [SerializeField] private float wallJumpDirection;
-        [SerializeField] private bool isWallClimbing;
+        [SerializeField] private float wallSlidingSpeed;
+
+        [ReadOnlyProp] [SerializeField] private float xInputVal;
+        [ReadOnlyProp] [SerializeField] private bool isGrounded;
+        [ReadOnlyProp] [SerializeField] private bool isWallActive;
+        [ReadOnlyProp] [SerializeField] private bool isWallClimbing;
+        [ReadOnlyProp] [SerializeField] private bool isSliding;
+        [ReadOnlyProp] [SerializeField] private float wallSlideMaxSpeed;
+        [ReadOnlyProp] [SerializeField] private bool isWallJumpInitiated;
+        [ReadOnlyProp] [SerializeField] private bool isWallJumpInProgress;
+        [ReadOnlyProp] [SerializeField] private float wallJumpDirection;
+
 
         private PlayerControls _controls;
         private Rigidbody2D _rb;
@@ -66,20 +65,22 @@ namespace Player {
             } else {
                 _sr.flipX = false;
             }
+
+            HandleAnimations();
         }
 
         private void FixedUpdate() {
             if (isSliding) {
                 // allow to slide upwards if simple jump is triggered while facing a wall, else prevent the player from sliding upwards
-                var maxY = isWallClimbing ? float.MaxValue : 0f;
-                _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -wallSlidingSpeed, maxY));
+                wallSlideMaxSpeed = isWallClimbing ? float.MaxValue : 0f;
+                _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -wallSlidingSpeed, wallSlideMaxSpeed));
             }
 
-            if (isWallJumping) {
+            if (isWallJumpInitiated) {
                 // set the next condition to true
                 isWallJumpInProgress = true;
 
-                // set direction only once, the first time when isWallJumping is triggered as true
+                // set direction only once, the first time when isWallJumpInitiated is triggered as true
                 if (wallJumpDirection.Equals(0)) wallJumpDirection = -transform.localScale.x;
 
                 // add wall jump force
@@ -89,7 +90,7 @@ namespace Player {
                 _rb.velocity = new Vector2(wallJumpForce.x * wallJumpDirection, _rb.velocity.y);
 
                 // set the current condition to false, and set direction to 0, when player is in mid air
-                if (_rb.velocity.y <= 7.5f) {
+                if (_rb.velocity.y <= 9.5f) {
                     isWallJumpInProgress = false;
                     wallJumpDirection = 0f;
                 }
@@ -98,17 +99,18 @@ namespace Player {
             }
 
             // clamp ascend speed to 10f;
-            _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, float.MinValue, 10f));
+            _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, float.MinValue, 12f));
 
             // reduce Air Time through gravity value
             if (_rb.velocity.y < 0f && !isGrounded) {
-                _rb.gravityScale = 1.5f;
+                _rb.gravityScale = 2f;
+            } else if (_rb.velocity.y > 5f && _rb.velocity.y > 0f) {
+                _rb.gravityScale = 1.75f;
             } else {
                 _rb.gravityScale = 1f;
             }
 
             FlipPlayerScale();
-            HandleAnimations();
         }
 
         private void Move(InputAction.CallbackContext ctx) {
@@ -134,14 +136,14 @@ namespace Player {
             } else if (isSliding) {
                 isWallClimbing = false;
                 // if sliding start wallJumping process
-                isWallJumping = true;
+                isWallJumpInitiated = true;
                 Invoke(nameof(StopWallJump), wallJumpDuration);
             }
         }
 
         // prevent double wall jump in mid air
         private void StopWallJump() {
-            isWallJumping = false;
+            isWallJumpInitiated = false;
         }
 
         private void HandleAnimations() {

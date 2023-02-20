@@ -260,18 +260,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   moveSpeed: 10
-  xInputVal: 0
-  isGrounded: 0
   jumpForce: 7.5
   wallJumpForce: {x: 2.5, y: 20}
-  isWallActive: 0
-  isSliding: 0
-  wallSlidingSpeed: 10
-  isWallJumping: 0
-  isWallJumpInProgress: 0
   wallJumpDuration: 0.1
-  wallJumpDirection: 0
+  wallSlidingSpeed: 10
+  xInputVal: 0
+  isGrounded: 0
+  isWallActive: 0
   isWallClimbing: 0
+  isSliding: 0
+  wallSlideMaxSpeed: 0
+  isWallJumpInitiated: 0
+  isWallJumpInProgress: 0
+  wallJumpDirection: 0
   isFalling: 0
 --- !u!114 &5251960633984140017
 MonoBehaviour:
@@ -286,6 +287,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerLight: {fileID: 9206588961701226983}
+  minInnerRadius: 1
+  maxInnerRadius: 15
+  innerRadiusIncreaseVal: 0.2
+  innerRadiusDecreaseVal: 0.02
+  minOuterRadius: 2
+  maxOuterRadius: 30
+  outerRadiusIncreaseVal: 0.4
+  outerRadiusDecreaseVal: 0.04
+  isIntensityIncreasing: 0
 --- !u!1 &9206588961701226982
 GameObject:
   m_ObjectHideFlags: 0

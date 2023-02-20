@@ -1,11 +1,25 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Utils;
 
 namespace Player {
     public class HandleSanity : MonoBehaviour {
         [SerializeField] private Light2D playerLight;
-        private bool _isIntensityIncreasing;
+        [SerializeField] private float timeMultiplier = 0.01f;
+        
+        [SerializeField] private float minInnerRadius = 1f;
+        [SerializeField] private float maxInnerRadius = 15f;
+        [SerializeField] private float innerRadiusIncreaseVal = 0.05f;
+        [SerializeField] private float innerRadiusDecreaseVal = 0.02f;
+
+        [SerializeField] private float minOuterRadius = 2f;
+        [SerializeField] private float maxOuterRadius = 30f;
+        [SerializeField] private float outerRadiusIncreaseVal = 0.1f;
+        [SerializeField] private float outerRadiusDecreaseVal = 0.04f;
+
+        [ReadOnlyProp] [SerializeField] private bool isIntensityIncreasing;
+
         private Light2D _torchLight2D;
 
         private void Start() {
@@ -15,9 +29,9 @@ namespace Player {
         private void Update() {
             if (_torchLight2D) {
                 var torchIntensity = _torchLight2D.intensity;
-                _isIntensityIncreasing = !(torchIntensity <= 0.05f);
+                isIntensityIncreasing = !(torchIntensity <= 0.05f);
             } else {
-                _isIntensityIncreasing = false;
+                isIntensityIncreasing = false;
             }
         }
 
@@ -35,20 +49,20 @@ namespace Player {
 
         private IEnumerator HandleLightRadius() {
             while (true) {
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(timeMultiplier);
 
-                if (_isIntensityIncreasing) {
-                    if (playerLight.pointLightInnerRadius <= 10f) playerLight.pointLightInnerRadius += 0.05f;
-                    else playerLight.pointLightInnerRadius = 10f;
+                if (isIntensityIncreasing) {
+                    if (playerLight.pointLightInnerRadius <= maxInnerRadius) playerLight.pointLightInnerRadius += innerRadiusIncreaseVal;
+                    else playerLight.pointLightInnerRadius = maxInnerRadius;
 
-                    if (playerLight.pointLightOuterRadius <= 20) playerLight.pointLightOuterRadius += 0.1f;
-                    else playerLight.pointLightOuterRadius = 20f;
+                    if (playerLight.pointLightOuterRadius <= maxOuterRadius) playerLight.pointLightOuterRadius += outerRadiusIncreaseVal;
+                    else playerLight.pointLightOuterRadius = maxOuterRadius;
                 } else {
-                    if (playerLight.pointLightInnerRadius > 1f) playerLight.pointLightInnerRadius -= 0.02f;
-                    else playerLight.pointLightInnerRadius = 1f;
+                    if (playerLight.pointLightInnerRadius >= minInnerRadius) playerLight.pointLightInnerRadius -= innerRadiusDecreaseVal;
+                    else playerLight.pointLightInnerRadius = minInnerRadius;
 
-                    if (playerLight.pointLightOuterRadius > 2f) playerLight.pointLightOuterRadius -= 0.04f;
-                    else playerLight.pointLightOuterRadius = 2f;
+                    if (playerLight.pointLightOuterRadius >= minOuterRadius) playerLight.pointLightOuterRadius -= outerRadiusDecreaseVal;
+                    else playerLight.pointLightOuterRadius = minOuterRadius;
                 }
             }
         }
