@@ -24,7 +24,7 @@ namespace Editor.Player {
         # region Foldout Header Group booleans
         private bool _isInnerRadiusOn = true;
         private bool _isOuterRadiusOn = true;
-        private bool _isDebuggingOn;
+        private bool _isDebuggerOn = true;
         #endregion
 
         private void OnEnable() {
@@ -81,9 +81,9 @@ namespace Editor.Player {
 
             EditorGUILayout.EndFoldoutHeaderGroup();
 
-            _isDebuggingOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isDebuggingOn, "For Debugging Purposes");
+            _isDebuggerOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isDebuggerOn, "For Debugging Purposes");
 
-            if (_isDebuggingOn) {
+            if (_isDebuggerOn) {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isIntensityIncreasing);
                 EditorGUI.indentLevel--;

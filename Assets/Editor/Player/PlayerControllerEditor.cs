@@ -32,7 +32,7 @@ namespace Editor.Player {
         private bool _isMoveJumpGroupOn = true;
         private bool _isGroundAndWallGroupOn = true;
         private bool _isWallJumpOn = true;
-        private bool _isDebuggerOn;
+        private bool _isDebuggerOn = true;
         #endregion
 
         private void OnEnable() {

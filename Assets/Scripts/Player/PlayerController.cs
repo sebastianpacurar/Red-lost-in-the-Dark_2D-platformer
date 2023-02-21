@@ -1,6 +1,6 @@
+using CustomAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Utils;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -32,7 +32,6 @@ namespace Player {
         private Rigidbody2D _rb;
         private Animator _animator;
         private SpriteRenderer _sr;
-        private AnimationState _state;
 
         [SerializeField] private bool isFalling;
 
@@ -147,13 +146,15 @@ namespace Player {
         }
 
         private void HandleAnimations() {
-            _state = AnimationState.Idle;
-            if (_rb.velocity.x != 0f && isGrounded) _state = AnimationState.Run;
-            if (_rb.velocity.y > 0f && !isGrounded) _state = AnimationState.Ascend;
-            if (_rb.velocity.y < 0f && !isGrounded) _state = AnimationState.Descend;
-            if (isFalling) _state = AnimationState.Fall;
-            if (isSliding) _state = AnimationState.Slide;
-            _animator.SetInteger(State, (int)_state);
+            AnimationState state = AnimationState.Idle;
+
+            if (_rb.velocity.x != 0f && isGrounded) state = AnimationState.Run;
+            if (_rb.velocity.y > 0f && !isGrounded) state = AnimationState.Ascend;
+            if (_rb.velocity.y < 0f && !isGrounded) state = AnimationState.Descend;
+            if (isFalling) state = AnimationState.Fall;
+            if (isSliding) state = AnimationState.Slide;
+
+            _animator.SetInteger(State, (int)state);
         }
 
         // x is -1   if   facing left
@@ -185,6 +186,15 @@ namespace Player {
         // called in Descend Animation as event
         public void SetIsFallingTrue() {
             isFalling = true;
+        }
+
+        private enum AnimationState {
+            Idle,
+            Run,
+            Ascend,
+            Descend,
+            Fall,
+            Slide,
         }
     }
 }

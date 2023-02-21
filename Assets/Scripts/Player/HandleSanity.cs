@@ -1,13 +1,13 @@
 using System.Collections;
+using CustomAttributes;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using Utils;
 
 namespace Player {
     public class HandleSanity : MonoBehaviour {
         [SerializeField] private Light2D playerLight;
-        [SerializeField] private float timeMultiplier = 0.01f;
-        
+        [SerializeField] private float timeMultiplier = 0.03f;
+
         [SerializeField] private float minInnerRadius = 1f;
         [SerializeField] private float maxInnerRadius = 15f;
         [SerializeField] private float innerRadiusIncreaseVal = 0.05f;
