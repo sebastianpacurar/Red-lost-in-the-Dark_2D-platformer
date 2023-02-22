@@ -24,6 +24,7 @@ namespace Editor.Player {
         private SerializedProperty _wallJumpDuration;
         private SerializedProperty _wallJumpDirection;
         private SerializedProperty _isWallClimbing;
+        private SerializedProperty _isFalling;
 
         private SerializedProperty _wallSlideMaxSpeed;
         #endregion
@@ -53,6 +54,7 @@ namespace Editor.Player {
             _wallJumpDirection = serializedObject.FindProperty("wallJumpDirection");
             _isWallClimbing = serializedObject.FindProperty("isWallClimbing");
             _wallSlideMaxSpeed = serializedObject.FindProperty("wallSlideMaxSpeed");
+            _isFalling = serializedObject.FindProperty("isFalling");
         }
 
         public override void OnInspectorGUI() {
@@ -113,6 +115,7 @@ namespace Editor.Player {
                 EditorGUILayout.LabelField("Grounded val", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isGrounded);
+                EditorGUILayout.PropertyField(_isFalling);
                 EditorGUI.indentLevel--;
 
 

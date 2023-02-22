@@ -1,3 +1,5 @@
+using System;
+using Cinemachine;
 using CustomAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -26,14 +28,14 @@ namespace Player {
         [ReadOnlyProp] [SerializeField] private bool isWallJumpInitiated;
         [ReadOnlyProp] [SerializeField] private bool isWallJumpInProgress;
         [ReadOnlyProp] [SerializeField] private float wallJumpDirection;
-
+        [ReadOnlyProp] [SerializeField] private bool isFalling;
 
         private PlayerControls _controls;
+        private CinemachineVirtualCamera _cineMachineCam;
         private Rigidbody2D _rb;
         private Animator _animator;
         private SpriteRenderer _sr;
 
-        [SerializeField] private bool isFalling;
 
         private static readonly int State = Animator.StringToHash("state");
 
@@ -42,6 +44,11 @@ namespace Player {
             _rb = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
             _sr = GetComponent<SpriteRenderer>();
+        }
+
+        private void Start() {
+            _cineMachineCam = GameObject.FindGameObjectWithTag("CM2D").GetComponent<CinemachineVirtualCamera>();
+            _cineMachineCam.Follow = transform;
         }
 
         private void Update() {

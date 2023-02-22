@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
-public class StatsManager : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+namespace Player {
+    public class StatsManager : MonoBehaviour {
+        public float HealthPoints { get; set; }
+        public float SanityPoints { get; set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public float MaxHp = 100f;
+        public float MaxSanity = 15f;
+        [SerializeField] private Light2D playerLight;
+
+
+        private void Start() {
+            HealthPoints = MaxHp;
+        }
+
+        private void Update() {
+            SanityPoints = playerLight.pointLightInnerRadius;
+        }
     }
 }
