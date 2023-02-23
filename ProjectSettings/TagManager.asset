@@ -6,6 +6,9 @@ TagManager:
   tags:
   - CM2D
   - Torch
+  - Enemy
+  - PlayerHitArea
+  - EnemyHitArea
   layers:
   - Default
   - TransparentFX
@@ -13,7 +16,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - Character
   - 
   - 
   - 
@@ -54,6 +57,9 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemy
+    uniqueID: 2781279369
     locked: 0
   - name: Ui
     uniqueID: 3325815689

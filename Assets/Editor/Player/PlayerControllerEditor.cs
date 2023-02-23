@@ -5,28 +5,34 @@ namespace Editor.Player {
     [CustomEditor(typeof(PlayerController))]
     public class PlayerControllerEditor : UnityEditor.Editor {
         #region Serialized Properties
+        private SerializedProperty _moveSpeed;
+        private SerializedProperty _jumpForce;
+
         private SerializedProperty _groundChecker;
         private SerializedProperty _wallChecker;
         private SerializedProperty _groundLayer;
 
-        private SerializedProperty _moveSpeed;
+        private SerializedProperty _wallJumpForce;
+        private SerializedProperty _wallJumpDuration;
+        private SerializedProperty _wallSlidingSpeed;
+
+        private SerializedProperty _cachedXInputVal;
         private SerializedProperty _xInputVal;
 
         private SerializedProperty _isGrounded;
-        private SerializedProperty _jumpForce;
-
-        private SerializedProperty _wallJumpForce;
-        private SerializedProperty _isWallActive;
-        private SerializedProperty _isSliding;
-        private SerializedProperty _wallSlidingSpeed;
-        private SerializedProperty _isWallJumpInitiated;
-        private SerializedProperty _isWallJumpInProgress;
-        private SerializedProperty _wallJumpDuration;
-        private SerializedProperty _wallJumpDirection;
-        private SerializedProperty _isWallClimbing;
         private SerializedProperty _isFalling;
 
+        private SerializedProperty _isWallActive;
+        private SerializedProperty _isWallClimbing;
+        private SerializedProperty _isSliding;
         private SerializedProperty _wallSlideMaxSpeed;
+
+        private SerializedProperty _isWallJumpInitiated;
+        private SerializedProperty _isWallJumpInProgress;
+        private SerializedProperty _wallJumpDirection;
+
+        private SerializedProperty _isAttacking;
+        private SerializedProperty _firstAttack;
         #endregion
 
         #region Foldout Header Group booleans
@@ -37,24 +43,33 @@ namespace Editor.Player {
         #endregion
 
         private void OnEnable() {
+            _moveSpeed = serializedObject.FindProperty("moveSpeed");
+            _jumpForce = serializedObject.FindProperty("jumpForce");
+
             _groundChecker = serializedObject.FindProperty("groundChecker");
             _wallChecker = serializedObject.FindProperty("wallChecker");
             _groundLayer = serializedObject.FindProperty("groundLayer");
-            _moveSpeed = serializedObject.FindProperty("moveSpeed");
-            _xInputVal = serializedObject.FindProperty("xInputVal");
-            _isGrounded = serializedObject.FindProperty("isGrounded");
-            _jumpForce = serializedObject.FindProperty("jumpForce");
+
             _wallJumpForce = serializedObject.FindProperty("wallJumpForce");
-            _isWallActive = serializedObject.FindProperty("isWallActive");
-            _isSliding = serializedObject.FindProperty("isSliding");
+            _wallJumpDuration = serializedObject.FindProperty("wallJumpDuration");
             _wallSlidingSpeed = serializedObject.FindProperty("wallSlidingSpeed");
+
+            _xInputVal = serializedObject.FindProperty("xInputVal");
+            _cachedXInputVal = serializedObject.FindProperty("cachedXInputVal");
+
+            _isGrounded = serializedObject.FindProperty("isGrounded");
+            _isFalling = serializedObject.FindProperty("isFalling");
+
+            _isWallActive = serializedObject.FindProperty("isWallActive");
+            _isWallClimbing = serializedObject.FindProperty("isWallClimbing");
+            _isSliding = serializedObject.FindProperty("isSliding");
+            _wallSlideMaxSpeed = serializedObject.FindProperty("wallSlideMaxSpeed");
+
             _isWallJumpInitiated = serializedObject.FindProperty("isWallJumpInitiated");
             _isWallJumpInProgress = serializedObject.FindProperty("isWallJumpInProgress");
-            _wallJumpDuration = serializedObject.FindProperty("wallJumpDuration");
             _wallJumpDirection = serializedObject.FindProperty("wallJumpDirection");
-            _isWallClimbing = serializedObject.FindProperty("isWallClimbing");
-            _wallSlideMaxSpeed = serializedObject.FindProperty("wallSlideMaxSpeed");
-            _isFalling = serializedObject.FindProperty("isFalling");
+
+            _isAttacking = serializedObject.FindProperty("isAttacking");
         }
 
         public override void OnInspectorGUI() {
@@ -104,22 +119,22 @@ namespace Editor.Player {
             _isDebuggerOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isDebuggerOn, "For Debugging Purposes");
 
             if (_isDebuggerOn) {
+                EditorGUILayout.Space(5f);
                 EditorGUI.indentLevel++;
-
-                EditorGUILayout.LabelField("Move Input val", EditorStyles.boldLabel);
+                
+                EditorGUILayout.LabelField("Move Input", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_xInputVal);
+                EditorGUILayout.PropertyField(_cachedXInputVal);
                 EditorGUI.indentLevel--;
 
-
-                EditorGUILayout.LabelField("Grounded val", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Grounded", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isGrounded);
                 EditorGUILayout.PropertyField(_isFalling);
                 EditorGUI.indentLevel--;
 
-
-                EditorGUILayout.LabelField("Wall Slide values", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Wall Slide", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isWallActive);
                 EditorGUILayout.PropertyField(_isWallClimbing);
@@ -127,11 +142,17 @@ namespace Editor.Player {
                 EditorGUILayout.PropertyField(_wallSlideMaxSpeed);
                 EditorGUI.indentLevel--;
 
-                EditorGUILayout.LabelField("Wall Jump values", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Wall Jump", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isWallJumpInitiated);
                 EditorGUILayout.PropertyField(_isWallJumpInProgress);
                 EditorGUILayout.PropertyField(_wallJumpDirection);
+                EditorGUI.indentLevel--;
+
+                EditorGUILayout.LabelField("Attack1", EditorStyles.boldLabel);
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(_isAttacking);
+                // EditorGUILayout.PropertyField(_firstAttack);
                 EditorGUI.indentLevel--;
             }
 

@@ -1,8 +1,8 @@
-using System;
 using Cinemachine;
 using CustomAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -20,6 +20,7 @@ namespace Player {
         [SerializeField] private float wallSlidingSpeed;
 
         [ReadOnlyProp] [SerializeField] private float xInputVal;
+        [ReadOnlyProp] [SerializeField] private float cachedXInputVal;
         [ReadOnlyProp] [SerializeField] private bool isGrounded;
         [ReadOnlyProp] [SerializeField] private bool isWallActive;
         [ReadOnlyProp] [SerializeField] private bool isWallClimbing;
@@ -30,12 +31,13 @@ namespace Player {
         [ReadOnlyProp] [SerializeField] private float wallJumpDirection;
         [ReadOnlyProp] [SerializeField] private bool isFalling;
 
+        [ReadOnlyProp] [SerializeField] private bool isAttacking;
+
         private PlayerControls _controls;
         private CinemachineVirtualCamera _cineMachineCam;
         private Rigidbody2D _rb;
         private Animator _animator;
         private SpriteRenderer _sr;
-
 
         private static readonly int State = Animator.StringToHash("state");
 
@@ -59,6 +61,14 @@ namespace Player {
                 isFalling = false;
             }
 
+            if (isAttacking) {
+                xInputVal = 0f;
+                _sr.flipX = true;
+            } else {
+                xInputVal = cachedXInputVal;
+                _sr.flipX = false;
+            }
+
             if (isWallActive && !isGrounded) {
                 isSliding = true;
             } else {
@@ -67,6 +77,8 @@ namespace Player {
 
             if (isSliding) {
                 isFalling = false;
+                _sr.flipX = true;
+            } else if (isAttacking) {
                 _sr.flipX = true;
             } else {
                 _sr.flipX = false;
@@ -124,16 +136,21 @@ namespace Player {
                 case InputActionPhase.Started:
                 case InputActionPhase.Performed:
                     xInputVal = _controls.Player.Move.ReadValue<float>();
+                    cachedXInputVal = xInputVal;
                     break;
                 case InputActionPhase.Canceled:
                     xInputVal = 0f;
+                    cachedXInputVal = 0f;
                     break;
             }
         }
 
-        // TODO: issue with jumping when next to wall (
+        private void Attack(InputAction.CallbackContext ctx) {
+            if (isGrounded && !isAttacking) isAttacking = true;
+        }
+
         private void Jump(InputAction.CallbackContext ctx) {
-            if (isGrounded) {
+            if (isGrounded && !isAttacking) {
                 // if grounded apply simple jump
                 _rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
 
@@ -153,13 +170,22 @@ namespace Player {
         }
 
         private void HandleAnimations() {
-            AnimationState state = AnimationState.Idle;
+            var state = AnimationState.Idle;
 
-            if (_rb.velocity.x != 0f && isGrounded) state = AnimationState.Run;
+            if (xInputVal != 0f && isGrounded) state = AnimationState.Run;
             if (_rb.velocity.y > 0f && !isGrounded) state = AnimationState.Ascend;
             if (_rb.velocity.y < 0f && !isGrounded) state = AnimationState.Descend;
             if (isFalling) state = AnimationState.Fall;
             if (isSliding) state = AnimationState.Slide;
+
+            if (isAttacking) {
+                state = Random.Range(6, 9) switch {
+                    6 => AnimationState.FirstAttack,
+                    7 => AnimationState.SecondAttack,
+                    8 => AnimationState.ThirdAttack,
+                    _ => AnimationState.FirstAttack
+                };
+            }
 
             _animator.SetInteger(State, (int)state);
         }
@@ -177,15 +203,18 @@ namespace Player {
         private void OnEnable() {
             _controls.Player.Move.Enable();
             _controls.Player.Jump.Enable();
+            _controls.Player.Attack.Enable();
             _controls.Player.Move.performed += Move;
             _controls.Player.Move.canceled += Move;
             _controls.Player.Jump.performed += Jump;
+            _controls.Player.Attack.performed += Attack;
         }
 
         private void OnDisable() {
             _controls.Player.Move.performed -= Move;
             _controls.Player.Move.canceled -= Move;
             _controls.Player.Jump.performed -= Jump;
+            _controls.Player.Attack.performed -= Attack;
             _controls.Player.Move.Disable();
             _controls.Player.Jump.Disable();
         }
@@ -195,6 +224,11 @@ namespace Player {
             isFalling = true;
         }
 
+        // called in every Attack animations as event
+        public void StopAttackEvent() {
+            isAttacking = false;
+        }
+
         private enum AnimationState {
             Idle,
             Run,
@@ -202,6 +236,9 @@ namespace Player {
             Descend,
             Fall,
             Slide,
+            FirstAttack,
+            SecondAttack,
+            ThirdAttack
         }
     }
 }
