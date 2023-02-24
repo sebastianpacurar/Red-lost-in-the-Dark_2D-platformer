@@ -215,6 +215,7 @@ namespace Player {
             _controls.Player.Move.canceled -= Move;
             _controls.Player.Jump.performed -= Jump;
             _controls.Player.Attack.performed -= Attack;
+            _controls.Player.Attack.Disable();
             _controls.Player.Move.Disable();
             _controls.Player.Jump.Disable();
         }
@@ -224,7 +225,7 @@ namespace Player {
             isFalling = true;
         }
 
-        // called in every Attack animations as event
+        // called in every Attack animation as event
         public void StopAttackEvent() {
             isAttacking = false;
         }

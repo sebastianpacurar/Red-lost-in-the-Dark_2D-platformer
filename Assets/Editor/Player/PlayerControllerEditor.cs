@@ -38,7 +38,7 @@ namespace Editor.Player {
         #region Foldout Header Group booleans
         private bool _isMoveJumpGroupOn = true;
         private bool _isGroundAndWallGroupOn = true;
-        private bool _isWallJumpOn = true;
+        private bool _isWallJumpGroupOn = true;
         private bool _isDebuggerOn = true;
         #endregion
 
@@ -102,9 +102,9 @@ namespace Editor.Player {
 
             EditorGUILayout.EndFoldoutHeaderGroup();
 
-            _isWallJumpOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isWallJumpOn, "Wall Jump");
+            _isWallJumpGroupOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isWallJumpGroupOn, "Wall Jump");
 
-            if (_isWallJumpOn) {
+            if (_isWallJumpGroupOn) {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.Space(5f);
                 EditorGUILayout.PropertyField(_wallJumpForce);
@@ -149,10 +149,9 @@ namespace Editor.Player {
                 EditorGUILayout.PropertyField(_wallJumpDirection);
                 EditorGUI.indentLevel--;
 
-                EditorGUILayout.LabelField("Attack1", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Attack", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isAttacking);
-                // EditorGUILayout.PropertyField(_firstAttack);
                 EditorGUI.indentLevel--;
             }
 
