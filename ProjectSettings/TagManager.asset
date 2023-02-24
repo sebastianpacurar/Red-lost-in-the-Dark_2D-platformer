@@ -5,10 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - CM2D
-  - Torch
   - Enemy
   - PlayerHitArea
   - EnemyHitArea
+  - LightTorch
+  - HealthTorch
   layers:
   - Default
   - TransparentFX

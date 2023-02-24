@@ -8,6 +8,7 @@ namespace Torch {
         private Light2D _light2D;
         private float _initialOuterRadius;
         private TorchAnimState _state;
+        private ParticleSystem.MainModule _sparklesMain, _smokeMain;
         private static readonly int State = Animator.StringToHash("state");
 
         [SerializeField] private GameObject flameObject;
@@ -22,17 +23,23 @@ namespace Torch {
         [SerializeField] private float minIntensity;
         [SerializeField] private float maxIntensity;
 
+        [SerializeField] private ParticleSystem sparklesPs;
+        [SerializeField] private ParticleSystem smokePs;
+
         [ReadOnlyProp] [SerializeField] private bool isIntensityIncreasing;
         [ReadOnlyProp] [SerializeField] private float lightIntensityValue;
         [ReadOnlyProp] [SerializeField] private float outerRadiusValue;
 
         private void Awake() {
             _light2D = flameObject.GetComponent<Light2D>();
+            _sparklesMain = sparklesPs.main;
+            _smokeMain = smokePs.main;
         }
 
         private void Start() {
             StartCoroutine(HandleLightIntensity());
             _initialOuterRadius = _light2D.pointLightOuterRadius;
+
 
             isIntensityIncreasing = true;
         }
@@ -41,7 +48,7 @@ namespace Torch {
             lightIntensityValue = _light2D.intensity;
             outerRadiusValue = _light2D.pointLightOuterRadius;
 
-            HandleAnimations();
+            HandleAnimationsAndParticles();
 
             _light2D.pointLightOuterRadius = Mathf.Sin(Time.time * sineFreq) * sineAmp + _initialOuterRadius;
         }
@@ -58,32 +65,45 @@ namespace Torch {
             }
         }
 
-        //todo: add sanity bars
         private IEnumerator HandleLightIntensity() {
             while (true) {
                 yield return new WaitForSeconds(timeMultiplier);
 
                 if (isIntensityIncreasing) {
-                    if (_light2D.intensity <= maxIntensity) _light2D.intensity += increaseUnit;
-                    else _light2D.intensity = maxIntensity;
+                    _light2D.intensity += increaseUnit;
                 } else {
-                    if (_light2D.intensity >= minIntensity) _light2D.intensity -= decreaseUnit;
-                    else _light2D.intensity = minIntensity;
+                    _light2D.intensity -= decreaseUnit;
                 }
 
-                if (_light2D.intensity < 0f) {
-                    _light2D.intensity = 0f;
-                }
+                _light2D.intensity = Mathf.Clamp(_light2D.intensity, minIntensity, maxIntensity);
             }
         }
 
-        private void HandleAnimations() {
+        private void HandleAnimationsAndParticles() {
             _state = TorchAnimState.Loop0;
 
-            if (_light2D.intensity < 4) _state = TorchAnimState.Loop1;
-            if (_light2D.intensity < 3) _state = TorchAnimState.Loop2;
-            if (_light2D.intensity < 2) _state = TorchAnimState.Loop3;
-            if (_light2D.intensity < 1) _state = TorchAnimState.Loop4;
+            switch (_light2D.intensity) {
+                case < 4 and > 3:
+                    _state = TorchAnimState.Loop1;
+                    _sparklesMain.startSize = 0.075f;
+                    _smokeMain.startSize = 0.075f;
+                    break;
+                case < 3 and > 2:
+                    _state = TorchAnimState.Loop2;
+                    _sparklesMain.startSize = 0.05f;
+                    _smokeMain.startSize = 0.05f;
+                    break;
+                case < 2 and > 1:
+                    _state = TorchAnimState.Loop3;
+                    _sparklesMain.startSize = 0.025f;
+                    _smokeMain.startSize = 0.025f;
+                    break;
+                case < 1 and > 0:
+                    _state = TorchAnimState.Loop4;
+                    _sparklesMain.startSize = 0f;
+                    _smokeMain.startSize = 0f;
+                    break;
+            }
 
             flameAnimation.SetInteger(State, (int)_state);
         }

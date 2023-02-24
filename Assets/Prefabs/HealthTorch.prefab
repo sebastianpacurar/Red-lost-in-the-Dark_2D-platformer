@@ -4864,7 +4864,7 @@ MonoBehaviour:
   m_Intensity: 5
   m_LightVolumeIntensity: 0
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 8d751acb17e78b1017e1ae0dafedc83d00000000
+  m_ApplyToSortingLayers: 8d751acb17e78b1017e1ae0dafedc83d0000000089f4c6a5
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 1
@@ -4911,7 +4911,7 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 3
+  m_PointLightInnerRadius: 0
   m_PointLightOuterRadius: 7
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
@@ -4936,7 +4936,7 @@ GameObject:
   - component: {fileID: 3771444964936050869}
   m_Layer: 0
   m_Name: HealthTorch
-  m_TagString: Torch
+  m_TagString: HealthTorch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4997,6 +4997,8 @@ MonoBehaviour:
   decreaseUnit: 0.1
   minIntensity: 0.001
   maxIntensity: 5
+  sparklesPs: {fileID: 4271327848674745151}
+  smokePs: {fileID: 4271327847772514616}
   isIntensityIncreasing: 0
   lightIntensityValue: 0
   outerRadiusValue: 0

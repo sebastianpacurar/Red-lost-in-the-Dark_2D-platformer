@@ -1,11 +1,15 @@
 using CustomAttributes;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Enemy {
     public class SkeletonController : MonoBehaviour {
+        [SerializeField] private GameObject hitCapsuleObj;
+
         [SerializeField] private float walkSpeed;
         [SerializeField] private float runSpeed;
 
+        [SerializeField] private float rayCastRange;
         [SerializeField] private float minDistanceFromPlayer;
 
         [ReadOnlyProp] [SerializeField] private bool isPlayerDetected;
@@ -18,10 +22,13 @@ namespace Enemy {
 
         [ReadOnlyProp] [SerializeField] private bool isAttacking;
 
+        [ReadOnlyProp] [SerializeField] private bool isDeathTriggered;
+
         private Rigidbody2D _rb;
         private Animator _animator;
         private Transform _playerTransform;
         private static readonly int State = Animator.StringToHash("state");
+        private static readonly int Death = Animator.StringToHash("death");
 
         private void Awake() {
             _rb = GetComponent<Rigidbody2D>();
@@ -33,6 +40,8 @@ namespace Enemy {
         }
 
         private void FlipSkeletonScale() {
+            if (isDeathTriggered) return;
+
             if (dirX < 0f) {
                 transform.localScale = new Vector3(-1f, 1f, 1f);
             } else if (dirX > 0f) {
@@ -52,19 +61,40 @@ namespace Enemy {
 
         private void FixedUpdate() {
             if (!isPlayerDetected) return;
-            _rb.velocity = new Vector2(currentSpeed * Mathf.Round(dirX), _rb.velocity.y);
+
+            if (isDeathTriggered) {
+                _rb.velocity = Vector2.zero;
+            } else {
+                _rb.velocity = new Vector2(currentSpeed * Mathf.Round(dirX), _rb.velocity.y);
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D col) {
+            if (col.gameObject.CompareTag("PlayerHitArea")) {
+                _animator.SetTrigger(Death);
+                isDeathTriggered = true;
+                Invoke(nameof(DestroyEnemy), 3f);
+            }
+        }
+
+        private void DestroyEnemy() {
+            Destroy(gameObject);
         }
 
         private void HandleMovementConstraints() {
-            if (Vector2.Distance(transform.position, _playerTransform.position) < minDistanceFromPlayer && isPlayerFacingSelf && !isAttacking) {
-                currentSpeed = 0f;
-                isWalking = false;
-                isRunning = false;
-                isAttacking = true;
-            } else if (!isAttacking) {
+            if (Vector2.Distance(transform.position, _playerTransform.position) < minDistanceFromPlayer) {
+                if (!isAttacking) {
+                    isAttacking = true;
+                } else {
+                    currentSpeed = 0f;
+                    isWalking = false;
+                    isRunning = false;
+                }
+            } else {
                 isWalking = isPlayerFacingSelf;
                 isRunning = !isPlayerFacingSelf;
                 currentSpeed = isPlayerFacingSelf ? walkSpeed : runSpeed;
+                isAttacking = false;
             }
         }
 
@@ -78,7 +108,7 @@ namespace Enemy {
             isPlayerFacingSelf = Vector2.Dot(transform.localScale, playerScale).Equals(0f);
 
             var rayMask = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Character");
-            var rayInfo = Physics2D.RaycastAll(pos, direction, 50f, rayMask);
+            var rayInfo = Physics2D.RaycastAll(pos, direction, rayCastRange, rayMask);
 
             if (rayInfo.Length > 1) {
                 if (rayInfo[1].collider.CompareTag("Player")) {
@@ -93,15 +123,17 @@ namespace Enemy {
         private void HandleAnimations() {
             var state = AnimationState.Idle;
 
-            if (isWalking) state = AnimationState.Walk;
-            if (isRunning) state = AnimationState.Run;
-
-            if (isAttacking)
+            if (isWalking) {
+                state = AnimationState.Walk;
+            } else if (isRunning) {
+                state = AnimationState.Run;
+            } else if (isAttacking) {
                 state = Random.Range(3, 5) switch {
                     3 => AnimationState.FirstAttack,
                     4 => AnimationState.SecondAttack,
                     _ => AnimationState.FirstAttack,
                 };
+            }
 
             _animator.SetInteger(State, (int)state);
         }
@@ -109,6 +141,7 @@ namespace Enemy {
         // called in every Attack animation as event
         public void StopAttackEvent() {
             isAttacking = false;
+            hitCapsuleObj.GetComponent<CapsuleCollider2D>().enabled = false;
         }
 
         private enum AnimationState {

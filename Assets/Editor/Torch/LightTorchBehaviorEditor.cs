@@ -17,14 +17,18 @@ namespace Editor.Torch {
         private SerializedProperty _minIntensity;
         private SerializedProperty _maxIntensity;
 
+        private SerializedProperty _sparklesPs;
+        private SerializedProperty _smokePs;
+
         private SerializedProperty _isIntensityIncreasing;
         private SerializedProperty _lightIntensityValue;
         private SerializedProperty _outerRadiusValue;
         #endregion
 
         # region Foldout Header Group booleans
-        private bool _isSineOn = true;
-        private bool _isIntensityOn = true;
+        private bool _isSineGroupOn = true;
+        private bool _isIntensityGroupOn = true;
+        private bool _isParticleSystemGroupOn = true;
         private bool _isDebuggerOn = true;
         #endregion
 
@@ -41,6 +45,9 @@ namespace Editor.Torch {
             _minIntensity = serializedObject.FindProperty("minIntensity");
             _maxIntensity = serializedObject.FindProperty("maxIntensity");
 
+            _sparklesPs = serializedObject.FindProperty("sparklesPs");
+            _smokePs = serializedObject.FindProperty("smokePs");
+
             _isIntensityIncreasing = serializedObject.FindProperty("isIntensityIncreasing");
             _lightIntensityValue = serializedObject.FindProperty("lightIntensityValue");
             _outerRadiusValue = serializedObject.FindProperty("outerRadiusValue");
@@ -53,9 +60,9 @@ namespace Editor.Torch {
             EditorGUILayout.PropertyField(_flameAnimation);
             EditorGUILayout.Space(5f);
 
-            _isSineOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isSineOn, "Flame Outer Radius Sine");
+            _isSineGroupOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isSineGroupOn, "Flame Outer Radius Sine");
 
-            if (_isSineOn) {
+            if (_isSineGroupOn) {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.Space(5f);
                 EditorGUILayout.Slider(_sineFreq, 0f, 4.5f);
@@ -66,9 +73,9 @@ namespace Editor.Torch {
 
             EditorGUILayout.EndFoldoutHeaderGroup();
 
-            _isIntensityOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isIntensityOn, "Flame Light Intensity");
+            _isIntensityGroupOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isIntensityGroupOn, "Flame Light Intensity");
 
-            if (_isIntensityOn) {
+            if (_isIntensityGroupOn) {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.Space(5f);
                 EditorGUILayout.PropertyField(_timeMultiplier);
@@ -81,6 +88,19 @@ namespace Editor.Torch {
             }
 
             EditorGUILayout.EndFoldoutHeaderGroup();
+
+            _isParticleSystemGroupOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isParticleSystemGroupOn, "Particle Systems");
+
+            if (_isParticleSystemGroupOn) {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.Space(5f);
+                EditorGUILayout.PropertyField(_sparklesPs);
+                EditorGUILayout.PropertyField(_smokePs);
+                EditorGUI.indentLevel--;
+            }
+
+            EditorGUILayout.EndFoldoutHeaderGroup();
+
 
             _isDebuggerOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isDebuggerOn, "For Debugging Purposes");
 

@@ -2553,7 +2553,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: red hood itch free Copy-Sheet_121
+      name: TakeDamage_1
       rect:
         serializedVersion: 2
         x: 112
@@ -2574,7 +2574,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: red hood itch free Copy-Sheet_122
+      name: TakeDamage_2
       rect:
         serializedVersion: 2
         x: 224
@@ -2595,7 +2595,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: red hood itch free Copy-Sheet_123
+      name: TakeDamage_3
       rect:
         serializedVersion: 2
         x: 336
@@ -2802,6 +2802,7 @@ TextureImporter:
       red hood itch free Copy-Sheet_9: 949251578
       ThirdAttack_8: 1768675401
       red hood itch free Copy-Sheet_118: 565016417
+      TakeDamage_3: 1168440955
       red hood itch free Copy-Sheet_10: -1969140036
       red hood itch free Copy-Sheet_3: 1588954303
       red hood itch free Copy-Sheet_23: 1032965824
@@ -2856,10 +2857,7 @@ TextureImporter:
       red hood itch free Copy-Sheet_26: 231823838
       FirstAttack_2: -2090780177
       red hood itch free Copy-Sheet_49: -100284602
-      red hood itch free Copy-Sheet_121: -998562809
-      red hood itch free Copy-Sheet_122: -1831378833
       red hood itch free Copy-Sheet_112: -86085995
-      red hood itch free Copy-Sheet_123: 1168440955
       red hood itch free Copy-Sheet_93: 1147475679
       red hood itch free Copy-Sheet_44: -785108547
       red hood itch free Copy-Sheet_90: 27198508
@@ -2872,6 +2870,7 @@ TextureImporter:
       red hood itch free Copy-Sheet_125: -1206020187
       red hood itch free Copy-Sheet_18: 1595346807
       red hood itch free Copy-Sheet_7: -1152558987
+      TakeDamage_2: -1831378833
       red hood itch free Copy-Sheet_51: 331137215
       red hood itch free Copy-Sheet_99: -2057059378
       red hood itch free Copy-Sheet_22: -665839053
@@ -2910,6 +2909,7 @@ TextureImporter:
       red hood itch free Copy-Sheet_33: -1376142118
       red hood itch free Copy-Sheet_55: -643970761
       ThirdAttack_6: 1667916711
+      TakeDamage_1: -998562809
       SecondAttack_5: -1347381939
       red hood itch free Copy-Sheet_39: -56084031
       red hood itch free Copy-Sheet_91: -250879875

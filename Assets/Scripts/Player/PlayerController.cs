@@ -116,7 +116,7 @@ namespace Player {
                 _rb.velocity = new Vector2(xInputVal * moveSpeed, _rb.velocity.y);
             }
 
-            // clamp ascend speed to 10f;
+            // clamp ascend speed to 12f;
             _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, float.MinValue, 12f));
 
             // reduce Air Time through gravity value

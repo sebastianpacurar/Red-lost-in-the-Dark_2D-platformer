@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4939952762282184677
 Transform:
   m_ObjectHideFlags: 0
@@ -39,14 +39,14 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4939952762282184678}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.5898388, y: -0.019754015}
-  m_Size: {x: 1.7066419, y: 0.43906182}
+  m_Offset: {x: -0.92473227, y: -0.019753974}
+  m_Size: {x: 1.695295, y: 0.43907166}
   m_Direction: 1
 --- !u!1 &4939952762314043473
 GameObject:
@@ -105,7 +105,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -206,8 +206,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169e00504734506baa190526190142e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2
-  runSpeed: 4
+  hitCapsuleObj: {fileID: 4939952762282184678}
+  walkSpeed: 4
+  runSpeed: 9
+  rayCastRange: 75.8
   minDistanceFromPlayer: 2.25
   isPlayerDetected: 0
   dirX: 0
@@ -216,3 +218,4 @@ MonoBehaviour:
   isRunning: 0
   currentSpeed: 0
   isAttacking: 0
+  isDeathTriggered: 0
