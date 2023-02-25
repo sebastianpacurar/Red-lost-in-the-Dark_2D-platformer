@@ -10,15 +10,20 @@ namespace Editor.Player {
         private SerializedProperty _skeletonPrefab;
         private SerializedProperty _skeletonContainer;
 
-        private SerializedProperty _spawnPoints;
+        private SerializedProperty _pointsContainer;
         private SerializedProperty _leftSide;
         private SerializedProperty _rightSide;
+        private SerializedProperty _xOffset;
+        private SerializedProperty _groundLayer;
 
         private SerializedProperty _minRandSpawnTime;
         private SerializedProperty _maxRandSpawnTime;
 
         private SerializedProperty _spawnCdValue;
         private SerializedProperty _spawnTime;
+
+        private SerializedProperty _isLeftAvailable;
+        private SerializedProperty _isRightAvailable;
         #endregion
 
         #region Foldout Header Group booleans
@@ -35,15 +40,20 @@ namespace Editor.Player {
             _skeletonPrefab = serializedObject.FindProperty("skeletonPrefab");
             _skeletonContainer = serializedObject.FindProperty("skeletonContainer");
 
-            _spawnPoints = serializedObject.FindProperty("spawnPoints");
+            _pointsContainer = serializedObject.FindProperty("pointsContainer");
             _leftSide = serializedObject.FindProperty("leftSide");
             _rightSide = serializedObject.FindProperty("rightSide");
+            _xOffset = serializedObject.FindProperty("xOffset");
+            _groundLayer = serializedObject.FindProperty("groundLayer");
 
             _minRandSpawnTime = serializedObject.FindProperty("minRandSpawnTime");
             _maxRandSpawnTime = serializedObject.FindProperty("maxRandSpawnTime");
 
             _spawnCdValue = serializedObject.FindProperty("spawnCdValue");
             _spawnTime = serializedObject.FindProperty("spawnTime");
+
+            _isLeftAvailable = serializedObject.FindProperty("isLeftAvailable");
+            _isRightAvailable = serializedObject.FindProperty("isRightAvailable");
         }
 
 
@@ -71,9 +81,11 @@ namespace Editor.Player {
             if (_isCdRandGroupOn) {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.Space(5f);
-                EditorGUILayout.PropertyField(_spawnPoints);
+                EditorGUILayout.PropertyField(_pointsContainer);
                 EditorGUILayout.PropertyField(_leftSide);
                 EditorGUILayout.PropertyField(_rightSide);
+                EditorGUILayout.PropertyField(_xOffset);
+                EditorGUILayout.PropertyField(_groundLayer);
                 EditorGUILayout.Space(5f);
                 EditorGUI.indentLevel--;
             }
@@ -95,29 +107,28 @@ namespace Editor.Player {
             EditorGUILayout.EndFoldoutHeaderGroup();
 
 
-            _isEnemyDataGroupOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isEnemyDataGroupOn, "Enemy Data");
-
-            if (_isEnemyDataGroupOn) {
-                EditorGUI.indentLevel++;
-                EditorGUILayout.Space(5f);
-                EditorGUILayout.PropertyField(_skeletonPrefab);
-                EditorGUILayout.PropertyField(_skeletonContainer);
-                EditorGUILayout.Space(5f);
-                EditorGUI.indentLevel--;
-            }
-
-            EditorGUILayout.EndFoldoutHeaderGroup();
-
-
             _isDebuggerOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isDebuggerOn, "For Debugging Purposes");
 
             if (_isDebuggerOn) {
-                EditorGUI.indentLevel++;
                 EditorGUILayout.Space(5f);
+                EditorGUI.indentLevel++;
+
+                EditorGUILayout.LabelField("Cooldown Values", EditorStyles.boldLabel);
+                EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_spawnCdValue);
                 EditorGUILayout.PropertyField(_spawnTime);
-                EditorGUILayout.Space(5f);
                 EditorGUI.indentLevel--;
+                
+                EditorGUILayout.Separator();
+
+                EditorGUILayout.LabelField("Spawn Points", EditorStyles.boldLabel);
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(_isLeftAvailable);
+                EditorGUILayout.PropertyField(_isRightAvailable);
+                EditorGUI.indentLevel--;
+
+                EditorGUI.indentLevel--;
+                EditorGUILayout.Space(5f);
             }
 
             EditorGUILayout.EndFoldoutHeaderGroup();

@@ -100,6 +100,7 @@ namespace Editor.Player {
 
             if (_isDebuggerOn) {
                 EditorGUILayout.Space(5f);
+                EditorGUI.indentLevel++;
 
                 EditorGUILayout.LabelField("Player Stats", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
@@ -109,11 +110,16 @@ namespace Editor.Player {
                 EditorGUILayout.PropertyField(_minSanity);
                 EditorGUI.indentLevel--;
 
+                EditorGUILayout.Separator();
+
                 EditorGUILayout.LabelField("Torch Interaction", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_torchTag);
                 EditorGUILayout.PropertyField(_isIntensityIncreasing);
                 EditorGUI.indentLevel--;
+
+                EditorGUI.indentLevel--;
+                EditorGUILayout.Space(5f);
             }
 
             EditorGUILayout.EndFoldoutHeaderGroup();

@@ -133,12 +133,16 @@ namespace Editor.Player {
                 EditorGUILayout.PropertyField(_xInputVal);
                 EditorGUILayout.PropertyField(_cachedXInputVal);
                 EditorGUI.indentLevel--;
+                
+                EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Grounded", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isGrounded);
                 EditorGUILayout.PropertyField(_isFalling);
                 EditorGUI.indentLevel--;
+                
+                EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Wall Slide", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
@@ -147,6 +151,8 @@ namespace Editor.Player {
                 EditorGUILayout.PropertyField(_isSliding);
                 EditorGUILayout.PropertyField(_wallSlideMaxSpeed);
                 EditorGUI.indentLevel--;
+                
+                EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Wall Jump", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
@@ -154,11 +160,16 @@ namespace Editor.Player {
                 EditorGUILayout.PropertyField(_isWallJumpInProgress);
                 EditorGUILayout.PropertyField(_wallJumpDirection);
                 EditorGUI.indentLevel--;
+                
+                EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Attack", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isAttacking);
                 EditorGUI.indentLevel--;
+                
+                EditorGUI.indentLevel--;
+                EditorGUILayout.Space(5f);
             }
 
             EditorGUILayout.EndFoldoutHeaderGroup();

@@ -121,12 +121,15 @@ namespace Editor.Enemy {
 
             if (_isDebuggerOn) {
                 EditorGUILayout.Space(5f);
+                EditorGUI.indentLevel++;
 
                 EditorGUILayout.LabelField("Player Detection", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isPlayerDetected);
                 EditorGUILayout.PropertyField(_dirX);
                 EditorGUI.indentLevel--;
+
+                EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Movement Behavior", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
@@ -136,15 +139,22 @@ namespace Editor.Enemy {
                 EditorGUILayout.PropertyField(_currentSpeed);
                 EditorGUI.indentLevel--;
 
+                EditorGUILayout.Separator();
+
                 EditorGUILayout.LabelField("Attack", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isAttacking);
                 EditorGUI.indentLevel--;
 
+                EditorGUILayout.Separator();
+
                 EditorGUILayout.LabelField("Death", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isDeathTriggered);
                 EditorGUI.indentLevel--;
+
+                EditorGUI.indentLevel--;
+                EditorGUILayout.Space(5f);
             }
 
             EditorGUILayout.EndFoldoutHeaderGroup();
