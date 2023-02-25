@@ -1,3 +1,4 @@
+using System;
 using CustomAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -6,8 +7,13 @@ namespace Enemy {
     public class SkeletonController : MonoBehaviour {
         [SerializeField] private GameObject hitCapsuleObj;
 
-        [SerializeField] private float walkSpeed;
-        [SerializeField] private float runSpeed;
+        [SerializeField] private float minRandomWalk;
+        [SerializeField] private float maxRandomWalk;
+        [SerializeField] private float minRandomRun;
+        [SerializeField] private float maxRandomRun;
+
+        [SerializeField] public float walkSpeed;
+        [SerializeField] public float runSpeed;
 
         [SerializeField] private float rayCastRange;
         [SerializeField] private float minDistanceFromPlayer;
@@ -37,6 +43,10 @@ namespace Enemy {
 
         private void Start() {
             _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+
+            // generate random values for walk and run speed
+            walkSpeed = Random.Range(minInclusive: minRandomWalk, maxInclusive: maxRandomWalk);
+            runSpeed = Random.Range(minInclusive: minRandomRun, maxInclusive: maxRandomRun);
         }
 
         private void FlipSkeletonScale() {
@@ -55,20 +65,20 @@ namespace Enemy {
             if (isPlayerDetected) {
                 HandleMovementConstraints();
                 FlipSkeletonScale();
-                HandleAnimations();
             }
+
+            HandleAnimations();
         }
 
         private void FixedUpdate() {
-            if (!isPlayerDetected) return;
-
-            if (isDeathTriggered) {
+            if (!isPlayerDetected || isDeathTriggered) {
                 _rb.velocity = Vector2.zero;
             } else {
                 _rb.velocity = new Vector2(currentSpeed * Mathf.Round(dirX), _rb.velocity.y);
             }
         }
 
+        // initiate Death process 
         private void OnTriggerEnter2D(Collider2D col) {
             if (col.gameObject.CompareTag("PlayerHitArea")) {
                 _animator.SetTrigger(Death);
@@ -104,16 +114,25 @@ namespace Enemy {
             var playerScale = _playerTransform.localScale;
             var direction = playerPos - pos;
 
+            // dirX is the direction from skeleton (self) towards player
             dirX = direction.normalized.x;
+
+            // used to swap between walk and run speed 
             isPlayerFacingSelf = Vector2.Dot(transform.localScale, playerScale).Equals(0f);
 
             var rayMask = 1 << LayerMask.NameToLayer("Ground") | 1 << LayerMask.NameToLayer("Character");
             var rayInfo = Physics2D.RaycastAll(pos, direction, rayCastRange, rayMask);
 
+            // isPlayerDetected is true only if there is no wall between the player and the skeleton
             if (rayInfo.Length > 1) {
-                if (rayInfo[1].collider.CompareTag("Player")) {
-                    isPlayerDetected = true;
-                    return;
+                var playerIndex = Array.FindIndex(rayInfo[1..], obj => obj.collider.CompareTag("Player"));
+                var wallIndex = Array.FindLastIndex(rayInfo[1..], obj => obj.collider.gameObject.layer.Equals(LayerMask.NameToLayer("Ground")));
+
+                if (playerIndex >= 0) {
+                    if (playerIndex < wallIndex || wallIndex == -1) {
+                        isPlayerDetected = true;
+                        return;
+                    }
                 }
             }
 
@@ -123,16 +142,19 @@ namespace Enemy {
         private void HandleAnimations() {
             var state = AnimationState.Idle;
 
-            if (isWalking) {
-                state = AnimationState.Walk;
-            } else if (isRunning) {
-                state = AnimationState.Run;
-            } else if (isAttacking) {
-                state = Random.Range(3, 5) switch {
-                    3 => AnimationState.FirstAttack,
-                    4 => AnimationState.SecondAttack,
-                    _ => AnimationState.FirstAttack,
-                };
+            // if player is not detected, allow idle mode
+            if (isPlayerDetected) {
+                if (isWalking) {
+                    state = AnimationState.Walk;
+                } else if (isRunning) {
+                    state = AnimationState.Run;
+                } else if (isAttacking) {
+                    state = Random.Range(3, 5) switch {
+                        3 => AnimationState.FirstAttack,
+                        4 => AnimationState.SecondAttack,
+                        _ => AnimationState.FirstAttack,
+                    };
+                }
             }
 
             _animator.SetInteger(State, (int)state);

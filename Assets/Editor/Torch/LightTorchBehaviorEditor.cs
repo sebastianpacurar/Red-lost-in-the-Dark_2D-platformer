@@ -5,6 +5,8 @@ namespace Editor.Torch {
     [CustomEditor(typeof(LightTorchBehavior))]
     public class LightTorchBehaviorEditor : UnityEditor.Editor {
         #region Serialized properties
+        private MonoScript _script;
+
         private SerializedProperty _flameObject;
         private SerializedProperty _flameAnimation;
 
@@ -33,6 +35,7 @@ namespace Editor.Torch {
         #endregion
 
         private void OnEnable() {
+            _script = MonoScript.FromMonoBehaviour((LightTorchBehavior)target);
             _flameObject = serializedObject.FindProperty("flameObject");
             _flameAnimation = serializedObject.FindProperty("flameAnimation");
 
@@ -55,6 +58,9 @@ namespace Editor.Torch {
 
         public override void OnInspectorGUI() {
             serializedObject.Update();
+
+            _script = EditorGUILayout.ObjectField("Script Location", _script, typeof(MonoScript), false) as MonoScript;
+            EditorGUILayout.Space(10f);
 
             EditorGUILayout.PropertyField(_flameObject);
             EditorGUILayout.PropertyField(_flameAnimation);

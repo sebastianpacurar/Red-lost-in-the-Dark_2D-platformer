@@ -5,7 +5,13 @@ namespace Editor.Enemy {
     [CustomEditor(typeof(SkeletonController))]
     public class SkeletonControllerEditor : UnityEditor.Editor {
         #region Serialized Properties
+        private MonoScript _script;
         private SerializedProperty _hitCapsuleObj;
+
+        private SerializedProperty _minRandomWalk;
+        private SerializedProperty _maxRandomWalk;
+        private SerializedProperty _minRandomRun;
+        private SerializedProperty _maxRandomRun;
 
         private SerializedProperty _walkSpeed;
         private SerializedProperty _runSpeed;
@@ -21,16 +27,26 @@ namespace Editor.Enemy {
         private SerializedProperty _currentSpeed;
 
         private SerializedProperty _isAttacking;
+
+        private SerializedProperty _isDeathTriggered;
         #endregion
 
         #region Foldout Header Group Booleans
+        private bool _isWalkRunGeneratorGroupOn = true;
         private bool _isWalkRunGroupOn = true;
         private bool _isDetectionGroupOn = true;
         private bool _isDebuggerOn = true;
         #endregion
 
         private void OnEnable() {
+            _script = MonoScript.FromMonoBehaviour((SkeletonController)target);
             _hitCapsuleObj = serializedObject.FindProperty("hitCapsuleObj");
+
+            _minRandomWalk = serializedObject.FindProperty("minRandomWalk");
+            _maxRandomWalk = serializedObject.FindProperty("maxRandomWalk");
+            _minRandomRun = serializedObject.FindProperty("minRandomRun");
+            _maxRandomRun = serializedObject.FindProperty("maxRandomRun");
+
             _walkSpeed = serializedObject.FindProperty("walkSpeed");
             _runSpeed = serializedObject.FindProperty("runSpeed");
 
@@ -45,13 +61,34 @@ namespace Editor.Enemy {
             _currentSpeed = serializedObject.FindProperty("currentSpeed");
 
             _isAttacking = serializedObject.FindProperty("isAttacking");
+
+            _isDeathTriggered = serializedObject.FindProperty("isDeathTriggered");
         }
 
         public override void OnInspectorGUI() {
             serializedObject.Update();
 
+            _script = EditorGUILayout.ObjectField("Script Location", _script, typeof(MonoScript), false) as MonoScript;
+            EditorGUILayout.Space(10f);
+
             EditorGUILayout.PropertyField(_hitCapsuleObj);
             EditorGUILayout.Space(5f);
+
+            _isWalkRunGeneratorGroupOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isWalkRunGeneratorGroupOn, "Speed Randomizer");
+
+            if (_isWalkRunGeneratorGroupOn) {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.Space(5f);
+                EditorGUILayout.Slider(_minRandomWalk, 1f, 3.5f, "Min Random Walk");
+                EditorGUILayout.Slider(_maxRandomWalk, 3.5f, 6f, "Max Random Walk");
+                EditorGUILayout.Separator();
+                EditorGUILayout.Slider(_minRandomRun, 6f, 9.5f, "Min Random Walk");
+                EditorGUILayout.Slider(_maxRandomRun, 9.5f, 12f, "Max Random Walk");
+                EditorGUILayout.Space(5f);
+                EditorGUI.indentLevel--;
+            }
+
+            EditorGUILayout.EndFoldoutHeaderGroup();
 
             _isWalkRunGroupOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isWalkRunGroupOn, "Walk and Run");
 
@@ -102,6 +139,11 @@ namespace Editor.Enemy {
                 EditorGUILayout.LabelField("Attack", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isAttacking);
+                EditorGUI.indentLevel--;
+
+                EditorGUILayout.LabelField("Death", EditorStyles.boldLabel);
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(_isDeathTriggered);
                 EditorGUI.indentLevel--;
             }
 

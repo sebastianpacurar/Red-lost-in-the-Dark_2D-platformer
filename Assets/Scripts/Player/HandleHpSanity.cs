@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using CustomAttributes;
 using UnityEngine;
@@ -30,11 +31,13 @@ namespace Player {
         private Light2D _torchLight2D;
         private bool _isHitByEnemy;
 
-        private void Start() {
+        private void Awake() {
             maxSanity = maxOuterRadius;
             minSanity = minOuterRadius;
             HealthPoints = maxHp;
+        }
 
+        private void Start() {
             StartCoroutine(HandleLightRadius());
         }
 

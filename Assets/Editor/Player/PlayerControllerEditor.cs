@@ -5,6 +5,8 @@ namespace Editor.Player {
     [CustomEditor(typeof(PlayerController))]
     public class PlayerControllerEditor : UnityEditor.Editor {
         #region Serialized Properties
+        private MonoScript _script;
+
         private SerializedProperty _moveSpeed;
         private SerializedProperty _jumpForce;
 
@@ -43,6 +45,7 @@ namespace Editor.Player {
         #endregion
 
         private void OnEnable() {
+            _script = MonoScript.FromMonoBehaviour((PlayerController)target);
             _moveSpeed = serializedObject.FindProperty("moveSpeed");
             _jumpForce = serializedObject.FindProperty("jumpForce");
 
@@ -74,6 +77,9 @@ namespace Editor.Player {
 
         public override void OnInspectorGUI() {
             serializedObject.Update();
+
+            _script = EditorGUILayout.ObjectField("Script Location", _script, typeof(MonoScript), false) as MonoScript;
+            EditorGUILayout.Space(10f);
 
             _isGroundAndWallGroupOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isGroundAndWallGroupOn, "Ground and Wall Checkers");
 
@@ -121,7 +127,7 @@ namespace Editor.Player {
             if (_isDebuggerOn) {
                 EditorGUILayout.Space(5f);
                 EditorGUI.indentLevel++;
-                
+
                 EditorGUILayout.LabelField("Move Input", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_xInputVal);

@@ -5,6 +5,8 @@ namespace Editor.Player {
     [CustomEditor(typeof(HandleHpSanity))]
     public class HandleHpSanityEditor : UnityEditor.Editor {
         #region Serialized properties
+        private MonoScript _script;
+
         private SerializedProperty _playerLight;
         private SerializedProperty _timeMultiplier;
 
@@ -32,6 +34,7 @@ namespace Editor.Player {
         #endregion
 
         private void OnEnable() {
+            _script = MonoScript.FromMonoBehaviour((HandleHpSanity)target);
             _playerLight = serializedObject.FindProperty("playerLight");
             _timeMultiplier = serializedObject.FindProperty("timeMultiplier");
 
@@ -54,6 +57,9 @@ namespace Editor.Player {
 
         public override void OnInspectorGUI() {
             serializedObject.Update();
+
+            _script = EditorGUILayout.ObjectField("Script Location", _script, typeof(MonoScript), false) as MonoScript;
+            EditorGUILayout.Space(10f);
 
             EditorGUILayout.PropertyField(_playerLight);
             EditorGUILayout.Space(5f);
