@@ -872,6 +872,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skeletonPrefab: {fileID: 4939952762314043473, guid: 6d7aaed7ed2beb12b9f1ee6aed1d2ede, type: 3}
   skeletonContainer: {fileID: 2761740360911093887}
+  maxAllowedInContainer: 7
   pointsContainer: {fileID: 4733107521551743701}
   leftSide: {fileID: 9033994940806576996}
   rightSide: {fileID: 6329448735763235090}
@@ -880,11 +881,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   minRandSpawnTime: 0.5
-  maxRandSpawnTime: 4
+  maxRandSpawnTime: 3
   spawnCdValue: 0
-  spawnTime: 5
+  spawnTime: 1
   isLeftAvailable: 0
   isRightAvailable: 0
+  skeletonsCount: 0
 --- !u!1 &1875984515857797276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1782,6 +1784,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3147879646534189798}
   - component: {fileID: 952947070}
+  - component: {fileID: 183643869387187326}
   m_Layer: 0
   m_Name: HitCapsule
   m_TagString: PlayerHitArea
@@ -1820,6 +1823,20 @@ CapsuleCollider2D:
   m_Offset: {x: -0.7522783, y: 0.0006742183}
   m_Size: {x: 2.0042818, y: 0.507156}
   m_Direction: 1
+--- !u!114 &183643869387187326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7465999516319011319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9633d939c627d418bf3703a8ccdc309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerLight: {fileID: 1653919695395659990}
+  gainedSanityPoints: 0.75
 --- !u!1 &7581731712049156004
 GameObject:
   m_ObjectHideFlags: 0
@@ -2386,6 +2403,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4733107521551743701}
+  - component: {fileID: 1636233461}
   m_Layer: 6
   m_Name: SpawnPoints
   m_TagString: Untagged
@@ -2410,3 +2428,24 @@ Transform:
   m_Father: {fileID: 1653919696162433928}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &1636233461
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9102538220273666687}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

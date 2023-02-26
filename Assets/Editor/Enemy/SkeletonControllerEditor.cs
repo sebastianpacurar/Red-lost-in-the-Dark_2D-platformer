@@ -1,3 +1,4 @@
+using Cinemachine.Editor;
 using Enemy;
 using UnityEditor;
 
@@ -17,7 +18,8 @@ namespace Editor.Enemy {
         private SerializedProperty _runSpeed;
 
         private SerializedProperty _rayCastRange;
-        private SerializedProperty _minDistanceFromPlayer;
+        private SerializedProperty _minAllowedDistance;
+        private SerializedProperty _maxAllowedDistance;
 
         private SerializedProperty _isPlayerDetected;
         private SerializedProperty _dirX;
@@ -51,7 +53,8 @@ namespace Editor.Enemy {
             _runSpeed = serializedObject.FindProperty("runSpeed");
 
             _rayCastRange = serializedObject.FindProperty("rayCastRange");
-            _minDistanceFromPlayer = serializedObject.FindProperty("minDistanceFromPlayer");
+            _minAllowedDistance = serializedObject.FindProperty("minAllowedDistance");
+            _maxAllowedDistance = serializedObject.FindProperty("maxAllowedDistance");
 
             _isPlayerDetected = serializedObject.FindProperty("isPlayerDetected");
             _dirX = serializedObject.FindProperty("dirX");
@@ -82,8 +85,8 @@ namespace Editor.Enemy {
                 EditorGUILayout.Slider(_minRandomWalk, 1f, 3.5f, "Min Random Walk");
                 EditorGUILayout.Slider(_maxRandomWalk, 3.5f, 6f, "Max Random Walk");
                 EditorGUILayout.Separator();
-                EditorGUILayout.Slider(_minRandomRun, 6f, 9.5f, "Min Random Walk");
-                EditorGUILayout.Slider(_maxRandomRun, 9.5f, 12f, "Max Random Walk");
+                EditorGUILayout.Slider(_minRandomRun, 6f, 9.5f, "Min Random Run");
+                EditorGUILayout.Slider(_maxRandomRun, 9.5f, 12f, "Max Random Run");
                 EditorGUILayout.Space(5f);
                 EditorGUI.indentLevel--;
             }
@@ -109,7 +112,8 @@ namespace Editor.Enemy {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.Space(5f);
                 EditorGUILayout.Slider(_rayCastRange, 0f, 100f, "Ray Cast Range");
-                EditorGUILayout.Slider(_minDistanceFromPlayer, 0f, 15f, "Min Dist from Player");
+                EditorGUILayout.Slider(_minAllowedDistance, 0f, 15f, "Min Distance from Player");
+                EditorGUILayout.Slider(_maxAllowedDistance, 15f, 50f, "Max Distance from Player");
                 EditorGUILayout.Space(5f);
                 EditorGUI.indentLevel--;
             }

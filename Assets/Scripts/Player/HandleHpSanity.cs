@@ -58,7 +58,7 @@ namespace Player {
         }
 
         private void OnTriggerEnter2D(Collider2D col) {
-            if (col.gameObject.CompareTag("LightTorch") || col.gameObject.CompareTag("HealthTorch")) {
+            if (col.gameObject.CompareTag("LightTorch") || col.gameObject.CompareTag("HealthTorch") || col.gameObject.CompareTag("CheckpointTorch")) {
                 torchTag = col.gameObject.tag;
                 _torchLight2D = col.gameObject.transform.Find("FlameLight").GetComponent<Light2D>();
             }
@@ -69,7 +69,7 @@ namespace Player {
         }
 
         private void OnTriggerExit2D(Collider2D col) {
-            if (col.gameObject.CompareTag("LightTorch") || col.gameObject.CompareTag("HealthTorch")) {
+            if (col.gameObject.CompareTag("LightTorch") || col.gameObject.CompareTag("HealthTorch") || col.gameObject.CompareTag("CheckpointTorch")) {
                 torchTag = "";
                 _torchLight2D = null;
             }
@@ -84,10 +84,17 @@ namespace Player {
                 yield return new WaitForSeconds(timeMultiplier);
 
                 if (isIntensityIncreasing) {
-                    if (torchTag.Equals("LightTorch")) {
-                        playerLight.pointLightOuterRadius += outerRadiusIncreaseUnit;
-                    } else if (torchTag.Equals("HealthTorch")) {
-                        HealthPoints += hpIncreaseUnit;
+                    switch (torchTag) {
+                        case "LightTorch":
+                            playerLight.pointLightOuterRadius += outerRadiusIncreaseUnit;
+                            break;
+                        case "HealthTorch":
+                            HealthPoints += hpIncreaseUnit;
+                            break;
+                        case "CheckpointTorch":
+                            HealthPoints += hpIncreaseUnit * 2;
+                            playerLight.pointLightOuterRadius += outerRadiusIncreaseUnit * 2;
+                            break;
                     }
                 } else {
                     playerLight.pointLightOuterRadius -= outerRadiusDecreaseUnit;

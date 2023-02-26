@@ -9,6 +9,7 @@ namespace Editor.Player {
 
         private SerializedProperty _skeletonPrefab;
         private SerializedProperty _skeletonContainer;
+        private SerializedProperty _maxAllowedInContainer;
 
         private SerializedProperty _pointsContainer;
         private SerializedProperty _leftSide;
@@ -24,6 +25,9 @@ namespace Editor.Player {
 
         private SerializedProperty _isLeftAvailable;
         private SerializedProperty _isRightAvailable;
+        private SerializedProperty _safeZone;
+
+        private SerializedProperty _skeletonsCount;
         #endregion
 
         #region Foldout Header Group booleans
@@ -39,6 +43,7 @@ namespace Editor.Player {
 
             _skeletonPrefab = serializedObject.FindProperty("skeletonPrefab");
             _skeletonContainer = serializedObject.FindProperty("skeletonContainer");
+            _maxAllowedInContainer = serializedObject.FindProperty("maxAllowedInContainer");
 
             _pointsContainer = serializedObject.FindProperty("pointsContainer");
             _leftSide = serializedObject.FindProperty("leftSide");
@@ -54,6 +59,9 @@ namespace Editor.Player {
 
             _isLeftAvailable = serializedObject.FindProperty("isLeftAvailable");
             _isRightAvailable = serializedObject.FindProperty("isRightAvailable");
+            _safeZone = serializedObject.FindProperty("safeZone");
+
+            _skeletonsCount = serializedObject.FindProperty("skeletonsCount");
         }
 
 
@@ -70,6 +78,7 @@ namespace Editor.Player {
                 EditorGUILayout.Space(5f);
                 EditorGUILayout.PropertyField(_skeletonPrefab);
                 EditorGUILayout.PropertyField(_skeletonContainer);
+                EditorGUILayout.PropertyField(_maxAllowedInContainer);
                 EditorGUILayout.Space(5f);
                 EditorGUI.indentLevel--;
             }
@@ -118,13 +127,21 @@ namespace Editor.Player {
                 EditorGUILayout.PropertyField(_spawnCdValue);
                 EditorGUILayout.PropertyField(_spawnTime);
                 EditorGUI.indentLevel--;
-                
+
                 EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Spawn Points", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isLeftAvailable);
                 EditorGUILayout.PropertyField(_isRightAvailable);
+                EditorGUILayout.PropertyField(_safeZone);
+                EditorGUI.indentLevel--;
+
+                EditorGUILayout.Separator();
+
+                EditorGUILayout.LabelField("Container Data", EditorStyles.boldLabel);
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(_skeletonsCount);
                 EditorGUI.indentLevel--;
 
                 EditorGUI.indentLevel--;

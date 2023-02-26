@@ -7,6 +7,7 @@ namespace Player {
     public class SpawnEnemies : MonoBehaviour {
         [SerializeField] private GameObject skeletonPrefab;
         [SerializeField] private GameObject skeletonContainer;
+        [SerializeField] private int maxAllowedInContainer;
 
         [SerializeField] private Transform pointsContainer;
         [SerializeField] private Transform leftSide;
@@ -22,15 +23,20 @@ namespace Player {
 
         [ReadOnlyProp] [SerializeField] private bool isLeftAvailable;
         [ReadOnlyProp] [SerializeField] private bool isRightAvailable;
+        [ReadOnlyProp] [SerializeField] private bool safeZone;
+
+        [ReadOnlyProp] [SerializeField] private int skeletonsCount;
 
         private HandleHpSanity _handleHpSanity;
+
 
         private void Start() {
             _handleHpSanity = GetComponent<HandleHpSanity>();
         }
-
-
+        
         private void Update() {
+            skeletonsCount = skeletonContainer.transform.childCount;
+
             // prevent pointsContainer from swapping locations when player flips X scale to -1
             pointsContainer.transform.localScale = transform.localScale;
 
@@ -40,6 +46,18 @@ namespace Player {
             HandleSpawnPointsPositions();
             ValidateSpawnPoints();
             SpawnEnemy();
+        }
+
+        private void OnTriggerStay2D(Collider2D other) {
+            if (other.gameObject.CompareTag("CheckpointTorch")) {
+                safeZone = true;
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other) {
+            if (other.gameObject.CompareTag("CheckpointTorch")) {
+                safeZone = false;
+            }
         }
 
 
@@ -80,6 +98,8 @@ namespace Player {
 
         // handle Spawning Enemies: spawn skeleton when current sanity is lower than half of max sanity (when progress bar is 50%)
         private void SpawnEnemy() {
+            if (safeZone) return; // skip when in the Checkpoint radius
+            if (skeletonsCount == maxAllowedInContainer) return; // skip when container reached max capacity
             if (!isLeftAvailable && !isRightAvailable) return; // skip when no spawning points are available
 
             // if sanity is smaller than mid (max/2) begin spawning process

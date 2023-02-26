@@ -16,7 +16,8 @@ namespace Enemy {
         [SerializeField] public float runSpeed;
 
         [SerializeField] private float rayCastRange;
-        [SerializeField] private float minDistanceFromPlayer;
+        [SerializeField] private float minAllowedDistance;
+        [SerializeField] private float maxAllowedDistance;
 
         [ReadOnlyProp] [SerializeField] private bool isPlayerDetected;
         [ReadOnlyProp] [SerializeField] private float dirX;
@@ -60,6 +61,11 @@ namespace Enemy {
         }
 
         private void Update() {
+            // kill when too far away from player
+            if (Vector2.Distance(_playerTransform.position, transform.position) > maxAllowedDistance) {
+                TriggerDeath();
+            }
+
             HandlePlayerDetection();
 
             if (isPlayerDetected) {
@@ -78,21 +84,15 @@ namespace Enemy {
             }
         }
 
-        // initiate Death process 
+        // initiate Death process when hit by player or touched by Checkpoint radius
         private void OnTriggerEnter2D(Collider2D col) {
-            if (col.gameObject.CompareTag("PlayerHitArea")) {
-                _animator.SetTrigger(Death);
-                isDeathTriggered = true;
-                Invoke(nameof(DestroyEnemy), 3f);
+            if (col.gameObject.CompareTag("PlayerHitArea") || col.gameObject.CompareTag("CheckpointTorch")) {
+                TriggerDeath();
             }
         }
 
-        private void DestroyEnemy() {
-            Destroy(gameObject);
-        }
-
         private void HandleMovementConstraints() {
-            if (Vector2.Distance(transform.position, _playerTransform.position) < minDistanceFromPlayer) {
+            if (Vector2.Distance(transform.position, _playerTransform.position) < minAllowedDistance) {
                 if (!isAttacking) {
                     isAttacking = true;
                 } else {
@@ -160,10 +160,20 @@ namespace Enemy {
             _animator.SetInteger(State, (int)state);
         }
 
+        private void TriggerDeath() {
+            _animator.SetTrigger(Death);
+            isDeathTriggered = true;
+        }
+
         // called in every Attack animation as event
         public void StopAttackEvent() {
             isAttacking = false;
             hitCapsuleObj.GetComponent<CapsuleCollider2D>().enabled = false;
+        }
+
+        // called in Death animation, after all keyframes + 2 have been reached 
+        public void DestroySelf() {
+            Destroy(gameObject);
         }
 
         private enum AnimationState {

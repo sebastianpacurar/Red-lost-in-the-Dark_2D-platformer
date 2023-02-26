@@ -64,7 +64,7 @@ GameObject:
   - component: {fileID: 4939952762314043482}
   m_Layer: 6
   m_Name: SkeletonEntity
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -207,14 +207,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitCapsuleObj: {fileID: 4939952762282184678}
-  minRandomWalk: 3
-  maxRandomWalk: 6
-  minRandomRun: 8
-  maxRandomRun: 12
+  minRandomWalk: 2
+  maxRandomWalk: 5
+  minRandomRun: 7
+  maxRandomRun: 10
   walkSpeed: 1
   runSpeed: 1
   rayCastRange: 100
-  minDistanceFromPlayer: 2.25
+  minAllowedDistance: 2.25
+  maxAllowedDistance: 25
   isPlayerDetected: 0
   dirX: 0
   isPlayerFacingSelf: 0
