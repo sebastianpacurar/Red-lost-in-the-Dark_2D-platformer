@@ -7,6 +7,9 @@ namespace Enemy {
     public class SkeletonController : MonoBehaviour {
         [SerializeField] private GameObject hitCapsuleObj;
 
+        [SerializeField] private Transform groundChecker;
+        [SerializeField] private LayerMask groundLayer;
+
         [SerializeField] private float minRandomWalk;
         [SerializeField] private float maxRandomWalk;
         [SerializeField] private float minRandomRun;
@@ -27,8 +30,8 @@ namespace Enemy {
         [ReadOnlyProp] [SerializeField] private bool isRunning;
         [ReadOnlyProp] [SerializeField] private float currentSpeed;
 
+        [ReadOnlyProp] [SerializeField] private bool isGrounded;
         [ReadOnlyProp] [SerializeField] private bool isAttacking;
-
         [ReadOnlyProp] [SerializeField] private bool isDeathTriggered;
 
         private Rigidbody2D _rb;
@@ -61,6 +64,8 @@ namespace Enemy {
         }
 
         private void Update() {
+            isGrounded = Physics2D.OverlapCapsule(groundChecker.position, new Vector2(0.425f, 0.05f), CapsuleDirection2D.Horizontal, 0, groundLayer);
+
             // kill when too far away from player
             if (Vector2.Distance(_playerTransform.position, transform.position) > maxAllowedDistance) {
                 TriggerDeath();
@@ -155,6 +160,8 @@ namespace Enemy {
                         _ => AnimationState.FirstAttack,
                     };
                 }
+
+                if (!isGrounded) state = AnimationState.Fall;
             }
 
             _animator.SetInteger(State, (int)state);
@@ -182,6 +189,7 @@ namespace Enemy {
             Run,
             FirstAttack,
             SecondAttack,
+            Fall,
         }
     }
 }

@@ -57,7 +57,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""1D Axis"",
+                    ""name"": ""Left Hand"",
                     ""id"": ""60bc306c-0512-49b1-9ee6-7cb7dd33a0b7"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
@@ -82,6 +82,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""name"": ""positive"",
                     ""id"": ""1d4bc476-a75f-44b8-baf6-29c31ec3be0b"",
                     ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Right Hand"",
+                    ""id"": ""f4f41500-9274-40fc-9bb1-48362b3fc871"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""a4feeda6-0819-43eb-ab54-460c13729c50"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""b4393fd5-fefd-4ba8-a657-1bd93f7fb423"",
+                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",

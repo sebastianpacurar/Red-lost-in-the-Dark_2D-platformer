@@ -1,6 +1,7 @@
 using Cinemachine.Editor;
 using Enemy;
 using UnityEditor;
+using UnityEditor.Rendering;
 
 namespace Editor.Enemy {
     [CustomEditor(typeof(SkeletonController))]
@@ -8,6 +9,9 @@ namespace Editor.Enemy {
         #region Serialized Properties
         private MonoScript _script;
         private SerializedProperty _hitCapsuleObj;
+
+        private SerializedProperty _groundChecker;
+        private SerializedProperty _groundLayer;
 
         private SerializedProperty _minRandomWalk;
         private SerializedProperty _maxRandomWalk;
@@ -29,11 +33,12 @@ namespace Editor.Enemy {
         private SerializedProperty _currentSpeed;
 
         private SerializedProperty _isAttacking;
-
+        private SerializedProperty _isGrounded;
         private SerializedProperty _isDeathTriggered;
         #endregion
 
         #region Foldout Header Group Booleans
+        private bool _isGroundedGroupOn = true;
         private bool _isWalkRunGeneratorGroupOn = true;
         private bool _isWalkRunGroupOn = true;
         private bool _isDetectionGroupOn = true;
@@ -43,6 +48,9 @@ namespace Editor.Enemy {
         private void OnEnable() {
             _script = MonoScript.FromMonoBehaviour((SkeletonController)target);
             _hitCapsuleObj = serializedObject.FindProperty("hitCapsuleObj");
+
+            _groundChecker = serializedObject.FindProperty("groundChecker");
+            _groundLayer = serializedObject.FindProperty("groundLayer");
 
             _minRandomWalk = serializedObject.FindProperty("minRandomWalk");
             _maxRandomWalk = serializedObject.FindProperty("maxRandomWalk");
@@ -64,7 +72,7 @@ namespace Editor.Enemy {
             _currentSpeed = serializedObject.FindProperty("currentSpeed");
 
             _isAttacking = serializedObject.FindProperty("isAttacking");
-
+            _isGrounded = serializedObject.FindProperty("isGrounded");
             _isDeathTriggered = serializedObject.FindProperty("isDeathTriggered");
         }
 
@@ -76,6 +84,20 @@ namespace Editor.Enemy {
 
             EditorGUILayout.PropertyField(_hitCapsuleObj);
             EditorGUILayout.Space(5f);
+
+            _isGroundedGroupOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isGroundedGroupOn, "Grounded Data");
+
+            if (_isWalkRunGroupOn) {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.Space(5f);
+                EditorGUILayout.PropertyField(_groundChecker);
+                EditorGUILayout.PropertyField(_groundLayer);
+                EditorGUILayout.Space(5f);
+                EditorGUI.indentLevel--;
+            }
+
+            EditorGUILayout.EndFoldoutHeaderGroup();
+
 
             _isWalkRunGeneratorGroupOn = EditorGUILayout.BeginFoldoutHeaderGroup(_isWalkRunGeneratorGroupOn, "Speed Randomizer");
 
@@ -145,17 +167,12 @@ namespace Editor.Enemy {
 
                 EditorGUILayout.Separator();
 
-                EditorGUILayout.LabelField("Attack", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Triggers", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isAttacking);
-                EditorGUI.indentLevel--;
-
-                EditorGUILayout.Separator();
-
-                EditorGUILayout.LabelField("Death", EditorStyles.boldLabel);
-                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(_isGrounded);
                 EditorGUILayout.PropertyField(_isDeathTriggered);
-                EditorGUI.indentLevel--;
+                EditorGUILayout.Separator();
 
                 EditorGUI.indentLevel--;
                 EditorGUILayout.Space(5f);
