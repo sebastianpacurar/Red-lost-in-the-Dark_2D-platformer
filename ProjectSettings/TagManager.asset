@@ -11,6 +11,7 @@ TagManager:
   - LightTorch
   - HealthTorch
   - CheckpointTorch
+  - Spike
   layers:
   - Default
   - TransparentFX

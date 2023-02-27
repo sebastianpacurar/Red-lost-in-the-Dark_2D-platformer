@@ -32,12 +32,15 @@ namespace Player {
         [ReadOnlyProp] [SerializeField] private bool isFalling;
 
         [ReadOnlyProp] [SerializeField] private bool isAttacking;
+        [ReadOnlyProp] [SerializeField] private bool isDead;
+        [ReadOnlyProp] [SerializeField] private Vector3 checkpointPos;
 
         private PlayerControls _controls;
         private CinemachineVirtualCamera _cineMachineCam;
         private Rigidbody2D _rb;
         private Animator _animator;
         private SpriteRenderer _sr;
+        private HandleHpSanity _stats;
 
         private static readonly int State = Animator.StringToHash("state");
 
@@ -48,9 +51,23 @@ namespace Player {
             _sr = GetComponent<SpriteRenderer>();
         }
 
+        // set the checkpoint on the next triggered torch
+        // TODO: marked torches should also be treated, so previous checkpoints should remain inactive
+        private void OnTriggerEnter2D(Collider2D col) {
+            if (col.gameObject.CompareTag("CheckpointTorch")) {
+                if (!col.transform.position.Equals(checkpointPos)) {
+                    checkpointPos = col.transform.position;
+                }
+            }
+        }
+
         private void Start() {
+            _stats = GetComponent<HandleHpSanity>();
+
             _cineMachineCam = GameObject.FindGameObjectWithTag("CM2D").GetComponent<CinemachineVirtualCamera>();
             _cineMachineCam.Follow = transform;
+
+            checkpointPos = transform.position;
         }
 
         private void Update() {
@@ -82,6 +99,10 @@ namespace Player {
                 _sr.flipX = true;
             } else {
                 _sr.flipX = false;
+            }
+
+            if (_stats.HealthPoints == 0) {
+                isDead = true;
             }
 
             HandleAnimations();
@@ -128,8 +149,13 @@ namespace Player {
                 _rb.gravityScale = 1f;
             }
 
+            if (isDead) {
+                _rb.velocity = Vector2.zero;
+            }
+
             FlipPlayerScale();
         }
+
 
         private void Move(InputAction.CallbackContext ctx) {
             switch (ctx.phase) {
@@ -187,6 +213,8 @@ namespace Player {
                 };
             }
 
+            if (isDead) state = AnimationState.Death;
+
             _animator.SetInteger(State, (int)state);
         }
 
@@ -198,6 +226,13 @@ namespace Player {
             } else if (_rb.velocity.x > 0f) {
                 transform.localScale = new Vector3(1f, 1f, 1f);
             }
+        }
+
+        // in case the player dies, restart from last checkpoint
+        public void RestartFromCheckpoint() {
+            transform.position = checkpointPos;
+            _stats.HealthPoints = _stats.maxHp;
+            isDead = false;
         }
 
         private void OnEnable() {
@@ -239,7 +274,8 @@ namespace Player {
             Slide,
             FirstAttack,
             SecondAttack,
-            ThirdAttack
+            ThirdAttack,
+            Death
         }
     }
 }

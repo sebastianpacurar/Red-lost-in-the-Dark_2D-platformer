@@ -41,6 +41,8 @@ namespace Player {
         }
 
         private void Update() {
+            if (HealthPoints == 0) return;
+
             SanityPoints = playerLight.pointLightOuterRadius;
             currentHp = HealthPoints;
             currentSanity = SanityPoints;
@@ -65,6 +67,10 @@ namespace Player {
 
             if (col.gameObject.CompareTag("EnemyHitArea")) {
                 _isHitByEnemy = true;
+            }
+
+            if (col.gameObject.CompareTag("Spike")) {
+                HealthPoints -= 1;
             }
         }
 

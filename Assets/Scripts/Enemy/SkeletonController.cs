@@ -147,7 +147,8 @@ namespace Enemy {
         private void HandleAnimations() {
             var state = AnimationState.Idle;
 
-            // if player is not detected, allow idle mode
+            // TODO: do something with Idle mode (prevent from running off cliffs when there's a gap between the player and self)
+            // if player is not detected, else kill
             if (isPlayerDetected) {
                 if (isWalking) {
                     state = AnimationState.Walk;
@@ -162,6 +163,8 @@ namespace Enemy {
                 }
 
                 if (!isGrounded) state = AnimationState.Fall;
+            } else {
+                TriggerDeath();
             }
 
             _animator.SetInteger(State, (int)state);

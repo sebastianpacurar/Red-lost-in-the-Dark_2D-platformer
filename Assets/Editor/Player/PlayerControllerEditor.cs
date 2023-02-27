@@ -1,3 +1,4 @@
+using Cinemachine.Editor;
 using Player;
 using UnityEditor;
 
@@ -35,6 +36,9 @@ namespace Editor.Player {
 
         private SerializedProperty _isAttacking;
         private SerializedProperty _firstAttack;
+
+        private SerializedProperty _checkpointPos;
+        private SerializedProperty _isDead;
         #endregion
 
         #region Foldout Header Group booleans
@@ -73,6 +77,8 @@ namespace Editor.Player {
             _wallJumpDirection = serializedObject.FindProperty("wallJumpDirection");
 
             _isAttacking = serializedObject.FindProperty("isAttacking");
+            _checkpointPos = serializedObject.FindProperty("checkpointPos");
+            _isDead = serializedObject.FindProperty("isDead");
         }
 
         public override void OnInspectorGUI() {
@@ -133,7 +139,7 @@ namespace Editor.Player {
                 EditorGUILayout.PropertyField(_xInputVal);
                 EditorGUILayout.PropertyField(_cachedXInputVal);
                 EditorGUI.indentLevel--;
-                
+
                 EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Grounded", EditorStyles.boldLabel);
@@ -141,7 +147,7 @@ namespace Editor.Player {
                 EditorGUILayout.PropertyField(_isGrounded);
                 EditorGUILayout.PropertyField(_isFalling);
                 EditorGUI.indentLevel--;
-                
+
                 EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Wall Slide", EditorStyles.boldLabel);
@@ -151,7 +157,7 @@ namespace Editor.Player {
                 EditorGUILayout.PropertyField(_isSliding);
                 EditorGUILayout.PropertyField(_wallSlideMaxSpeed);
                 EditorGUI.indentLevel--;
-                
+
                 EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Wall Jump", EditorStyles.boldLabel);
@@ -160,14 +166,16 @@ namespace Editor.Player {
                 EditorGUILayout.PropertyField(_isWallJumpInProgress);
                 EditorGUILayout.PropertyField(_wallJumpDirection);
                 EditorGUI.indentLevel--;
-                
+
                 EditorGUILayout.Separator();
 
-                EditorGUILayout.LabelField("Attack", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Misc", EditorStyles.boldLabel);
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(_isAttacking);
+                EditorGUILayout.PropertyField(_isDead);
+                EditorGUILayout.PropertyField(_checkpointPos);
                 EditorGUI.indentLevel--;
-                
+
                 EditorGUI.indentLevel--;
                 EditorGUILayout.Space(5f);
             }
