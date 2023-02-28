@@ -15,7 +15,7 @@ namespace Menu.OpenLinks {
 
         //TODO: add proper link here
         public void GoToSebyGit() {
-            OpenUrl("https://seby-pacu.itch.io/");
+            OpenUrl("https://github.com/sebastianpacurar/Red-lost-in-the-Dark_2D-platformer");
         }
 
         public void GoToLegnopos() {
