@@ -11,4 +11,4 @@
 
 <br>
 
-## Play on a PC browser on [my itch.io profile page](https://seby-pacu.itch.io/tank-tower-offender)
+## Play on a PC browser on [my itch.io profile page](https://seby-pacu.itch.io/red-lost-in-the-dark)
