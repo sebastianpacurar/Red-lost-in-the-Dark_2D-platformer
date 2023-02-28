@@ -33,6 +33,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 2800000, guid: 2fa5d74b4bb81072b850ca8f8d0b11fc, type: 3}
+    - {fileID: 2800000, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -131,6 +132,99 @@ SpriteAtlas:
   - {fileID: -134291785, guid: 2fa5d74b4bb81072b850ca8f8d0b11fc, type: 3}
   - {fileID: 1838612106, guid: 2fa5d74b4bb81072b850ca8f8d0b11fc, type: 3}
   - {fileID: -2023876029, guid: 2fa5d74b4bb81072b850ca8f8d0b11fc, type: 3}
+  - {fileID: 168888902, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1355108726, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1927035540, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1330088407, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -300658963, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -974896267, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1724766788, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -332011943, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -868744897, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -418295406, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 696038724, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 587107425, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -694955602, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -16646563, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1568949847, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 854545204, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1490553835, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -339289754, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 924494704, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1843022963, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1281319717, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -123438250, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -2084783370, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -76233572, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1518985696, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 140240407, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -96374262, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1084485826, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 640345402, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1224982287, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1014831614, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1103448814, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -205054233, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -2104020921, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 2059692601, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 96334971, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 2040602974, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1142203749, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -2055692261, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1735654066, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1321617208, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1414996840, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1116289200, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 622699415, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1713590016, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 392180651, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1486658201, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1288096576, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1026396434, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -9923354, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 370484657, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1620832178, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 767844715, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -383175761, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 975603936, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1687390711, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1688362589, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1040410832, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1471254786, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1098070540, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1086283081, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 9156055, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -2092880284, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1717584020, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -275292622, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 154168260, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 453891731, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 186951497, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1239221739, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -92772824, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -2044430959, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1526088266, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -714085317, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1159247998, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1438186009, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 548452407, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1457481902, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1162823379, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1869525801, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1920445759, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -2141133871, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1418156018, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1520932763, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1806711113, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -490233987, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -1862232175, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 478106255, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1071250717, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1126954020, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: -894970229, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1645018849, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 393769948, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
+  - {fileID: 1737205641, guid: 282c14eb84518f2a8a501d19a000dc2d, type: 3}
   m_PackedSpriteNamesToIndex:
   - cavesofgallet_tiles_0
   - cavesofgallet_tiles_1
@@ -225,6 +319,99 @@ SpriteAtlas:
   - cavesofgallet_tiles_72
   - cavesofgallet_tiles_8
   - cavesofgallet_tiles_9
+  - cavesofgallet_mirrored_1
+  - cavesofgallet_mirrored_0
+  - cavesofgallet_mirrored_3
+  - cavesofgallet_mirrored_2
+  - cavesofgallet_mirrored_5
+  - cavesofgallet_mirrored_4
+  - cavesofgallet_mirrored_7
+  - cavesofgallet_mirrored_6
+  - cavesofgallet_mirrored_36
+  - cavesofgallet_mirrored_9
+  - cavesofgallet_mirrored_37
+  - cavesofgallet_mirrored_8
+  - cavesofgallet_mirrored_34
+  - cavesofgallet_mirrored_35
+  - cavesofgallet_mirrored_29
+  - cavesofgallet_mirrored_32
+  - cavesofgallet_mirrored_28
+  - cavesofgallet_mirrored_33
+  - cavesofgallet_mirrored_30
+  - cavesofgallet_mirrored_31
+  - cavesofgallet_mirrored_89
+  - cavesofgallet_mirrored_88
+  - cavesofgallet_mirrored_58
+  - cavesofgallet_mirrored_90
+  - cavesofgallet_mirrored_21
+  - cavesofgallet_mirrored_59
+  - cavesofgallet_mirrored_91
+  - cavesofgallet_mirrored_20
+  - cavesofgallet_mirrored_92
+  - cavesofgallet_mirrored_23
+  - cavesofgallet_mirrored_83
+  - cavesofgallet_mirrored_38
+  - cavesofgallet_mirrored_22
+  - cavesofgallet_mirrored_54
+  - cavesofgallet_mirrored_82
+  - cavesofgallet_mirrored_39
+  - cavesofgallet_mirrored_25
+  - cavesofgallet_mirrored_55
+  - cavesofgallet_mirrored_81
+  - cavesofgallet_mirrored_24
+  - cavesofgallet_mirrored_56
+  - cavesofgallet_mirrored_80
+  - cavesofgallet_mirrored_27
+  - cavesofgallet_mirrored_57
+  - cavesofgallet_mirrored_87
+  - cavesofgallet_mirrored_26
+  - cavesofgallet_mirrored_50
+  - cavesofgallet_mirrored_86
+  - cavesofgallet_mirrored_51
+  - cavesofgallet_mirrored_85
+  - cavesofgallet_mirrored_52
+  - cavesofgallet_mirrored_84
+  - cavesofgallet_mirrored_53
+  - cavesofgallet_mirrored_10
+  - cavesofgallet_mirrored_11
+  - cavesofgallet_mirrored_12
+  - cavesofgallet_mirrored_72
+  - cavesofgallet_mirrored_13
+  - cavesofgallet_mirrored_73
+  - cavesofgallet_mirrored_14
+  - cavesofgallet_mirrored_70
+  - cavesofgallet_mirrored_15
+  - cavesofgallet_mirrored_71
+  - cavesofgallet_mirrored_65
+  - cavesofgallet_mirrored_16
+  - cavesofgallet_mirrored_76
+  - cavesofgallet_mirrored_64
+  - cavesofgallet_mirrored_17
+  - cavesofgallet_mirrored_77
+  - cavesofgallet_mirrored_67
+  - cavesofgallet_mirrored_18
+  - cavesofgallet_mirrored_74
+  - cavesofgallet_mirrored_66
+  - cavesofgallet_mirrored_19
+  - cavesofgallet_mirrored_75
+  - cavesofgallet_mirrored_61
+  - cavesofgallet_mirrored_60
+  - cavesofgallet_mirrored_63
+  - cavesofgallet_mirrored_78
+  - cavesofgallet_mirrored_62
+  - cavesofgallet_mirrored_79
+  - cavesofgallet_mirrored_69
+  - cavesofgallet_mirrored_68
+  - cavesofgallet_mirrored_49
+  - cavesofgallet_mirrored_48
+  - cavesofgallet_mirrored_47
+  - cavesofgallet_mirrored_46
+  - cavesofgallet_mirrored_45
+  - cavesofgallet_mirrored_44
+  - cavesofgallet_mirrored_43
+  - cavesofgallet_mirrored_42
+  - cavesofgallet_mirrored_41
+  - cavesofgallet_mirrored_40
   m_RenderDataMap: {}
   m_Tag: SpriteAtlas
   m_IsVariant: 0
