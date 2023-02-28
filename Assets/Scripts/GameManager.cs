@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour {
                 playerObj.transform.Find("TutorialCanvas").gameObject.SetActive(true);
                 break;
             case "DemoLevel":
-                playerObj.transform.position = new Vector3(-230f, 92f, 1f);
+                playerObj.transform.position = new Vector3(-230f, 100f, 1f);
                 playerObj.transform.Find("TutorialCanvas").gameObject.SetActive(false);
                 break;
         }

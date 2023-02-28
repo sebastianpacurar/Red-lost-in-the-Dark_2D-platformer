@@ -55,7 +55,8 @@ namespace Player {
             }
 
             if (!_isHitByEnemy) return;
-            HealthPoints--;
+            // apply enemy damage to player
+            HealthPoints -= 5f;
             _isHitByEnemy = false;
         }
 
@@ -70,7 +71,7 @@ namespace Player {
             }
 
             if (col.gameObject.CompareTag("Spike")) {
-                HealthPoints -= 1;
+                HealthPoints -= 5f;
             }
         }
 

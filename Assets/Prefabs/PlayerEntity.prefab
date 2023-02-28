@@ -2513,7 +2513,7 @@ MonoBehaviour:
   outerRadiusIncreaseUnit: 0.15
   outerRadiusDecreaseUnit: 0.0225
   hpIncreaseUnit: 1
-  maxHp: 10
+  maxHp: 100
   currentHp: 0
   currentSanity: 0
   minSanity: 0

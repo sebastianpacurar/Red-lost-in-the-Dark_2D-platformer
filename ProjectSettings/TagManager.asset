@@ -12,6 +12,8 @@ TagManager:
   - HealthTorch
   - CheckpointTorch
   - Spike
+  - EndLevel
+  - LvlCompleteMenuPanel
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - UI
   - Character
   - SpawnPoints
-  - 
+  - Background
   - 
   - 
   - 

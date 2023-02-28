@@ -1,5 +1,6 @@
 using Cinemachine;
 using CustomAttributes;
+using Menu;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -51,15 +52,6 @@ namespace Player {
             _sr = GetComponent<SpriteRenderer>();
         }
 
-        // set the checkpoint on the next triggered torch
-        // TODO: marked torches should also be treated, so previous checkpoints should remain inactive
-        private void OnTriggerEnter2D(Collider2D col) {
-            if (col.gameObject.CompareTag("CheckpointTorch")) {
-                if (!col.transform.position.Equals(checkpointPos)) {
-                    checkpointPos = col.transform.position;
-                }
-            }
-        }
 
         private void Start() {
             _stats = GetComponent<HandleHpSanity>();
@@ -149,11 +141,25 @@ namespace Player {
                 _rb.gravityScale = 1f;
             }
 
+            // block inputs and set booleans handled by animations to false
             if (isDead) {
                 _rb.velocity = Vector2.zero;
+                isFalling = false;
+                isSliding = false;
+                isAttacking = false;
             }
 
             FlipPlayerScale();
+        }
+
+        // set the checkpoint on the next triggered torch
+        // TODO: marked torches should also be treated, so previous checkpoints should remain inactive
+        private void OnTriggerEnter2D(Collider2D col) {
+            if (col.gameObject.CompareTag("CheckpointTorch")) {
+                if (!col.transform.position.Equals(checkpointPos)) {
+                    checkpointPos = col.transform.position;
+                }
+            }
         }
 
 
