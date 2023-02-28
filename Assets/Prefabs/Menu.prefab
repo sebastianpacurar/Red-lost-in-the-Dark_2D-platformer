@@ -246,7 +246,6 @@ GameObject:
   - component: {fileID: 8117403916031832571}
   - component: {fileID: 8117403916031832568}
   - component: {fileID: 8117403916031832569}
-  - component: {fileID: 3169761228424339616}
   m_Layer: 0
   m_Name: Menu
   m_TagString: Untagged
@@ -296,19 +295,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 8117403916417679909}
---- !u!114 &3169761228424339616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8117403916031832572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3447e25a581d03eecb2be1280af9daf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panel: {fileID: 0}
 --- !u!1 &8117403916417679909
 GameObject:
   m_ObjectHideFlags: 0
