@@ -50,12 +50,11 @@ namespace Player {
             _rb = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
             _sr = GetComponent<SpriteRenderer>();
+            _stats = GetComponent<HandleHpSanity>();
         }
 
 
         private void Start() {
-            _stats = GetComponent<HandleHpSanity>();
-
             _cineMachineCam = GameObject.FindGameObjectWithTag("CM2D").GetComponent<CinemachineVirtualCamera>();
             _cineMachineCam.Follow = transform;
 
@@ -205,8 +204,11 @@ namespace Player {
             var state = AnimationState.Idle;
 
             if (xInputVal != 0f && isGrounded) state = AnimationState.Run;
-            if (_rb.velocity.y > 0f && !isGrounded) state = AnimationState.Ascend;
-            if (_rb.velocity.y < 0f && !isGrounded) state = AnimationState.Descend;
+            state = _rb.velocity.y switch {
+                > 0f when !isGrounded => AnimationState.Ascend,
+                < 0f when !isGrounded => AnimationState.Descend,
+                _ => state
+            };
             if (isFalling) state = AnimationState.Fall;
             if (isSliding) state = AnimationState.Slide;
 

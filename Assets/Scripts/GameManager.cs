@@ -33,11 +33,11 @@ public class GameManager : MonoBehaviour {
         switch (scene.name) {
             case "Tutorial":
                 playerObj.transform.position = new Vector3(-33.25f, 0f, 1f);
-                playerObj.transform.Find("TutorialCanvas").gameObject.SetActive(true);
+                playerObj.transform.Find("KeyboardContainer").gameObject.SetActive(true);
                 break;
             case "DemoLevel":
                 playerObj.transform.position = new Vector3(-230f, 100f, 1f);
-                playerObj.transform.Find("TutorialCanvas").gameObject.SetActive(false);
+                playerObj.transform.Find("StatsContainer").gameObject.SetActive(false);
                 break;
         }
     }

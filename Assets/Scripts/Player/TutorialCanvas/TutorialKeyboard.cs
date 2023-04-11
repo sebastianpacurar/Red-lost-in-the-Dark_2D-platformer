@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using AYellowpaper.SerializedCollections;
+using Plugins.SerializedCollections.Runtime.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -5,27 +9,16 @@ using UnityEngine.UI;
 namespace Player.TutorialCanvas {
     public class TutorialKeyboard : MonoBehaviour {
         private PlayerControls _controls;
-        private Camera _mainCam;
 
-        [SerializeField] private UnityEngine.Canvas canvas;
-        [SerializeField] private Sprite[] leftKeysUnpressed;
-        [SerializeField] private Sprite[] leftKeysPressed;
-        [SerializeField] private Sprite[] rightKeysUnpressed;
-        [SerializeField] private Sprite[] rightKeysPressed;
-        [SerializeField] private Sprite[] shiftKeyPressed;
-        [SerializeField] private Sprite[] shiftKeyUnpressed;
-        [SerializeField] private Sprite[] spaceKeyPressed;
-        [SerializeField] private Sprite[] spaceKeyUnpressed;
+        [SerializedDictionary("Key Type (string)", "Pressed/Unpressed")]
+        public SerializedDictionary<String, Sprite[]> keyboardKeys;
 
-        [SerializeField] private Image imgA;
+        [SerializedDictionary("Space Key Segments (UI.Image)", "Pressed/Unpressed")]
+        public SerializedDictionary<Image, Sprite[]> spaceKeys;
+
         [SerializeField] private Image imgLeft;
-
-        [SerializeField] private Image imgD;
         [SerializeField] private Image imgRight;
-
-        [SerializeField] private Image[] imgShift;
-        [SerializeField] private Image[] imgSpace;
-
+        [SerializeField] private Image imgZ;
 
         [SerializeField] private float xInputVal;
         [SerializeField] private bool isJumpPressed;
@@ -35,48 +28,32 @@ namespace Player.TutorialCanvas {
             _controls = new PlayerControls();
         }
 
-        private void Start() {
-            _mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-            canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            canvas.worldCamera = _mainCam;
-        }
-
         private void Update() {
+            // handle Arrow Keys
             switch (xInputVal) {
                 case < 0:
-                    imgA.sprite = leftKeysPressed[0];
-                    imgLeft.sprite = leftKeysPressed[1];
-                    imgD.sprite = rightKeysUnpressed[0];
-                    imgRight.sprite = rightKeysUnpressed[1];
+                    imgLeft.sprite = keyboardKeys[KeyType.LeftKey.ToString()][0];
+                    imgRight.sprite = keyboardKeys[KeyType.RightKey.ToString()][1];
                     break;
                 case > 0:
-                    imgA.sprite = leftKeysUnpressed[0];
-                    imgLeft.sprite = leftKeysUnpressed[1];
-                    imgD.sprite = rightKeysPressed[0];
-                    imgRight.sprite = rightKeysPressed[1];
+                    imgLeft.sprite = keyboardKeys[KeyType.LeftKey.ToString()][1];
+                    imgRight.sprite = keyboardKeys[KeyType.RightKey.ToString()][0];
                     break;
                 default:
-                    imgA.sprite = leftKeysUnpressed[0];
-                    imgLeft.sprite = leftKeysUnpressed[1];
-                    imgD.sprite = rightKeysUnpressed[0];
-                    imgRight.sprite = rightKeysUnpressed[1];
+                    imgLeft.sprite = keyboardKeys[KeyType.LeftKey.ToString()][1];
+                    imgRight.sprite = keyboardKeys[KeyType.RightKey.ToString()][1];
                     break;
             }
 
-            if (isJumpPressed)
-                for (var i = 0; i < imgSpace.Length; i++)
-                    imgSpace[i].sprite = spaceKeyPressed[i];
-            else
-                for (var i = 0; i < imgSpace.Length; i++)
-                    imgSpace[i].sprite = spaceKeyUnpressed[i];
 
+            // handle Jump Key Segments
+            // if kvp.Value[0]  = pressed; kvp.Value[1] = not pressed.
+            foreach (KeyValuePair<Image, Sprite[]> kvp in spaceKeys) {
+                kvp.Key.sprite = isJumpPressed ? kvp.Value[0] : kvp.Value[1];
+            }
 
-            if (isAttackPressed)
-                for (var i = 0; i < imgShift.Length; i++)
-                    imgShift[i].sprite = shiftKeyPressed[i];
-            else
-                for (var i = 0; i < imgShift.Length; i++)
-                    imgShift[i].sprite = shiftKeyUnpressed[i];
+            // handle Z Key
+            imgZ.sprite = isAttackPressed ? keyboardKeys[KeyType.ZKey.ToString()][0] : keyboardKeys[KeyType.ZKey.ToString()][1];
         }
 
         private void Move(InputAction.CallbackContext ctx) {
@@ -130,6 +107,13 @@ namespace Player.TutorialCanvas {
             _controls.Player.Attack.Disable();
             _controls.Player.Move.Disable();
             _controls.Player.Jump.Disable();
+        }
+
+
+        private enum KeyType {
+            LeftKey,
+            RightKey,
+            ZKey,
         }
     }
 }
