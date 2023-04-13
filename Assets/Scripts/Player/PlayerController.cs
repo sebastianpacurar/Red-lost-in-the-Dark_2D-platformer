@@ -20,6 +20,8 @@ namespace Player {
         [SerializeField] private float wallJumpDuration;
         [SerializeField] private float wallSlidingSpeed;
 
+        [SerializeField] private bool isJumpPressed;
+
         [ReadOnlyProp] [SerializeField] private float xInputVal;
         [ReadOnlyProp] [SerializeField] private float cachedXInputVal;
         [ReadOnlyProp] [SerializeField] private bool isGrounded;
@@ -100,13 +102,27 @@ namespace Player {
         }
 
         private void FixedUpdate() {
+            // jump section
+            if (isGrounded && !isAttacking && isJumpPressed) {
+                // if grounded apply simple jump
+                _rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+                if (isWallActive) isWallClimbing = true;
+            }
+
             if (isSliding) {
-                // allow to slide upwards if simple jump is triggered while facing a wall, else prevent the player from sliding upwards
-                wallSlideMaxSpeed = isWallClimbing ? float.MaxValue : 0f;
-                _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -wallSlidingSpeed, wallSlideMaxSpeed));
+                if (isJumpPressed) {
+                    Debug.Log("isSliding and isJumpPressed");
+                    isWallClimbing = false;
+                    isWallJumpInitiated = true;
+                    Invoke(nameof(StopWallJump), wallJumpDuration);
+                } else {
+                    wallSlideMaxSpeed = isWallClimbing ? float.MaxValue : 0f;
+                    _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -wallSlidingSpeed, wallSlideMaxSpeed));
+                }
             }
 
             if (isWallJumpInitiated) {
+                Debug.Log("isWallJumpInitiated");
                 // set the next condition to true
                 isWallJumpInProgress = true;
 
@@ -116,17 +132,26 @@ namespace Player {
                 // add wall jump force
                 _rb.AddForce(new Vector2(wallJumpForce.x * wallJumpDirection, wallJumpForce.y), ForceMode2D.Impulse);
             } else if (isWallJumpInProgress) {
+                Debug.Log("isWallJumpInProgress");
+
                 // apply jump force 
                 _rb.velocity = new Vector2(wallJumpForce.x * wallJumpDirection, _rb.velocity.y);
 
+                if (isJumpPressed) {
+                    Debug.Log("IsJumpPressed check");
+                }
+
                 // set the current condition to false, and set direction to 0, when player is in mid air
                 if (_rb.velocity.y <= 9.5f) {
+                    Debug.Log("changeJumpInProgress to false");
                     isWallJumpInProgress = false;
                     wallJumpDirection = 0f;
                 }
+
             } else {
                 _rb.velocity = new Vector2(xInputVal * moveSpeed, _rb.velocity.y);
             }
+
 
             // clamp ascend speed to 12f;
             _rb.velocity = new Vector2(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, float.MinValue, 12f));
@@ -181,19 +206,38 @@ namespace Player {
         }
 
         private void Jump(InputAction.CallbackContext ctx) {
-            if (isGrounded && !isAttacking) {
-                // if grounded apply simple jump
-                _rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-
-                // perform slide upwards when jumping when facing a wall close by
-                if (isWallActive) isWallClimbing = true;
-            } else if (isSliding) {
-                isWallClimbing = false;
-                // if sliding start wallJumping process
-                isWallJumpInitiated = true;
-                Invoke(nameof(StopWallJump), wallJumpDuration);
+            switch (ctx.phase) {
+                case InputActionPhase.Started:
+                case InputActionPhase.Performed:
+                    isJumpPressed = true;
+                    break;
+                case InputActionPhase.Canceled:
+                    isJumpPressed = false;
+                    break;
             }
         }
+
+        // public void HandleJumpLogic() {
+        //     // if (isGrounded && !isAttacking && isJumpPressed) {
+        //     //     // if grounded apply simple jump
+        //     //     _rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+        //     //
+        //     //     // perform slide upwards when jumping when facing a wall close by
+        //     //     if (isWallActive) isWallClimbing = true;
+        //     // } else if (isSliding && isJumpPressed) {
+        //     //     if (isJumpPressed) {
+        //     //         _rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
+        //     //
+        //     //         // perform slide upwards when jumping when facing a wall close by
+        //     //         if (isWallActive) isWallClimbing = true;
+        //     //     }
+        //     // } else if (isSliding) {
+        //     //     isWallClimbing = false;
+        //     //     // if sliding start wallJumping process
+        //     //     isWallJumpInitiated = true;
+        //     //     Invoke(nameof(StopWallJump), wallJumpDuration);
+        //     // }
+        // }
 
         // prevent double wall jump in mid air
         private void StopWallJump() {
@@ -250,6 +294,7 @@ namespace Player {
             _controls.Player.Move.performed += Move;
             _controls.Player.Move.canceled += Move;
             _controls.Player.Jump.performed += Jump;
+            _controls.Player.Jump.canceled += Jump;
             _controls.Player.Attack.performed += Attack;
         }
 
@@ -257,6 +302,7 @@ namespace Player {
             _controls.Player.Move.performed -= Move;
             _controls.Player.Move.canceled -= Move;
             _controls.Player.Jump.performed -= Jump;
+            _controls.Player.Jump.canceled -= Jump;
             _controls.Player.Attack.performed -= Attack;
             _controls.Player.Attack.Disable();
             _controls.Player.Move.Disable();

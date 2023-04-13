@@ -1317,14 +1317,6 @@ MonoBehaviour:
       Value:
       - {fileID: 21300000, guid: 9ae6cab8270e99325a7999e31ef36d60, type: 3}
       - {fileID: 21300000, guid: 7aeefc70672dbd1b492b3dd1d076b783, type: 3}
-  spaceKeyPressed:
-  - {fileID: 21300000, guid: c55f0c76ce811f9589c150c7720af0bf, type: 3}
-  - {fileID: 21300000, guid: f00c50b9bfd92ea43aba55e16de3dd89, type: 3}
-  - {fileID: 21300000, guid: a709d6d296dde337e986580c655dfd1b, type: 3}
-  spaceKeyUnpressed:
-  - {fileID: 21300000, guid: 8c418fbc5613bb6b8b6cf0e02a801b05, type: 3}
-  - {fileID: 21300000, guid: 82804eb582a2bb4318011f44524fddc9, type: 3}
-  - {fileID: 21300000, guid: eda0307ec76940a05aef9b6cb0646b5b, type: 3}
   spaceKeys:
     _serializedList:
     - Key: {fileID: 42290236}
@@ -1342,10 +1334,6 @@ MonoBehaviour:
   imgLeft: {fileID: 390850680}
   imgRight: {fileID: 904619883}
   imgZ: {fileID: 1107634176}
-  imgSpace:
-  - {fileID: 42290236}
-  - {fileID: 604236660}
-  - {fileID: 592355358}
   xInputVal: 0
   isJumpPressed: 0
   isAttackPressed: 0
@@ -2067,7 +2055,7 @@ MonoBehaviour:
   outerRadiusIncreaseUnit: 0.15
   outerRadiusDecreaseUnit: 0.0225
   hpIncreaseUnit: 1
-  maxHp: 100
+  maxHp: 200
   currentHp: 0
   currentSanity: 0
   minSanity: 0
