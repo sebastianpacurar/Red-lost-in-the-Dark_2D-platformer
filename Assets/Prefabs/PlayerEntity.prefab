@@ -2040,6 +2040,8 @@ MonoBehaviour:
   wallClimbDurationCd: 0
   wallClimbCurrDur: 0
   canAutoWallClimb: 0
+  isAscending: 0
+  isDescending: 0
   isFalling: 0
   isAttacking: 0
   isDead: 0

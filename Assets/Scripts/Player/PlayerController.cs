@@ -7,6 +7,7 @@ using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Player {
+    //TODO: fix wall sliding speed when moving towards wall while sliding
     public class PlayerController : MonoBehaviour {
         [SerializeField] private Transform groundChecker;
         [SerializeField] private Transform wallChecker;
@@ -39,6 +40,7 @@ namespace Player {
         [ReadOnlyProp] [SerializeField] private float wallClimbCurrDur;
         [ReadOnlyProp] [SerializeField] private bool canAutoWallClimb;
         [ReadOnlyProp] [SerializeField] private bool isAscending;
+        [ReadOnlyProp] [SerializeField] private bool isDescending;
         [ReadOnlyProp] [SerializeField] private bool isFalling;
 
         [ReadOnlyProp] [SerializeField] private bool isAttacking;
@@ -82,9 +84,11 @@ namespace Player {
 
             HandleWallClimbDurationVal();
 
-            // if (isGrounded) {
-            //     isFalling = false;
-            // }
+            // treat jump and fall related booleans
+            var product = Vector2.Dot(_rb.velocity, wallJumpForce);
+            isAscending = product > 0f && !isGrounded;
+            isDescending = product is < 0f and > -50f && !isSliding && !isGrounded;
+            isFalling = product < -50f && !isSliding && !isGrounded;
 
             if (isAttacking) {
                 xInputVal = 0f;
@@ -101,7 +105,6 @@ namespace Player {
             }
 
             if (isSliding) {
-                // isFalling = false;
                 _sr.flipX = true;
             } else if (isAttacking) {
                 _sr.flipX = true;
@@ -112,6 +115,7 @@ namespace Player {
             if (_stats.HealthPoints == 0) {
                 isDead = true;
             }
+
 
             HandleAnimations();
             HandleWallClimbDurationCd();
@@ -176,13 +180,7 @@ namespace Player {
             if (isSliding && _rb.velocity.y > 0f) {
                 _rb.velocity = new Vector2(_rb.velocity.x, 0f);
             }
-
-            var product = Vector2.Dot(_rb.velocity, wallJumpForce);
-
-            isAscending = product > 0f && !isSliding && !isGrounded;
-            isFalling = product < -10f && !isSliding && !isGrounded;
-            Debug.Log(Vector2.Dot(_rb.velocity, wallJumpForce));
-
+            
             // block inputs and set booleans handled by animations to false
             if (isDead) {
                 _rb.velocity = Vector2.zero;
@@ -194,6 +192,7 @@ namespace Player {
             FlipPlayerScale();
         }
 
+        // NOTE: used to lock player in a wall climbing process
         private void HandleWallClimbDurationCd() {
             if (canAutoWallClimb) {
                 wallClimbDurationCd += Time.deltaTime;
@@ -207,6 +206,7 @@ namespace Player {
             }
         }
 
+        // NOTE: used to lock player in a wall jump state, preventing it from moving left or right
         private void HandleWallJumpDurationCd() {
             if (canAutoWallJump) {
                 wallJumpDurationCd += Time.deltaTime;
@@ -221,7 +221,7 @@ namespace Player {
         }
 
 
-        // NOTE: Increases/Decreases wallClimbDuration in case there are narrow halls to climb upwards
+        // NOTE: Increases/Decreases wallClimbDuration in case there are narrow halls to climb upwards (zig-zag climbing)
         // NOTE: Value is provided based on the distance between the walls
         private void HandleWallClimbDurationVal() {
             // in case both walls are detected, make value dynamic, else set to default
@@ -273,6 +273,8 @@ namespace Player {
                 case InputActionPhase.Started:
                 case InputActionPhase.Performed:
                     isJumpPressed = true;
+                    // NOTE: prevent from starting with fall animation in case of sliding down with speed while performing wall jump
+                    if (isSliding) _rb.velocity = new Vector2(_rb.velocity.x, 0f);
                     break;
                 case InputActionPhase.Canceled:
                     isJumpPressed = false;
@@ -292,8 +294,9 @@ namespace Player {
             // };
 
             if (isSliding) state = AnimationState.Slide;
-            if (isAscending) state = AnimationState.Ascend;
-            if (isFalling) state = AnimationState.Fall;
+            else if (isAscending) state = AnimationState.Ascend;
+            else if (isDescending) state = AnimationState.Descend;
+            else if (isFalling) state = AnimationState.Fall;
 
             if (isAttacking) {
                 state = Random.Range(6, 9) switch {
@@ -347,12 +350,6 @@ namespace Player {
             _controls.Player.Move.Disable();
             _controls.Player.Jump.Disable();
         }
-
-        //TODO:  broke entire animator because of this
-        // // called in Descend Animation as event
-        // public void SetIsFallingTrue() {
-        //     isFalling = true;
-        // }
 
         // called in every Attack animation as event
         public void StopAttackEvent() {
