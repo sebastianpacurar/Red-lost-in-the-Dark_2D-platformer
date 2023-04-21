@@ -11,6 +11,7 @@ namespace PlayerFiniteStateMachine {
         public PlayerJumpState JumpState { get; private set; }
         public PlayerInAirState InAirState { get; private set; }
         public PlayerLandState LandState { get; private set; }
+        public PlayerTurnaroundState TurnaroundState { get; private set; }
         [SerializeField] private PlayerData playerData;
         #endregion
 
@@ -22,6 +23,7 @@ namespace PlayerFiniteStateMachine {
         public Animator Anim { get; private set; }
         public PlayerInputHandler InputHandler { get; private set; }
         public Rigidbody2D Rb2D { get; private set; }
+        public SpriteRenderer Sr { get; private set; }
         #endregion
 
         public Vector2 CurrentVelocity { get; private set; }
@@ -38,13 +40,16 @@ namespace PlayerFiniteStateMachine {
             JumpState = new PlayerJumpState(this, StateMachine, playerData, "inAir");
             InAirState = new PlayerInAirState(this, StateMachine, playerData, "inAir");
             LandState = new PlayerLandState(this, StateMachine, playerData, "land");
+            TurnaroundState = new PlayerTurnaroundState(this, StateMachine, playerData, "turnaround");
         }
 
         private void Start() {
             Anim = GetComponent<Animator>();
             InputHandler = GetComponent<PlayerInputHandler>();
             Rb2D = GetComponent<Rigidbody2D>();
+            Sr = GetComponent<SpriteRenderer>();
 
+            // start facing towards right
             FacingDirection = 1;
 
             StateMachine.Initialize(IdleState);
@@ -59,6 +64,7 @@ namespace PlayerFiniteStateMachine {
             StateMachine.CurrentState.PhysicsUpdate();
         }
         #endregion
+
 
         #region Set Functions
         public void SetVelocityX(float velocity) {
@@ -77,7 +83,16 @@ namespace PlayerFiniteStateMachine {
             Rb2D.AddForce(new Vector2(0f, force), ForceMode2D.Impulse);
             CurrentVelocity = Rb2D.velocity;
         }
+
+        public void FlipScale() {
+            Flip();
+        }
+
+        public void FlipSpriteX() {
+            Sr.flipX = !Sr.flipX;
+        }
         #endregion
+
 
         #region Check Functions
         public void CheckIfShouldFlip(int xInput) {
@@ -89,13 +104,17 @@ namespace PlayerFiniteStateMachine {
         public bool CheckIfGrounded() {
             return Physics2D.OverlapCapsule(groundChecker.position, playerData.capsuleSize, CapsuleDirection2D.Horizontal, 0, playerData.groundMask);
         }
+
+        public bool CheckIfFacingInputDirection(int xInput) {
+            return FacingDirection == xInput;
+        }
         #endregion
 
 
         #region Misc Functions
         private void Flip() {
             FacingDirection *= -1;
-            transform.Rotate(0.0f, 180.0f, 0.0f);
+            transform.localScale = new Vector3(FacingDirection, 1f, 1f);
         }
 
         private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();

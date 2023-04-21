@@ -115,7 +115,112 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: run turnaround-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 15
+        width: 17
+        height: 29
+      alignment: 9
+      pivot: {x: 0.5, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bf0c1b0cdedb763eb9f48518ef8d47e
+      internalID: 1040176543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: run turnaround-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 15
+        width: 19
+        height: 30
+      alignment: 9
+      pivot: {x: 0.5, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73577cc0d47c2a4eead9fd6d25a766d5
+      internalID: 384831538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: run turnaround-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 15
+        width: 17
+        height: 28
+      alignment: 9
+      pivot: {x: 0.5, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 402df3a61a8e55898a42d42b91c679cd
+      internalID: -1513770500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: run turnaround-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 15
+        width: 17
+        height: 30
+      alignment: 9
+      pivot: {x: 0.5, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7a2ca84923db8f7492da34ae659aa3c
+      internalID: 620833082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: run turnaround-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 353
+        y: 15
+        width: 19
+        height: 31
+      alignment: 9
+      pivot: {x: 0.5, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a0bc7ae9542f4bc697e599bfa4130e2
+      internalID: 1767027100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -126,7 +231,12 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      run turnaround-Sheet_2: -1513770500
+      run turnaround-Sheet_0: 1040176543
+      run turnaround-Sheet_3: 620833082
+      run turnaround-Sheet_4: 1767027100
+      run turnaround-Sheet_1: 384831538
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

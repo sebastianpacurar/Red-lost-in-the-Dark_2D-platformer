@@ -2,7 +2,6 @@ using Data;
 using PlayerFiniteStateMachine;
 using PlayerStates.SuperStates;
 
-
 namespace PlayerStates.SubStates {
     public class PlayerJumpState : PlayerAbilityState {
         private int _amountOfJumpsLeft;
@@ -25,7 +24,5 @@ namespace PlayerStates.SubStates {
         }
 
         public void ResetAmountOfJumpsLeft() => _amountOfJumpsLeft = PlayerData.amountOfJumps;
-
-        public void DecreaseAmountOfJumpsLeft() => _amountOfJumpsLeft--;
     }
 }

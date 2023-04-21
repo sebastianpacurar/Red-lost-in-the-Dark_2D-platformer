@@ -6,9 +6,7 @@ public class PlayerInputHandler : MonoBehaviour {
 
     public int MovementInput { get; private set; }
     public bool JumpInput { get; private set; }
-
-    private float _jumpInputStartTime;
-
+    
     private void Awake() {
         _controls = new PlayerControls();
     }
@@ -37,7 +35,9 @@ public class PlayerInputHandler : MonoBehaviour {
         }
     }
 
-    public void SetJumpInputFalse() => JumpInput = false;
+    public void SetJumpInputFalse() {
+        JumpInput = false;
+    }
 
     private void OnEnable() {
         _controls.Enable();

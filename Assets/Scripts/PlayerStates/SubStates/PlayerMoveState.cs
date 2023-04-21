@@ -16,17 +16,18 @@ namespace PlayerStates.SubStates {
 
         public override void LogicUpdate() {
             base.LogicUpdate();
-            
-            Player.CheckIfShouldFlip(XInput);
-            Player.SetVelocityX(PlayerData.movementVelocity * XInput);
 
             if (XInput == 0f) {
                 StateMachine.ChangeState(Player.IdleState);
+            } else if (!Player.CheckIfFacingInputDirection(XInput)) {
+                StateMachine.ChangeState(Player.TurnaroundState);
             }
         }
 
         public override void PhysicsUpdate() {
             base.PhysicsUpdate();
+
+            Player.SetVelocityX(PlayerData.movementVelocity * XInput);
         }
 
         public override void DoChecks() {

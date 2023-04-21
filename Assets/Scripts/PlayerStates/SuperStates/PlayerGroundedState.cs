@@ -22,13 +22,12 @@ namespace PlayerStates.SuperStates {
             base.LogicUpdate();
 
             XInput = Player.InputHandler.MovementInput;
-            _jumpInput = Player.CheckIfGrounded() && Player.InputHandler.JumpInput;
+            _jumpInput = Player.InputHandler.JumpInput;
 
             if (_jumpInput && Player.JumpState.CanJump()) {
                 Player.InputHandler.SetJumpInputFalse();
                 StateMachine.ChangeState(Player.JumpState);
             } else if (!_isGrounded) {
-                Player.JumpState.DecreaseAmountOfJumpsLeft();
                 StateMachine.ChangeState(Player.InAirState);
             }
         }

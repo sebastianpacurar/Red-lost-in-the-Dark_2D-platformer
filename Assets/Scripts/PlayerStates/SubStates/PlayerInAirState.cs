@@ -1,6 +1,5 @@
 using Data;
 using PlayerFiniteStateMachine;
-using UnityEngine;
 
 namespace PlayerStates.SubStates {
     public class PlayerInAirState : PlayerState {
@@ -27,6 +26,7 @@ namespace PlayerStates.SubStates {
             if (_isGrounded && Player.CurrentVelocity.y < 0.01f) {
                 StateMachine.ChangeState(Player.LandState);
             } else if (_jumpInput && Player.JumpState.CanJump()) {
+                Player.InputHandler.SetJumpInputFalse();
                 StateMachine.ChangeState(Player.JumpState);
             } else {
                 Player.CheckIfShouldFlip(_xInput);
