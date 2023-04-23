@@ -4,8 +4,8 @@ using PlayerFiniteStateMachine;
 namespace PlayerStates.SuperStates {
     public class PlayerAbilityState : PlayerState {
         protected bool IsAbilityDone;
-        private bool _isGrounded;
 
+        private bool _isGrounded;
         public PlayerAbilityState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
         public override void Enter() {

@@ -15,6 +15,11 @@ MonoBehaviour:
   movementVelocity: 10
   jumpVelocity: 7.5
   amountOfJumps: 2
+  slideVelocity: 3
+  wallJumpDefaultDuration: 0.3
+  wallClimbDefaultDuration: 0.15
+  wallJumpForce: {x: 0.5, y: 10}
+  wallClimbForce: {x: 2.5, y: 10}
   capsuleSize: {x: 0.425, y: 0.05}
   groundMask:
     serializedVersion: 2

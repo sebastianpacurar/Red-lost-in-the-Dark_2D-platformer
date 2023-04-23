@@ -13,7 +13,7 @@ namespace PlayerStates.SubStates {
         public override void Enter() {
             base.Enter();
 
-            Player.SetVelocityYToZero();
+            Player.SetVelocityY(0f);
             Player.AddJumpForce(PlayerData.jumpVelocity);
             IsAbilityDone = true;
             _amountOfJumpsLeft--;
@@ -24,5 +24,6 @@ namespace PlayerStates.SubStates {
         }
 
         public void ResetAmountOfJumpsLeft() => _amountOfJumpsLeft = PlayerData.amountOfJumps;
+        public void DecreaseAmountOfJumpsLeft() => _amountOfJumpsLeft--;
     }
 }
