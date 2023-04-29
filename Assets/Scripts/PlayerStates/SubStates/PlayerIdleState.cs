@@ -8,16 +8,16 @@ namespace PlayerStates.SubStates {
 
         private bool _sameDirAsInput;
 
-        public override void Enter() {
+        protected internal override void Enter() {
             base.Enter();
             Player.SetVelocityX(0f);
         }
 
-        public override void Exit() {
+        protected internal override void Exit() {
             base.Exit();
         }
 
-        public override void LogicUpdate() {
+        protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
             if (XInput != 0f && Player.CheckIfFacingInputDirection(XInput)) {
@@ -27,11 +27,11 @@ namespace PlayerStates.SubStates {
             }
         }
 
-        public override void PhysicsUpdate() {
+        protected internal override void PhysicsUpdate() {
             base.PhysicsUpdate();
         }
 
-        public override void DoChecks() {
+        protected override void DoChecks() {
             base.DoChecks();
         }
     }

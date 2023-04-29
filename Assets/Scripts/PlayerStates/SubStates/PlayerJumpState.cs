@@ -10,7 +10,7 @@ namespace PlayerStates.SubStates {
             _amountOfJumpsLeft = playerData.amountOfJumps;
         }
 
-        public override void Enter() {
+        protected internal override void Enter() {
             base.Enter();
 
             Player.SetVelocityY(0f);

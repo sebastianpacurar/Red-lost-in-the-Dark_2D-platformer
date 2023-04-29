@@ -6,31 +6,33 @@ namespace PlayerStates.SubStates {
     public class PlayerMoveState : PlayerGroundedState {
         public PlayerMoveState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
-        public override void Enter() {
+        protected internal override void Enter() {
             base.Enter();
         }
 
-        public override void Exit() {
+        protected internal override void Exit() {
             base.Exit();
         }
 
-        public override void LogicUpdate() {
+        protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
             if (XInput == 0f) {
                 StateMachine.ChangeState(Player.IdleState);
             } else if (!Player.CheckIfFacingInputDirection(XInput)) {
                 StateMachine.ChangeState(Player.TurnaroundState);
+            } else if (GroundSlideInput) {
+                StateMachine.ChangeState(Player.GroundSlideState);
             }
         }
 
-        public override void PhysicsUpdate() {
+        protected internal override void PhysicsUpdate() {
             base.PhysicsUpdate();
 
             Player.SetVelocityX(PlayerData.movementVelocity * XInput);
         }
 
-        public override void DoChecks() {
+        protected override void DoChecks() {
             base.DoChecks();
         }
     }

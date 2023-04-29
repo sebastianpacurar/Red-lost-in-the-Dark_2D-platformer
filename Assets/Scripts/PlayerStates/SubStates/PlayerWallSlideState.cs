@@ -9,41 +9,40 @@ namespace PlayerStates.SubStates {
 
         public PlayerWallSlideState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
-        public override void Enter() {
+        protected internal override void Enter() {
             base.Enter();
 
             Player.FlipSpriteX();
             Player.SetVelocityY(0f);
         }
 
-        public override void LogicUpdate() {
+        protected internal override void LogicUpdate() {
             base.LogicUpdate();
-            if (Player.CurrentVelocity.y > 0f) Player.SetVelocityX(0f);
 
-            if (XInput == -Player.FacingDirection) {
-                Player.CheckIfShouldFlip(XInput);
-                StateMachine.ChangeState(Player.InAirState);
+            if (_isAutoClimbOn) {
+                XInput = 0;
             }
 
-            if (JumpInput && !_isAutoClimbOn) {
-                StateMachine.ChangeState(Player.WallJumpState);
-            } else if (_isAutoClimbOn && JumpInput) {
-                XInput = 0;
+            if (Time.time >= StartTime + Player.WallSlideHangDuration) {
+                // if left is pressed while wall sliding on the right side, and the other way around
+                if (XInput == -Player.FacingDirection) {
+                    Player.CheckIfShouldFlip(XInput);
+                    StateMachine.ChangeState(Player.InAirState);
+                }
 
-                //TODO: handle 0.2f dynamically
-                if (Time.time >= StartTime + 0.2f) {
+                if (JumpInput) {
                     StateMachine.ChangeState(Player.WallJumpState);
                 }
             }
         }
 
-        public override void Exit() {
+        protected internal override void Exit() {
             base.Exit();
 
             Player.FlipSpriteX();
         }
 
-        public override void DoChecks() {
+        protected override void DoChecks() {
             base.DoChecks();
 
             _isAutoClimbOn = Player.CheckAutoClimbOn();

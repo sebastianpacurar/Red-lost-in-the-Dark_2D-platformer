@@ -3,28 +3,31 @@ using PlayerFiniteStateMachine;
 
 namespace PlayerStates.SuperStates {
     public class PlayerGroundedState : PlayerState {
+
         protected int XInput;
-        private bool _jumpInput;
+        protected bool GroundSlideInput;
+        protected bool JumpInput;
         private bool _isGrounded;
 
-        public PlayerGroundedState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
+        protected PlayerGroundedState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
-        public override void Enter() {
+        protected internal override void Enter() {
             base.Enter();
             Player.JumpState.ResetAmountOfJumpsLeft();
         }
 
-        public override void Exit() {
+        protected internal override void Exit() {
             base.Exit();
         }
 
-        public override void LogicUpdate() {
+        protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
             XInput = Player.InputHandler.MovementInput;
-            _jumpInput = Player.InputHandler.JumpInput;
+            GroundSlideInput = Player.InputHandler.GroundSlideInput;
+            JumpInput = Player.InputHandler.JumpInput;
 
-            if (_jumpInput && Player.JumpState.CanJump()) {
+            if (JumpInput && Player.JumpState.CanJump()) {
                 Player.InputHandler.SetJumpInputFalse();
                 StateMachine.ChangeState(Player.JumpState);
             } else if (!_isGrounded) {
@@ -32,11 +35,11 @@ namespace PlayerStates.SuperStates {
             }
         }
 
-        public override void PhysicsUpdate() {
+        protected internal override void PhysicsUpdate() {
             base.PhysicsUpdate();
         }
 
-        public override void DoChecks() {
+        protected override void DoChecks() {
             base.DoChecks();
             _isGrounded = Player.CheckIfGrounded();
         }

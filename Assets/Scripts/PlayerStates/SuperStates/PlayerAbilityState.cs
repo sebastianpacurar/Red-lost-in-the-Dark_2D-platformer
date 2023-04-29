@@ -6,18 +6,18 @@ namespace PlayerStates.SuperStates {
         protected bool IsAbilityDone;
 
         private bool _isGrounded;
-        public PlayerAbilityState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
+        protected PlayerAbilityState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
-        public override void Enter() {
+        protected internal override void Enter() {
             base.Enter();
             IsAbilityDone = false;
         }
 
-        public override void Exit() {
+        protected internal override void Exit() {
             base.Exit();
         }
 
-        public override void LogicUpdate() {
+        protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
             if (IsAbilityDone) {
@@ -29,11 +29,11 @@ namespace PlayerStates.SuperStates {
             }
         }
 
-        public override void PhysicsUpdate() {
+        protected internal override void PhysicsUpdate() {
             base.PhysicsUpdate();
         }
 
-        public override void DoChecks() {
+        protected override void DoChecks() {
             base.DoChecks();
             _isGrounded = Player.CheckIfGrounded();
         }

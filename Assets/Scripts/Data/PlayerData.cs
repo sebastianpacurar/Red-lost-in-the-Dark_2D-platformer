@@ -1,3 +1,5 @@
+using AYellowpaper.SerializedCollections;
+using Plugins.SerializedCollections.Runtime.Scripts;
 using UnityEngine;
 
 namespace Data {
@@ -6,18 +8,30 @@ namespace Data {
         [Header("Move State")]
         public float movementVelocity = 10f;
 
+        [Header("Ground Slide State")]
+        public float groundSlideVelocity = 15f;
+        public float groundSlideMinTime = 0.5f;
+
         [Header("Jump State")]
         public float jumpVelocity = 10f;
         public int amountOfJumps = 1;
-
-        [Header("Wall Slide State")]
-        public float slideVelocity = 3f;
+        [SerializedDictionary("Distance Between Walls", "Gravity Force")]
+        public SerializedDictionary<int, float> gravityForce;
 
         [Header("Wall Jump State")]
-        public float wallJumpDefaultDuration = 0.3f;
-        public float wallClimbDefaultDuration = 0.15f;
-        public Vector2 wallJumpForce = new(0.5f, 5f);
-        public Vector2 wallClimbForce = new(3f, 15f);
+        [Space(10f)]
+        [SerializedDictionary("Distance Between Walls", "Wall Jump Duration")]
+        public SerializedDictionary<int, float> wallJumpDur;
+        [SerializedDictionary("Distance Between Walls", "Wall Jump Force")]
+        public SerializedDictionary<int, Vector2> wallJumpForce;
+
+        [Header("Wall Slide State")]
+        [Space(10f)]
+        [Tooltip("Not implemented yet")]
+        public float wallSlideVelocity = 3f;
+        [SerializedDictionary("Distance Between Walls", "Wall Slide Hang Duration")]
+        public SerializedDictionary<int, float> wallSlideHangDuration;
+
 
         [Header("Check Variables")]
         public Vector2 capsuleSize = new(0.425f, 0.05f);

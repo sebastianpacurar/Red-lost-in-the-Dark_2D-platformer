@@ -6,13 +6,13 @@ namespace PlayerStates.SubStates {
     public class PlayerTurnaroundState : PlayerGroundedState {
         public PlayerTurnaroundState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
-        public override void Enter() {
+        protected internal override void Enter() {
             base.Enter();
 
             Player.FlipSpriteX();
         }
 
-        public override void LogicUpdate() {
+        protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
             if (!IsAnimationFinished) {
@@ -23,7 +23,7 @@ namespace PlayerStates.SubStates {
             }
         }
 
-        public override void Exit() {
+        protected internal override void Exit() {
             base.Exit();
 
             Player.FlipSpriteX();

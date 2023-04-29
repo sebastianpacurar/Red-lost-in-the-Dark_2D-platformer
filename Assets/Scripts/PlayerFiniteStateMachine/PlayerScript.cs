@@ -1,6 +1,6 @@
 using Data;
 using PlayerStates.SubStates;
-using Unity.VisualScripting;
+using PlayerStates.SuperStates;
 using UnityEngine;
 
 namespace PlayerFiniteStateMachine {
@@ -8,7 +8,8 @@ namespace PlayerFiniteStateMachine {
         #region State Variables
         public PlayerStateMachine StateMachine { get; private set; }
         public PlayerIdleState IdleState { get; private set; }
-        public PlayerState MoveState { get; private set; }
+        public PlayerMoveState MoveState { get; private set; }
+        public PlayerGroundSlideState GroundSlideState { get; private set; }
         public PlayerJumpState JumpState { get; private set; }
         public PlayerInAirState InAirState { get; private set; }
         public PlayerLandState LandState { get; private set; }
@@ -33,18 +34,22 @@ namespace PlayerFiniteStateMachine {
         #region Misc Vars
         public Vector2 CurrentVelocity { get; private set; }
         public int FacingDirection { get; private set; }
-        public float WallClimbCurrDuration { get; private set; }
-        public RaycastHit2D HitLeft;
-        public RaycastHit2D HitRight;
+        public float WallJumpDuration { get; private set; }
+        public float WallSlideHangDuration { get; private set; }
+        public Vector2 WallJumpForce { get; private set; }
+        private RaycastHit2D _hitLeft;
+        private RaycastHit2D _hitRight;
         private Vector2 _workspace;
         #endregion
 
         #region Unity Callback Functions
         private void Awake() {
+            InputHandler = PlayerInputHandler.Instance;
             StateMachine = new PlayerStateMachine();
 
             IdleState = new PlayerIdleState(this, StateMachine, playerData, "idle");
             MoveState = new PlayerMoveState(this, StateMachine, playerData, "move");
+            GroundSlideState = new PlayerGroundSlideState(this, StateMachine, playerData, "groundSlide");
             JumpState = new PlayerJumpState(this, StateMachine, playerData, "inAir");
             InAirState = new PlayerInAirState(this, StateMachine, playerData, "inAir");
             LandState = new PlayerLandState(this, StateMachine, playerData, "land");
@@ -55,7 +60,6 @@ namespace PlayerFiniteStateMachine {
 
         private void Start() {
             Anim = GetComponent<Animator>();
-            InputHandler = GetComponent<PlayerInputHandler>();
             Rb2D = GetComponent<Rigidbody2D>();
             Sr = GetComponent<SpriteRenderer>();
 
@@ -68,10 +72,7 @@ namespace PlayerFiniteStateMachine {
         private void Update() {
             CurrentVelocity = Rb2D.velocity;
 
-            var pos = transform.position;
-            HitLeft = Physics2D.Raycast(pos, Vector2.left, 5.1f, playerData.groundMask);
-            HitRight = Physics2D.Raycast(pos, Vector2.right, 5.1f, playerData.groundMask);
-            SetWallClimbData();
+            SetWallJumpData();
 
             StateMachine.CurrentState.LogicUpdate();
         }
@@ -105,23 +106,6 @@ namespace PlayerFiniteStateMachine {
             CurrentVelocity = Rb2D.velocity;
         }
 
-        public void SetWallClimbData() {
-            // in case both walls are detected, make value dynamic, else set to default
-            if (HitLeft && HitRight) {
-                var dist = HitLeft.distance + HitRight.distance;
-
-                WallClimbCurrDuration = dist switch {
-                    < 2 => 0.275f, // 2 tiles distance between walls
-                    > 2f and < 3f => 0.375f, // 3 tiles distance between walls
-                    > 3f and < 5f => 0.525f, // 4 tiles distance between walls
-                    _ => playerData.wallClimbDefaultDuration
-                };
-            } else {
-                WallClimbCurrDuration = playerData.wallClimbDefaultDuration;
-            }
-        }
-
-
         public void FlipScale() {
             Flip();
         }
@@ -134,7 +118,7 @@ namespace PlayerFiniteStateMachine {
 
         #region Check Functions
         public void CheckIfShouldFlip(int xInput) {
-            if (xInput != 0 && xInput != FacingDirection) {
+            if (xInput != 0 && !CheckIfFacingInputDirection(xInput)) {
                 Flip();
             }
         }
@@ -152,7 +136,7 @@ namespace PlayerFiniteStateMachine {
         }
 
         public bool CheckAutoClimbOn() {
-            return InputHandler.JumpInput && HitLeft && HitRight;
+            return InputHandler.JumpInput && _hitLeft && _hitRight;
         }
         #endregion
 
@@ -161,6 +145,19 @@ namespace PlayerFiniteStateMachine {
         private void Flip() {
             FacingDirection *= -1;
             transform.localScale = new Vector3(FacingDirection, 1f, 1f);
+        }
+
+        private void SetWallJumpData() {
+            var pos = transform.position;
+            _hitLeft = Physics2D.Raycast(pos, Vector2.left, 5.1f, playerData.groundMask);
+            _hitRight = Physics2D.Raycast(pos, Vector2.right, 5.1f, playerData.groundMask);
+
+            var distInInt = _hitLeft && _hitRight ? Mathf.RoundToInt(_hitLeft.distance + _hitRight.distance) : 0;
+            WallJumpDuration = playerData.wallJumpDur[distInInt];
+            WallJumpForce = playerData.wallJumpForce[distInInt];
+            WallSlideHangDuration = playerData.wallSlideHangDuration[distInInt];
+
+            Rb2D.gravityScale = CheckAutoClimbOn() ? playerData.gravityForce[distInInt] : playerData.gravityForce[0];
         }
 
         private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();

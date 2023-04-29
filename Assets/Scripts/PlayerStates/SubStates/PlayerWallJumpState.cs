@@ -5,29 +5,28 @@ using UnityEngine;
 
 namespace PlayerStates.SubStates {
     public class PlayerWallJumpState : PlayerAbilityState {
-        private int _wallJumpDirection;
-        private float _abilityDuration;
-        private bool _isAutoClimbOn;
+        private Vector2 _wallJumpDirection;
+        private float _abilityDuration; //TODO: this could be removed
 
         public PlayerWallJumpState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
-        public override void Enter() {
+        protected internal override void Enter() {
             base.Enter();
 
             SetWallJumpDirection();
-            SetWallJumpDuration();
+            _abilityDuration = Player.WallJumpDuration;
+
             Player.SetVelocityY(0f);
-            Player.AddWallJumpForce(GetClimbOrJumpForce());
-            Player.CheckIfShouldFlip(_wallJumpDirection);
+            Player.AddWallJumpForce(Player.WallJumpForce * _wallJumpDirection); //TODO: asta tre inmultit cu FAcingDirection, BOULE!
+
+            Player.CheckIfShouldFlip((int)_wallJumpDirection.x);
             Player.JumpState.DecreaseAmountOfJumpsLeft();
         }
 
-        public override void LogicUpdate() {
+        protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
             Player.Anim.SetFloat("yVelocity", Player.CurrentVelocity.y);
-            
-            
 
             if (Time.time >= StartTime + _abilityDuration) {
                 IsAbilityDone = true;
@@ -38,32 +37,14 @@ namespace PlayerStates.SubStates {
             }
         }
 
-        public override void DoChecks() {
+        protected override void DoChecks() {
             base.DoChecks();
 
-            _isAutoClimbOn = Player.CheckAutoClimbOn();
+            // _isAutoClimbOn = Player.CheckAutoClimbOn();
         }
 
-        public void SetWallJumpDirection() {
-            _wallJumpDirection = -Player.FacingDirection;
-        }
-
-        private Vector2 GetClimbOrJumpForce() {
-            var force = PlayerData.wallJumpForce;
-
-            if (Player.HitRight && Player.HitLeft) {
-                force = PlayerData.wallClimbForce;
-            }
-
-            return new Vector2(force.x * _wallJumpDirection, force.y);
-        }
-
-        private void SetWallJumpDuration() {
-            _abilityDuration = PlayerData.wallJumpDefaultDuration;
-
-            if (Player.HitRight && Player.HitLeft) {
-                _abilityDuration = Player.WallClimbCurrDuration;
-            }
+        private void SetWallJumpDirection() {
+            _wallJumpDirection = new Vector2(-Player.FacingDirection, 1);
         }
     }
 }

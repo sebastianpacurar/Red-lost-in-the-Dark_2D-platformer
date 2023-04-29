@@ -6,7 +6,7 @@ namespace PlayerStates.SubStates {
     public class PlayerLandState : PlayerGroundedState {
         public PlayerLandState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
-        public override void LogicUpdate() {
+        protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
             if (XInput != 0) {

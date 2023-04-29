@@ -8,17 +8,17 @@ namespace PlayerStates.SuperStates {
         protected int XInput;
         protected bool JumpInput;
 
-        public PlayerTouchingWallState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
+        protected PlayerTouchingWallState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
-        public override void Enter() {
+        protected internal override void Enter() {
             base.Enter();
         }
 
-        public override void Exit() {
+        protected internal override void Exit() {
             base.Exit();
         }
 
-        public override void LogicUpdate() {
+        protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
             XInput = Player.InputHandler.MovementInput;
@@ -31,11 +31,11 @@ namespace PlayerStates.SuperStates {
             }
         }
 
-        public override void PhysicsUpdate() {
+        protected internal override void PhysicsUpdate() {
             base.PhysicsUpdate();
         }
 
-        public override void DoChecks() {
+        protected override void DoChecks() {
             base.DoChecks();
 
             IsGrounded = Player.CheckIfGrounded();
