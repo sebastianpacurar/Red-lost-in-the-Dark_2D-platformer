@@ -13,10 +13,6 @@ namespace PlayerStates.SuperStates {
             IsAbilityDone = false;
         }
 
-        protected internal override void Exit() {
-            base.Exit();
-        }
-
         protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
@@ -27,10 +23,6 @@ namespace PlayerStates.SuperStates {
                     StateMachine.ChangeState(Player.InAirState);
                 }
             }
-        }
-
-        protected internal override void PhysicsUpdate() {
-            base.PhysicsUpdate();
         }
 
         protected override void DoChecks() {

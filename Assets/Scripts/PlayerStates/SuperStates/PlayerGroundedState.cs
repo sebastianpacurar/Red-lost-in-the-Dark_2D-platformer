@@ -11,15 +11,6 @@ namespace PlayerStates.SuperStates {
 
         protected PlayerGroundedState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
-        protected internal override void Enter() {
-            base.Enter();
-            Player.JumpState.ResetAmountOfJumpsLeft();
-        }
-
-        protected internal override void Exit() {
-            base.Exit();
-        }
-
         protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
@@ -27,16 +18,11 @@ namespace PlayerStates.SuperStates {
             GroundSlideInput = Player.InputHandler.GroundSlideInput;
             JumpInput = Player.InputHandler.JumpInput;
 
-            if (JumpInput && Player.JumpState.CanJump()) {
-                Player.InputHandler.SetJumpInputFalse();
+            if (JumpInput) {
                 StateMachine.ChangeState(Player.JumpState);
             } else if (!_isGrounded) {
                 StateMachine.ChangeState(Player.InAirState);
             }
-        }
-
-        protected internal override void PhysicsUpdate() {
-            base.PhysicsUpdate();
         }
 
         protected override void DoChecks() {

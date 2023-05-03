@@ -16,7 +16,7 @@ namespace PlayerStates.SubStates {
         protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
-            Player.SetVelocityX(PlayerData.movementVelocity * Player.FacingDirection);
+            Player.SetVelocityX(PlayerData.groundSlideVelocity * Player.FacingDirection);
 
             if (Time.time >= StartTime + PlayerData.groundSlideMinTime) {
                 if (JumpInput) {

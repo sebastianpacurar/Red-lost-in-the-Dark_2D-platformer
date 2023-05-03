@@ -21,6 +21,7 @@ namespace PlayerFiniteStateMachine {
 
         protected internal virtual void Enter() {
             DoChecks();
+            // Debug.Log(StateMachine.CurrentState);
             Player.Anim.SetBool(_animBoolName, true);
             StartTime = Time.time;
             IsAnimationFinished = false;

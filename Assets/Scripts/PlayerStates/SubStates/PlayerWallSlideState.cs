@@ -6,6 +6,7 @@ using UnityEngine;
 namespace PlayerStates.SubStates {
     public class PlayerWallSlideState : PlayerTouchingWallState {
         private bool _isAutoClimbOn;
+        private bool _isAutoWallJumpOn;
 
         public PlayerWallSlideState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
@@ -18,21 +19,26 @@ namespace PlayerStates.SubStates {
 
         protected internal override void LogicUpdate() {
             base.LogicUpdate();
+            
+            // needed to prevent XInput from interfering with the wallJump Force:
+            // NOTE:  in case Left (towards left wall) OR Right (towards right wall) AND Jump is pressed
+            _isAutoWallJumpOn = Player.CheckIfAutoWallJumpOn();
 
-            if (_isAutoClimbOn) {
+            if (_isAutoClimbOn || _isAutoWallJumpOn) {
                 XInput = 0;
+                Player.SetVelocityY(0f);
             }
 
-            if (Time.time >= StartTime + Player.WallSlideHangDuration) {
-                // if left is pressed while wall sliding on the right side, and the other way around
-                if (XInput == -Player.FacingDirection) {
-                    Player.CheckIfShouldFlip(XInput);
-                    StateMachine.ChangeState(Player.InAirState);
-                }
-
-                if (JumpInput) {
-                    StateMachine.ChangeState(Player.WallJumpState);
-                }
+            if (Time.time <= StartTime + Player.WallSlideHangDuration) return;
+            
+            if (_isAutoWallJumpOn || JumpInput) {
+                StateMachine.ChangeState(Player.WallJumpState);
+            }
+            
+            // if left is pressed while wall sliding on the right side, and the other way around
+            if (XInput == -Player.FacingDirection) {
+                Player.CheckIfShouldFlip(XInput);
+                StateMachine.ChangeState(Player.InAirState);
             }
         }
 
@@ -45,7 +51,7 @@ namespace PlayerStates.SubStates {
         protected override void DoChecks() {
             base.DoChecks();
 
-            _isAutoClimbOn = Player.CheckAutoClimbOn();
+            _isAutoClimbOn = Player.CheckIfAutoClimbOn();
         }
     }
 }

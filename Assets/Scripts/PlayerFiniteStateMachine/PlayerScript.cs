@@ -135,8 +135,12 @@ namespace PlayerFiniteStateMachine {
             return FacingDirection == xInput;
         }
 
-        public bool CheckAutoClimbOn() {
+        public bool CheckIfAutoClimbOn() {
             return InputHandler.JumpInput && _hitLeft && _hitRight;
+        }
+
+        public bool CheckIfAutoWallJumpOn() {
+            return InputHandler.JumpInput && (_hitLeft && !_hitRight && InputHandler.MovementInput == -1 || _hitRight && !_hitLeft && InputHandler.MovementInput == 1);
         }
         #endregion
 
@@ -157,7 +161,7 @@ namespace PlayerFiniteStateMachine {
             WallJumpForce = playerData.wallJumpForce[distInInt];
             WallSlideHangDuration = playerData.wallSlideHangDuration[distInInt];
 
-            Rb2D.gravityScale = CheckAutoClimbOn() ? playerData.gravityForce[distInInt] : playerData.gravityForce[0];
+            Rb2D.gravityScale = CheckIfAutoClimbOn() ? playerData.gravityForce[distInInt] : playerData.gravityForce[0];
         }
 
         private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();

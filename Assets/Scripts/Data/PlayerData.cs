@@ -14,7 +14,6 @@ namespace Data {
 
         [Header("Jump State")]
         public float jumpVelocity = 10f;
-        public int amountOfJumps = 1;
         [SerializedDictionary("Distance Between Walls", "Gravity Force")]
         public SerializedDictionary<int, float> gravityForce;
 
