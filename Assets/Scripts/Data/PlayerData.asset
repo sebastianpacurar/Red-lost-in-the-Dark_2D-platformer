@@ -15,8 +15,8 @@ MonoBehaviour:
   movementVelocity: 10
   groundSlideVelocity: 15
   groundSlideMinTime: 0.5
-  jumpVelocity: 10
-  amountOfJumps: 2
+  jumpVelocity: 15
+  maxSafeFallSpeed: -25
   gravityForce:
     _serializedList:
     - Key: 0
@@ -62,3 +62,6 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+  maxHp: 75
+  maxSanity: 100
+  fallDamage: 50

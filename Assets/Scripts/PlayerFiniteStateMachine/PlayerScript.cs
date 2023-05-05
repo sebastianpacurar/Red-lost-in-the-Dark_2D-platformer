@@ -1,6 +1,5 @@
 using Data;
 using PlayerStates.SubStates;
-using PlayerStates.SuperStates;
 using UnityEngine;
 
 namespace PlayerFiniteStateMachine {
@@ -16,7 +15,9 @@ namespace PlayerFiniteStateMachine {
         public PlayerTurnaroundState TurnaroundState { get; private set; }
         public PlayerWallSlideState WallSlideState { get; private set; }
         public PlayerWallJumpState WallJumpState { get; private set; }
-        [SerializeField] private PlayerData playerData;
+        public PlayerFallDamageState FallDamageState { get; private set; }
+        public PlayerDeathState DeathState { get; private set; }
+        public PlayerData playerData;
         #endregion
 
         #region Check Transforms
@@ -40,6 +41,12 @@ namespace PlayerFiniteStateMachine {
         private RaycastHit2D _hitLeft;
         private RaycastHit2D _hitRight;
         private Vector2 _workspace;
+        private Vector3 _checkpointPos;
+        #endregion
+
+        #region Player Stats Vars
+        public float HealthPoints { get; set; }
+        public float SanityPoints { get; set; }
         #endregion
 
         #region Unity Callback Functions
@@ -56,12 +63,18 @@ namespace PlayerFiniteStateMachine {
             TurnaroundState = new PlayerTurnaroundState(this, StateMachine, playerData, "turnaround");
             WallSlideState = new PlayerWallSlideState(this, StateMachine, playerData, "wallSlide");
             WallJumpState = new PlayerWallJumpState(this, StateMachine, playerData, "inAir");
+            FallDamageState = new PlayerFallDamageState(this, StateMachine, playerData, "fallDamage");
+            DeathState = new PlayerDeathState(this, StateMachine, playerData, "death");
+
+            HealthPoints = playerData.maxHp;
+            SanityPoints = playerData.maxSanity;
         }
 
         private void Start() {
             Anim = GetComponent<Animator>();
             Rb2D = GetComponent<Rigidbody2D>();
             Sr = GetComponent<SpriteRenderer>();
+            _checkpointPos = GameObject.FindGameObjectsWithTag("CheckpointTorch")[0].transform.position;
 
             // start facing towards right
             FacingDirection = 1;
@@ -113,6 +126,19 @@ namespace PlayerFiniteStateMachine {
         public void FlipSpriteX() {
             Sr.flipX = !Sr.flipX;
         }
+
+        public void FreezePlayer() {
+            Rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+
+        public void UnFreezePlayer() {
+            Rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+
+        public void RestartFromCheckpoint() {
+            transform.position = _checkpointPos;
+            HealthPoints = playerData.maxHp;
+        }
         #endregion
 
 
@@ -141,6 +167,10 @@ namespace PlayerFiniteStateMachine {
 
         public bool CheckIfAutoWallJumpOn() {
             return InputHandler.JumpInput && (_hitLeft && !_hitRight && InputHandler.MovementInput == -1 || _hitRight && !_hitLeft && InputHandler.MovementInput == 1);
+        }
+
+        public bool CheckIfDead() {
+            return HealthPoints < 0f;
         }
         #endregion
 

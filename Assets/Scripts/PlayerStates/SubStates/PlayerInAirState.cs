@@ -1,24 +1,35 @@
 using Data;
 using PlayerFiniteStateMachine;
 
-namespace PlayerStates.SuperStates {
+namespace PlayerStates.SubStates {
     public class PlayerInAirState : PlayerState {
         private int _xInput;
         private bool _isGrounded;
         private bool _isTouchingWall;
         private bool _isAutoClimbOn;
+        private float _currFallingSpeed;
 
         public PlayerInAirState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
+        protected internal override void Enter() {
+            base.Enter();
+            _currFallingSpeed = 0f;
+        }
+
         protected internal override void LogicUpdate() {
             base.LogicUpdate();
+            UpdateCurrFallingSpeed();
             _xInput = Player.InputHandler.MovementInput;
 
+            // enter FallDamage state 
+            if (_isGrounded && _currFallingSpeed < PlayerData.maxSafeFallSpeed) {
+                StateMachine.ChangeState(Player.FallDamageState);
+            }
             // enter Land State
-            if (_isGrounded && Player.CurrentVelocity.y < 0.01f) {
+            else if (_isGrounded && Player.CurrentVelocity.y < 0.01f) {
                 StateMachine.ChangeState(Player.LandState);
             }
-            // enter wall slide state
+            // enter WallSlide state
             else if (_isTouchingWall) {
                 StateMachine.ChangeState(Player.WallSlideState);
             }
@@ -42,6 +53,12 @@ namespace PlayerStates.SuperStates {
             _isGrounded = Player.CheckIfGrounded();
             _isTouchingWall = Player.CheckIfTouchingWall();
             _isAutoClimbOn = Player.CheckIfAutoClimbOn();
+        }
+
+        private void UpdateCurrFallingSpeed() {
+            if (_currFallingSpeed > Player.CurrentVelocity.y) {
+                _currFallingSpeed = Player.CurrentVelocity.y;
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+using PlayerFiniteStateMachine;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,7 +6,7 @@ using UnityEngine.UI;
 namespace Player.Canvas {
     public class PlayerStats : MonoBehaviour {
         private Camera _mainCam;
-        private HandleHpSanity _stats;
+        private PlayerScript _playerScript;
 
         [SerializeField] private GameObject playerObj;
         [SerializeField] private UnityEngine.Canvas canvas;
@@ -16,7 +17,7 @@ namespace Player.Canvas {
 
 
         private void Start() {
-            _stats = playerObj.GetComponent<HandleHpSanity>();
+            _playerScript = playerObj.GetComponent<PlayerScript>();
             _mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
             canvas.renderMode = RenderMode.ScreenSpaceCamera;
             canvas.worldCamera = _mainCam;
@@ -28,13 +29,13 @@ namespace Player.Canvas {
         }
 
         private void UpdateHpBar() {
-            var res = _stats.HealthPoints / _stats.maxHp;
+            var res = _playerScript.HealthPoints / _playerScript.playerData.maxHp;
             hpBar.fillAmount = res;
             hpPercentage.text = $"{(int)(res * 100)}%";
         }
 
         private void UpdateSanityBar() {
-            var res = _stats.SanityPoints / _stats.maxSanity;
+            var res = _playerScript.SanityPoints / _playerScript.playerData.maxSanity;
             sanityBar.fillAmount = res;
             sanityPercentage.text = $"{(int)(res * 100)}%";
         }

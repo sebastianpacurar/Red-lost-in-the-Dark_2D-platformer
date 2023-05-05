@@ -13,7 +13,8 @@ namespace Data {
         public float groundSlideMinTime = 0.5f;
 
         [Header("Jump State")]
-        public float jumpVelocity = 10f;
+        public float jumpVelocity = 15f;
+        public float maxSafeFallSpeed = -25f;
         [SerializedDictionary("Distance Between Walls", "Gravity Force")]
         public SerializedDictionary<int, float> gravityForce;
 
@@ -31,9 +32,13 @@ namespace Data {
         [SerializedDictionary("Distance Between Walls", "Wall Slide Hang Duration")]
         public SerializedDictionary<int, float> wallSlideHangDuration;
 
-
         [Header("Check Variables")]
         public Vector2 capsuleSize = new(0.425f, 0.05f);
         public LayerMask groundMask;
+
+        [Header("Player Stats")]
+        public float maxHp;
+        public float maxSanity;
+        public float fallDamage;
     }
 }

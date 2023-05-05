@@ -31,6 +31,7 @@ namespace PlayerStates.SubStates {
 
             if (Time.time <= StartTime + Player.WallSlideHangDuration) return;
             
+            // perform one side wall jump
             if (_isAutoWallJumpOn || JumpInput) {
                 StateMachine.ChangeState(Player.WallJumpState);
             }

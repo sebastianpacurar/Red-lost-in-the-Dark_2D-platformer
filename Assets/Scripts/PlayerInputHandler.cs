@@ -62,10 +62,6 @@ public class PlayerInputHandler : MonoBehaviour {
         }
     }
 
-    public void SetJumpInputFalse() {
-        JumpInput = false;
-    }
-
     private void OnEnable() {
         _controls.Enable();
         _moveAction.performed += OnMoveInput;
