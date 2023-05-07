@@ -13,10 +13,6 @@ namespace PlayerStates.SubStates {
             Player.SetVelocityX(0f);
         }
 
-        protected internal override void Exit() {
-            base.Exit();
-        }
-
         protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
@@ -24,15 +20,9 @@ namespace PlayerStates.SubStates {
                 StateMachine.ChangeState(Player.MoveState);
             } else if (XInput != 0f && !Player.CheckIfFacingInputDirection(XInput)) {
                 StateMachine.ChangeState(Player.TurnaroundState);
+            } else if (DashInput && Player.CanDash) {
+                StateMachine.ChangeState(Player.DashState);
             }
-        }
-
-        protected internal override void PhysicsUpdate() {
-            base.PhysicsUpdate();
-        }
-
-        protected override void DoChecks() {
-            base.DoChecks();
         }
     }
 }

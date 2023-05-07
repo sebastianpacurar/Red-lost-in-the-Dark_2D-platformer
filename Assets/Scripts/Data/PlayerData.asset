@@ -58,6 +58,9 @@ MonoBehaviour:
       Value: 0.175
     - Key: 5
       Value: 0.2
+  dashCoolDown: 2
+  dashTime: 0.2
+  dashSpeed: 30
   capsuleSize: {x: 0.425, y: 0.05}
   groundMask:
     serializedVersion: 2

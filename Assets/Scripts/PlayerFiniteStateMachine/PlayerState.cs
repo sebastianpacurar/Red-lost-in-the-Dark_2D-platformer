@@ -12,8 +12,7 @@ namespace PlayerFiniteStateMachine {
         protected float StartTime;
         private readonly string _animBoolName;
 
-        protected PlayerState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) {
-            Player = player;
+        protected PlayerState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) { Player = player;
             StateMachine = stateMachine;
             PlayerData = playerData;
             _animBoolName = animBoolName;

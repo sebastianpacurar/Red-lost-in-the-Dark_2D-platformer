@@ -32,6 +32,12 @@ namespace Data {
         [SerializedDictionary("Distance Between Walls", "Wall Slide Hang Duration")]
         public SerializedDictionary<int, float> wallSlideHangDuration;
 
+        [Header("Dash State")]
+        public float dashCoolDown;
+        public float dashTime;
+        public float dashSpeed;
+        public float distBetweenAfterImgs;
+
         [Header("Check Variables")]
         public Vector2 capsuleSize = new(0.425f, 0.05f);
         public LayerMask groundMask;

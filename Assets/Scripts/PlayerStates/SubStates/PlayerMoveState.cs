@@ -6,14 +6,6 @@ namespace PlayerStates.SubStates {
     public class PlayerMoveState : PlayerGroundedState {
         public PlayerMoveState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
 
-        protected internal override void Enter() {
-            base.Enter();
-        }
-
-        protected internal override void Exit() {
-            base.Exit();
-        }
-
         protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
@@ -23,6 +15,8 @@ namespace PlayerStates.SubStates {
                 StateMachine.ChangeState(Player.TurnaroundState);
             } else if (GroundSlideInput) {
                 StateMachine.ChangeState(Player.GroundSlideState);
+            } else if (DashInput && Player.CanDash) {
+                StateMachine.ChangeState(Player.DashState);
             }
         }
 
@@ -30,10 +24,6 @@ namespace PlayerStates.SubStates {
             base.PhysicsUpdate();
 
             Player.SetVelocityX(PlayerData.movementVelocity * XInput);
-        }
-
-        protected override void DoChecks() {
-            base.DoChecks();
         }
     }
 }

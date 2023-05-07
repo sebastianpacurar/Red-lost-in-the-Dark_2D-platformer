@@ -17,6 +17,7 @@ namespace PlayerFiniteStateMachine {
         public PlayerWallJumpState WallJumpState { get; private set; }
         public PlayerFallDamageState FallDamageState { get; private set; }
         public PlayerDeathState DeathState { get; private set; }
+        public PlayerDashState DashState { get; private set; }
         public PlayerData playerData;
         #endregion
 
@@ -38,6 +39,8 @@ namespace PlayerFiniteStateMachine {
         public float WallJumpDuration { get; private set; }
         public float WallSlideHangDuration { get; private set; }
         public Vector2 WallJumpForce { get; private set; }
+        public bool CanDash { get; private set; }
+        private float _dashCurrCd;
         private RaycastHit2D _hitLeft;
         private RaycastHit2D _hitRight;
         private Vector2 _workspace;
@@ -65,6 +68,7 @@ namespace PlayerFiniteStateMachine {
             WallJumpState = new PlayerWallJumpState(this, StateMachine, playerData, "inAir");
             FallDamageState = new PlayerFallDamageState(this, StateMachine, playerData, "fallDamage");
             DeathState = new PlayerDeathState(this, StateMachine, playerData, "death");
+            DashState = new PlayerDashState(this, StateMachine, playerData, "dash");
 
             HealthPoints = playerData.maxHp;
             SanityPoints = playerData.maxSanity;
@@ -78,7 +82,6 @@ namespace PlayerFiniteStateMachine {
 
             // start facing towards right
             FacingDirection = 1;
-
             StateMachine.Initialize(IdleState);
         }
 
@@ -86,6 +89,7 @@ namespace PlayerFiniteStateMachine {
             CurrentVelocity = Rb2D.velocity;
 
             SetWallJumpData();
+            SetCanDash();
 
             StateMachine.CurrentState.LogicUpdate();
         }
@@ -119,21 +123,17 @@ namespace PlayerFiniteStateMachine {
             CurrentVelocity = Rb2D.velocity;
         }
 
-        public void FlipScale() {
-            Flip();
+        public void AddDashForce(float force) {
+            Rb2D.AddForce(new Vector2(force, 0f), ForceMode2D.Impulse);
+            CurrentVelocity = Rb2D.velocity;
         }
 
-        public void FlipSpriteX() {
-            Sr.flipX = !Sr.flipX;
-        }
-
-        public void FreezePlayer() {
-            Rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
-        }
-
-        public void UnFreezePlayer() {
-            Rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
-        }
+        public void FlipScale() => Flip();
+        public void FlipSpriteX() => Sr.flipX = !Sr.flipX;
+        public void FreezePlayer() => Rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
+        public void UnFreezePlayer() => Rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+        public void SetCanDashFalse() => CanDash = false;
+        public int SetDashDirection() => InputHandler.MovementInput != 0 ? InputHandler.MovementInput : FacingDirection;
 
         public void RestartFromCheckpoint() {
             transform.position = _checkpointPos;
@@ -149,29 +149,12 @@ namespace PlayerFiniteStateMachine {
             }
         }
 
-        public bool CheckIfGrounded() {
-            return Physics2D.OverlapCapsule(groundChecker.position, playerData.capsuleSize, CapsuleDirection2D.Horizontal, 0, playerData.groundMask);
-        }
-
-        public bool CheckIfTouchingWall() {
-            return Physics2D.OverlapCapsule(wallChecker.position, new Vector2(0.05f, 0.425f), CapsuleDirection2D.Vertical, 0, playerData.groundMask);
-        }
-
-        public bool CheckIfFacingInputDirection(int xInput) {
-            return FacingDirection == xInput;
-        }
-
-        public bool CheckIfAutoClimbOn() {
-            return InputHandler.JumpInput && _hitLeft && _hitRight;
-        }
-
-        public bool CheckIfAutoWallJumpOn() {
-            return InputHandler.JumpInput && (_hitLeft && !_hitRight && InputHandler.MovementInput == -1 || _hitRight && !_hitLeft && InputHandler.MovementInput == 1);
-        }
-
-        public bool CheckIfDead() {
-            return HealthPoints < 0f;
-        }
+        public bool CheckIfGrounded() => Physics2D.OverlapCapsule(groundChecker.position, playerData.capsuleSize, CapsuleDirection2D.Horizontal, 0, playerData.groundMask);
+        public bool CheckIfTouchingWall() => Physics2D.OverlapCapsule(wallChecker.position, new Vector2(0.05f, 0.425f), CapsuleDirection2D.Vertical, 0, playerData.groundMask);
+        public bool CheckIfFacingInputDirection(int xInput) => FacingDirection == xInput;
+        public bool CheckIfAutoClimbOn() => InputHandler.JumpInput && _hitLeft && _hitRight;
+        public bool CheckIfAutoWallJumpOn() => InputHandler.JumpInput && (_hitLeft && !_hitRight && InputHandler.MovementInput == -1 || _hitRight && !_hitLeft && InputHandler.MovementInput == 1);
+        public bool CheckIfDead() => HealthPoints < 0f;
         #endregion
 
 
@@ -192,6 +175,17 @@ namespace PlayerFiniteStateMachine {
             WallSlideHangDuration = playerData.wallSlideHangDuration[distInInt];
 
             Rb2D.gravityScale = CheckIfAutoClimbOn() ? playerData.gravityForce[distInInt] : playerData.gravityForce[0];
+        }
+
+        private void SetCanDash() {
+            if (!CanDash) {
+                _dashCurrCd += Time.deltaTime;
+
+                if (_dashCurrCd > playerData.dashCoolDown) {
+                    CanDash = true;
+                    _dashCurrCd = 0f;
+                }
+            }
         }
 
         private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();

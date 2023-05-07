@@ -4,9 +4,11 @@ using PlayerFiniteStateMachine;
 namespace PlayerStates.SubStates {
     public class PlayerInAirState : PlayerState {
         private int _xInput;
+        private bool _dashInput;
         private bool _isGrounded;
         private bool _isTouchingWall;
         private bool _isAutoClimbOn;
+        private bool _isAutoWallJumpOn;
         private float _currFallingSpeed;
 
         public PlayerInAirState(PlayerScript player, PlayerStateMachine stateMachine, PlayerData playerData, string animBoolName) : base(player, stateMachine, playerData, animBoolName) { }
@@ -20,6 +22,11 @@ namespace PlayerStates.SubStates {
             base.LogicUpdate();
             UpdateCurrFallingSpeed();
             _xInput = Player.InputHandler.MovementInput;
+            _dashInput = Player.InputHandler.DashInput;
+            
+            _isAutoClimbOn = Player.CheckIfAutoClimbOn();
+            _isAutoWallJumpOn = Player.CheckIfAutoWallJumpOn();
+
 
             // enter FallDamage state 
             if (_isGrounded && _currFallingSpeed < PlayerData.maxSafeFallSpeed) {
@@ -36,6 +43,8 @@ namespace PlayerStates.SubStates {
             // enter auto climb process
             else if (_isTouchingWall && _isAutoClimbOn) {
                 Player.SetVelocityX(PlayerData.movementVelocity * Player.FacingDirection);
+            } else if (_dashInput && Player.CanDash && !_isAutoClimbOn && !_isAutoWallJumpOn) {
+                StateMachine.ChangeState(Player.DashState);
             }
             // perform regular movement in air
             else {
@@ -52,7 +61,6 @@ namespace PlayerStates.SubStates {
 
             _isGrounded = Player.CheckIfGrounded();
             _isTouchingWall = Player.CheckIfTouchingWall();
-            _isAutoClimbOn = Player.CheckIfAutoClimbOn();
         }
 
         private void UpdateCurrFallingSpeed() {

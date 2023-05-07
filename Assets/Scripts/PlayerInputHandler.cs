@@ -8,10 +8,12 @@ public class PlayerInputHandler : MonoBehaviour {
     public int MovementInput { get; private set; }
     public bool JumpInput { get; private set; }
     public bool GroundSlideInput { get; private set; }
+    public bool DashInput { get; private set; }
 
     private InputAction _moveAction;
     private InputAction _jumpAction;
     private InputAction _groundSlideAction;
+    private InputAction _dashAction;
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -19,11 +21,12 @@ public class PlayerInputHandler : MonoBehaviour {
         } else {
             Instance = this;
         }
-        
+
         _controls = new PlayerControls();
         _moveAction = _controls.Player.Move;
         _jumpAction = _controls.Player.Jump;
         _groundSlideAction = _controls.Player.GroundSlide;
+        _dashAction = _controls.Player.Dash;
     }
 
     private void OnMoveInput(InputAction.CallbackContext ctx) {
@@ -62,6 +65,18 @@ public class PlayerInputHandler : MonoBehaviour {
         }
     }
 
+    private void OnDashInput(InputAction.CallbackContext ctx) {
+        switch (ctx.phase) {
+            case InputActionPhase.Started:
+            case InputActionPhase.Performed:
+                DashInput = true;
+                break;
+            case InputActionPhase.Canceled:
+                DashInput = false;
+                break;
+        }
+    }
+
     private void OnEnable() {
         _controls.Enable();
         _moveAction.performed += OnMoveInput;
@@ -70,6 +85,8 @@ public class PlayerInputHandler : MonoBehaviour {
         _jumpAction.canceled += OnJumpInput;
         _groundSlideAction.performed += OnGroundSlideInput;
         _groundSlideAction.canceled += OnGroundSlideInput;
+        _dashAction.performed += OnDashInput;
+        _dashAction.canceled += OnDashInput;
     }
 
     private void OnDisable() {
@@ -79,6 +96,8 @@ public class PlayerInputHandler : MonoBehaviour {
         _jumpAction.canceled -= OnJumpInput;
         _groundSlideAction.performed -= OnGroundSlideInput;
         _groundSlideAction.canceled -= OnGroundSlideInput;
+        _dashAction.performed -= OnDashInput;
+        _dashAction.canceled -= OnDashInput;
         _controls.Disable();
     }
 }
