@@ -1217,7 +1217,7 @@ TextureImporter:
         width: 112
         height: 133
       alignment: 9
-      pivot: {x: 0.55, y: 0.415}
+      pivot: {x: 0.55, y: 0.425}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1238,7 +1238,7 @@ TextureImporter:
         width: 112
         height: 133
       alignment: 9
-      pivot: {x: 0.55, y: 0.415}
+      pivot: {x: 0.55, y: 0.425}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1259,7 +1259,7 @@ TextureImporter:
         width: 112
         height: 133
       alignment: 9
-      pivot: {x: 0.55, y: 0.415}
+      pivot: {x: 0.55, y: 0.425}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1280,7 +1280,7 @@ TextureImporter:
         width: 112
         height: 133
       alignment: 9
-      pivot: {x: 0.55, y: 0.415}
+      pivot: {x: 0.55, y: 0.425}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2794,133 +2794,133 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      red hood itch free Copy-Sheet_2: -1971393908
-      red hood itch free Copy-Sheet_105: 1237368295
-      red hood itch free Copy-Sheet_25: -690106406
-      red hood itch free Copy-Sheet_9: 949251578
-      ThirdAttack_8: 1768675401
-      red hood itch free Copy-Sheet_118: 565016417
-      TakeDamage_3: 1168440955
-      red hood itch free Copy-Sheet_10: -1969140036
-      red hood itch free Copy-Sheet_3: 1588954303
-      red hood itch free Copy-Sheet_23: 1032965824
-      red hood itch free Copy-Sheet_107: -2010109898
-      ThirdAttack_7: 156525707
-      red hood itch free Copy-Sheet_27: -135749749
-      red hood itch free Copy-Sheet_36: 1104860204
-      red hood itch free Copy-Sheet_88: 1710219390
-      red hood itch free Copy-Sheet_5: -679778217
-      red hood itch free Copy-Sheet_86: 148623148
-      red hood itch free Copy-Sheet_38: -871740194
-      red hood itch free Copy-Sheet_6: -1365709662
-      FirstAttack_1: -1995210307
-      red hood itch free Copy-Sheet_16: -155836863
-      red hood itch free Copy-Sheet_41: -1032325522
-      red hood itch free Copy-Sheet_31: 457913959
-      GroundSlide_3: 2067977828
-      red hood itch free Copy-Sheet_114: -568421942
-      red hood itch free Copy-Sheet_46: -1734530140
-      red hood itch free Copy-Sheet_101: 1433467864
-      red hood itch free Copy-Sheet_40: -1588070364
-      red hood itch free Copy-Sheet_126: -1160551727
-      ThirdAttack_3: 1361656043
-      red hood itch free Copy-Sheet_115: -104625366
-      FirstAttack_4: -546609270
-      red hood itch free Copy-Sheet_8: -564033247
-      red hood itch free Copy-Sheet_28: 857080441
-      red hood itch free Copy-Sheet_20: -1814376589
-      red hood itch free Copy-Sheet_45: 568975577
-      ThirdAttack_5: 8747726
-      red hood itch free Copy-Sheet_102: -1660986878
-      FirstAttack_5-Second_attack_1: 1791826044
-      red hood itch free Copy-Sheet_0: 707434376
-      red hood itch free Copy-Sheet_35: -1822443704
-      red hood itch free Copy-Sheet_24: -1109857912
-      ThirdAttack_1: -1069609948
-      ThirdAttack_11: -840870891
-      red hood itch free Copy-Sheet_94: -1813427792
-      red hood itch free Copy-Sheet_84: -121464411
-      red hood itch free Copy-Sheet_89: 2120885537
-      SecondAttack_4: 1634188219
-      red hood itch free Copy-Sheet_116: -1377891152
-      red hood itch free Copy-Sheet_1: -57133761
-      red hood itch free Copy-Sheet_92: -976603690
-      red hood itch free Copy-Sheet_13: -1761862038
-      red hood itch free Copy-Sheet_48: 797317784
-      GroundSlide_1: 562433319
-      red hood itch free Copy-Sheet_113: -894981742
-      red hood itch free Copy-Sheet_81: -1032842120
-      red hood itch free Copy-Sheet_96: 1310339321
-      red hood itch free Copy-Sheet_14: 1765674433
-      red hood itch free Copy-Sheet_12: -211938464
-      red hood itch free Copy-Sheet_34: 176994215
-      red hood itch free Copy-Sheet_26: 231823838
-      FirstAttack_2: -2090780177
-      red hood itch free Copy-Sheet_49: -100284602
-      red hood itch free Copy-Sheet_112: -86085995
-      red hood itch free Copy-Sheet_93: 1147475679
-      red hood itch free Copy-Sheet_44: -785108547
-      red hood itch free Copy-Sheet_90: 27198508
-      red hood itch free Copy-Sheet_17: -864625876
-      red hood itch free Copy-Sheet_4: -1844909828
-      red hood itch free Copy-Sheet_80: -1539122767
-      red hood itch free Copy-Sheet_117: 1736733870
-      red hood itch free Copy-Sheet_103: -1333692723
-      red hood itch free Copy-Sheet_106: -1171793457
-      red hood itch free Copy-Sheet_125: -1206020187
-      red hood itch free Copy-Sheet_18: 1595346807
-      red hood itch free Copy-Sheet_7: -1152558987
-      TakeDamage_2: -1831378833
-      red hood itch free Copy-Sheet_51: 331137215
-      red hood itch free Copy-Sheet_99: -2057059378
-      red hood itch free Copy-Sheet_22: -665839053
-      red hood itch free Copy-Sheet_50: 941700216
-      red hood itch free Copy-Sheet_47: 1196974512
-      red hood itch free Copy-Sheet_32: 793064814
-      red hood itch free Copy-Sheet_97: -510307469
-      SecondAttack_3: 1757207088
-      red hood itch free Copy-Sheet_104: -1887871427
-      SecondAttack_2: 1326177436
-      ThirdAttack_9: -2113140562
-      red hood itch free Copy-Sheet_42: -1012293992
-      red hood itch free Copy-Sheet_119: 780724914
-      red hood itch free Copy-Sheet_83: -801576066
-      GroundSlide_2: 1099213812
-      red hood itch free Copy-Sheet_29: -1164746001
-      red hood itch free Copy-Sheet_21: -1830412833
-      GroundSlide_5: 1487011644
-      red hood itch free Copy-Sheet_15: 2089627698
-      red hood itch free Copy-Sheet_124: 675238677
-      red hood itch free Copy-Sheet_108: -1712751669
-      red hood itch free Copy-Sheet_110: -461867676
-      red hood itch free Copy-Sheet_95: -1491906671
-      SecondAttack_7: -1844746410
-      red hood itch free Copy-Sheet_37: 951027380
-      red hood itch free Copy-Sheet_11: -982060213
-      SecondAttack_6: 1045739095
-      red hood itch free Copy-Sheet_120: 527295818
-      red hood itch free Copy-Sheet_85: -600523455
-      red hood itch free Copy-Sheet_43: -1386457825
-      ThirdAttack_2: 1744421345
-      red hood itch free Copy-Sheet_87: 618913439
-      red hood itch free Copy-Sheet_19: 572455442
-      FirstAttack_3: 665443087
-      red hood itch free Copy-Sheet_109: 1823753024
-      red hood itch free Copy-Sheet_30: 1414233333
-      red hood itch free Copy-Sheet_33: -1376142118
-      ThirdAttack_6: 1667916711
-      GroundSlide_4: -643970761
-      TakeDamage_1: -998562809
-      SecondAttack_5: -1347381939
-      red hood itch free Copy-Sheet_39: -56084031
-      red hood itch free Copy-Sheet_91: -250879875
-      red hood itch free Copy-Sheet_100: 457464054
-      red hood itch free Copy-Sheet_98: -1003341755
-      red hood itch free Copy-Sheet_111: -902394280
-      ThirdAttack_10: 339822660
       AttackIdle: 972321653
+      FirstAttack_1: -1995210307
+      FirstAttack_2: -2090780177
+      FirstAttack_3: 665443087
+      FirstAttack_4: -546609270
+      FirstAttack_5-Second_attack_1: 1791826044
+      GroundSlide_1: 562433319
+      GroundSlide_2: 1099213812
+      GroundSlide_3: 2067977828
+      GroundSlide_4: -643970761
+      GroundSlide_5: 1487011644
+      SecondAttack_2: 1326177436
+      SecondAttack_3: 1757207088
+      SecondAttack_4: 1634188219
+      SecondAttack_5: -1347381939
+      SecondAttack_6: 1045739095
+      SecondAttack_7: -1844746410
+      TakeDamage_1: -998562809
+      TakeDamage_2: -1831378833
+      TakeDamage_3: 1168440955
+      ThirdAttack_1: -1069609948
+      ThirdAttack_10: 339822660
+      ThirdAttack_11: -840870891
+      ThirdAttack_2: 1744421345
+      ThirdAttack_3: 1361656043
       ThirdAttack_4: 1415873997
+      ThirdAttack_5: 8747726
+      ThirdAttack_6: 1667916711
+      ThirdAttack_7: 156525707
+      ThirdAttack_8: 1768675401
+      ThirdAttack_9: -2113140562
+      red hood itch free Copy-Sheet_0: 707434376
+      red hood itch free Copy-Sheet_1: -57133761
+      red hood itch free Copy-Sheet_10: -1969140036
+      red hood itch free Copy-Sheet_100: 457464054
+      red hood itch free Copy-Sheet_101: 1433467864
+      red hood itch free Copy-Sheet_102: -1660986878
+      red hood itch free Copy-Sheet_103: -1333692723
+      red hood itch free Copy-Sheet_104: -1887871427
+      red hood itch free Copy-Sheet_105: 1237368295
+      red hood itch free Copy-Sheet_106: -1171793457
+      red hood itch free Copy-Sheet_107: -2010109898
+      red hood itch free Copy-Sheet_108: -1712751669
+      red hood itch free Copy-Sheet_109: 1823753024
+      red hood itch free Copy-Sheet_11: -982060213
+      red hood itch free Copy-Sheet_110: -461867676
+      red hood itch free Copy-Sheet_111: -902394280
+      red hood itch free Copy-Sheet_112: -86085995
+      red hood itch free Copy-Sheet_113: -894981742
+      red hood itch free Copy-Sheet_114: -568421942
+      red hood itch free Copy-Sheet_115: -104625366
+      red hood itch free Copy-Sheet_116: -1377891152
+      red hood itch free Copy-Sheet_117: 1736733870
+      red hood itch free Copy-Sheet_118: 565016417
+      red hood itch free Copy-Sheet_119: 780724914
+      red hood itch free Copy-Sheet_12: -211938464
+      red hood itch free Copy-Sheet_120: 527295818
+      red hood itch free Copy-Sheet_124: 675238677
+      red hood itch free Copy-Sheet_125: -1206020187
+      red hood itch free Copy-Sheet_126: -1160551727
+      red hood itch free Copy-Sheet_13: -1761862038
+      red hood itch free Copy-Sheet_14: 1765674433
+      red hood itch free Copy-Sheet_15: 2089627698
+      red hood itch free Copy-Sheet_16: -155836863
+      red hood itch free Copy-Sheet_17: -864625876
+      red hood itch free Copy-Sheet_18: 1595346807
+      red hood itch free Copy-Sheet_19: 572455442
+      red hood itch free Copy-Sheet_2: -1971393908
+      red hood itch free Copy-Sheet_20: -1814376589
+      red hood itch free Copy-Sheet_21: -1830412833
+      red hood itch free Copy-Sheet_22: -665839053
+      red hood itch free Copy-Sheet_23: 1032965824
+      red hood itch free Copy-Sheet_24: -1109857912
+      red hood itch free Copy-Sheet_25: -690106406
+      red hood itch free Copy-Sheet_26: 231823838
+      red hood itch free Copy-Sheet_27: -135749749
+      red hood itch free Copy-Sheet_28: 857080441
+      red hood itch free Copy-Sheet_29: -1164746001
+      red hood itch free Copy-Sheet_3: 1588954303
+      red hood itch free Copy-Sheet_30: 1414233333
+      red hood itch free Copy-Sheet_31: 457913959
+      red hood itch free Copy-Sheet_32: 793064814
+      red hood itch free Copy-Sheet_33: -1376142118
+      red hood itch free Copy-Sheet_34: 176994215
+      red hood itch free Copy-Sheet_35: -1822443704
+      red hood itch free Copy-Sheet_36: 1104860204
+      red hood itch free Copy-Sheet_37: 951027380
+      red hood itch free Copy-Sheet_38: -871740194
+      red hood itch free Copy-Sheet_39: -56084031
+      red hood itch free Copy-Sheet_4: -1844909828
+      red hood itch free Copy-Sheet_40: -1588070364
+      red hood itch free Copy-Sheet_41: -1032325522
+      red hood itch free Copy-Sheet_42: -1012293992
+      red hood itch free Copy-Sheet_43: -1386457825
+      red hood itch free Copy-Sheet_44: -785108547
+      red hood itch free Copy-Sheet_45: 568975577
+      red hood itch free Copy-Sheet_46: -1734530140
+      red hood itch free Copy-Sheet_47: 1196974512
+      red hood itch free Copy-Sheet_48: 797317784
+      red hood itch free Copy-Sheet_49: -100284602
+      red hood itch free Copy-Sheet_5: -679778217
+      red hood itch free Copy-Sheet_50: 941700216
+      red hood itch free Copy-Sheet_51: 331137215
+      red hood itch free Copy-Sheet_6: -1365709662
+      red hood itch free Copy-Sheet_7: -1152558987
+      red hood itch free Copy-Sheet_8: -564033247
+      red hood itch free Copy-Sheet_80: -1539122767
+      red hood itch free Copy-Sheet_81: -1032842120
       red hood itch free Copy-Sheet_82: 2146025067
+      red hood itch free Copy-Sheet_83: -801576066
+      red hood itch free Copy-Sheet_84: -121464411
+      red hood itch free Copy-Sheet_85: -600523455
+      red hood itch free Copy-Sheet_86: 148623148
+      red hood itch free Copy-Sheet_87: 618913439
+      red hood itch free Copy-Sheet_88: 1710219390
+      red hood itch free Copy-Sheet_89: 2120885537
+      red hood itch free Copy-Sheet_9: 949251578
+      red hood itch free Copy-Sheet_90: 27198508
+      red hood itch free Copy-Sheet_91: -250879875
+      red hood itch free Copy-Sheet_92: -976603690
+      red hood itch free Copy-Sheet_93: 1147475679
+      red hood itch free Copy-Sheet_94: -1813427792
+      red hood itch free Copy-Sheet_95: -1491906671
+      red hood itch free Copy-Sheet_96: 1310339321
+      red hood itch free Copy-Sheet_97: -510307469
+      red hood itch free Copy-Sheet_98: -1003341755
+      red hood itch free Copy-Sheet_99: -2057059378
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

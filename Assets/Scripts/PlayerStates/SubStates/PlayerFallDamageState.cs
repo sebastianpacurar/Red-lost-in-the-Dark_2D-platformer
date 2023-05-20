@@ -17,11 +17,7 @@ namespace PlayerStates.SubStates {
             if (!IsAnimationFinished) return;
             Player.HealthPoints -= PlayerData.fallDamage;
 
-            if (Player.CheckIfDead()) {
-                StateMachine.ChangeState(Player.DeathState);
-            } else {
-                StateMachine.ChangeState(Player.IdleState);
-            }
+            StateMachine.ChangeState(Player.IdleState);
         }
 
         protected internal override void Exit() {

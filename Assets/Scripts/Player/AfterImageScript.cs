@@ -6,7 +6,7 @@ namespace Player {
         private float _timeActivated;
         private float _alpha;
         [SerializeField] private float alphaSet = 0.8f;
-        private readonly float alphaMultiplier = 0.85f;
+        private readonly float _alphaMultiplier = 0.85f;
 
         private Transform _player;
 
@@ -27,7 +27,7 @@ namespace Player {
         }
 
         private void Update() {
-            _alpha *= alphaMultiplier;
+            _alpha *= _alphaMultiplier;
             _color = new Color(1f, 1f, 1f, _alpha);
             _sr.color = _color;
 

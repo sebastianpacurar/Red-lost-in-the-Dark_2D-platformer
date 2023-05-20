@@ -13,7 +13,7 @@ namespace Player {
         }
 
         private void GrowPool() {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
                 var instanceToAdd = Instantiate(afterImagePrefab, transform, true);
                 AddToPool(instanceToAdd);
             }
@@ -28,7 +28,6 @@ namespace Player {
             if (_availableObjects.Count == 0) {
                 GrowPool();
             }
-
             var instance = _availableObjects.Dequeue();
             instance.SetActive(true);
             return instance;

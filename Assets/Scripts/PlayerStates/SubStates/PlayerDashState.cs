@@ -23,7 +23,7 @@ namespace PlayerStates.SubStates {
         protected internal override void LogicUpdate() {
             base.LogicUpdate();
             
-            CheckIfShouldPlaceAfterImg();
+            Player.CheckIfShouldPlaceAfterImg();
             Player.SetVelocityY(0);
             
             if (Player.CheckIfTouchingWall()) {
@@ -31,25 +31,11 @@ namespace PlayerStates.SubStates {
                 StateMachine.ChangeState(Player.WallSlideState);
             } else if (Time.time >= StartTime + PlayerData.dashTime) {
                 Player.SetCanDashFalse();
-
                 if (Player.CheckIfGrounded()) {
                     StateMachine.ChangeState(Player.IdleState);
                 } else {
                     StateMachine.ChangeState(Player.InAirState);
                 }
-            }
-        }
-
-        private void PlaceAfterImage() {
-            var img = PlayerAfterImagePool.Instance.GetFromPool();
-            var playerTransform = Player.transform;
-            img.transform.localScale = playerTransform.localScale;
-            _lastAfterImgPos = playerTransform.position;
-        }
-
-        private void CheckIfShouldPlaceAfterImg() {
-            if (Vector2.Distance(Player.transform.position, _lastAfterImgPos) >= PlayerData.distBetweenAfterImgs) {
-                PlaceAfterImage();
             }
         }
     }

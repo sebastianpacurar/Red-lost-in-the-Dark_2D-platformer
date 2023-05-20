@@ -12,6 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c67d4dd7e3ed9c509b223ac1ae5c5e7, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
+  capsuleProps:
+    _serializedList:
+    - Key: normal
+      Value:
+      - {x: 0.1056232, y: -0.1030393}
+      - {x: 1.061398, y: 1.941665}
+    - Key: groundSlide
+      Value:
+      - {x: -0.0825872, y: -0.07872185}
+      - {x: 1.967494, y: 0.709112}
   movementVelocity: 10
   groundSlideVelocity: 15
   groundSlideMinTime: 0.5
@@ -61,6 +71,7 @@ MonoBehaviour:
   dashCoolDown: 2
   dashTime: 0.2
   dashSpeed: 30
+  distBetweenAfterImgs: 0
   capsuleSize: {x: 0.425, y: 0.05}
   groundMask:
     serializedVersion: 2

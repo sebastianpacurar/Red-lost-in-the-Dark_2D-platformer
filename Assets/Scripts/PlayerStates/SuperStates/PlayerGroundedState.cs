@@ -18,6 +18,10 @@ namespace PlayerStates.SuperStates {
             GroundSlideInput = Player.InputHandler.GroundSlideInput;
             JumpInput = Player.InputHandler.JumpInput;
             DashInput = Player.InputHandler.DashInput;
+            
+            if (Player.CheckIfDead()) {
+                StateMachine.ChangeState(Player.DeathState);
+            }
 
             if (JumpInput) {
                 StateMachine.ChangeState(Player.JumpState);

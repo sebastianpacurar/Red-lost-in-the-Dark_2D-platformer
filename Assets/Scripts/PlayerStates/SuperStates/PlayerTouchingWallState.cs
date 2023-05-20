@@ -15,6 +15,10 @@ namespace PlayerStates.SuperStates {
 
             XInput = Player.InputHandler.MovementInput;
             JumpInput = Player.InputHandler.JumpInput;
+            
+            if (Player.CheckIfDead()) {
+                StateMachine.ChangeState(Player.DeathState);
+            }
 
             if (_isGrounded) {
                 StateMachine.ChangeState(Player.IdleState);

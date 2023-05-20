@@ -1,4 +1,5 @@
 using Data;
+using Player;
 using PlayerStates.SubStates;
 using UnityEngine;
 
@@ -29,8 +30,9 @@ namespace PlayerFiniteStateMachine {
         #region Components
         public Animator Anim { get; private set; }
         public PlayerInputHandler InputHandler { get; private set; }
-        private Rigidbody2D Rb2D { get; set; }
-        private SpriteRenderer Sr { get; set; }
+        private Rigidbody2D _rb2D;
+        private SpriteRenderer _sr;
+        private CapsuleCollider2D _capsule;
         #endregion
 
         #region Misc Vars
@@ -40,11 +42,13 @@ namespace PlayerFiniteStateMachine {
         public float WallSlideHangDuration { get; private set; }
         public Vector2 WallJumpForce { get; private set; }
         public bool CanDash { get; private set; }
+        public RaycastHit2D HitUp;
         private float _dashCurrCd;
         private RaycastHit2D _hitLeft;
         private RaycastHit2D _hitRight;
         private Vector2 _workspace;
         private Vector3 _checkpointPos;
+        private Vector2 _lastAfterImgPos;
         #endregion
 
         #region Player Stats Vars
@@ -76,8 +80,9 @@ namespace PlayerFiniteStateMachine {
 
         private void Start() {
             Anim = GetComponent<Animator>();
-            Rb2D = GetComponent<Rigidbody2D>();
-            Sr = GetComponent<SpriteRenderer>();
+            _rb2D = GetComponent<Rigidbody2D>();
+            _sr = GetComponent<SpriteRenderer>();
+            _capsule = transform.Find("CapsuleCollider").GetComponent<CapsuleCollider2D>();
             _checkpointPos = GameObject.FindGameObjectsWithTag("CheckpointTorch")[0].transform.position;
 
             // start facing towards right
@@ -86,7 +91,7 @@ namespace PlayerFiniteStateMachine {
         }
 
         private void Update() {
-            CurrentVelocity = Rb2D.velocity;
+            CurrentVelocity = _rb2D.velocity;
 
             SetWallJumpData();
             SetCanDash();
@@ -103,35 +108,35 @@ namespace PlayerFiniteStateMachine {
         #region Set Functions
         public void SetVelocityX(float velocity) {
             _workspace.Set(velocity, CurrentVelocity.y);
-            Rb2D.velocity = _workspace;
+            _rb2D.velocity = _workspace;
             CurrentVelocity = _workspace;
         }
 
         public void SetVelocityY(float velocity) {
             _workspace.Set(CurrentVelocity.x, velocity);
-            Rb2D.velocity = _workspace;
+            _rb2D.velocity = _workspace;
             CurrentVelocity = _workspace;
         }
 
         public void AddJumpForce(float force) {
-            Rb2D.AddForce(new Vector2(0f, force), ForceMode2D.Impulse);
-            CurrentVelocity = Rb2D.velocity;
+            _rb2D.AddForce(new Vector2(0f, force), ForceMode2D.Impulse);
+            CurrentVelocity = _rb2D.velocity;
         }
 
         public void AddWallJumpForce(Vector2 angle) {
-            Rb2D.AddForce(angle, ForceMode2D.Impulse);
-            CurrentVelocity = Rb2D.velocity;
+            _rb2D.AddForce(angle, ForceMode2D.Impulse);
+            CurrentVelocity = _rb2D.velocity;
         }
 
         public void AddDashForce(float force) {
-            Rb2D.AddForce(new Vector2(force, 0f), ForceMode2D.Impulse);
-            CurrentVelocity = Rb2D.velocity;
+            _rb2D.AddForce(new Vector2(force, 0f), ForceMode2D.Impulse);
+            CurrentVelocity = _rb2D.velocity;
         }
 
         public void FlipScale() => Flip();
-        public void FlipSpriteX() => Sr.flipX = !Sr.flipX;
-        public void FreezePlayer() => Rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
-        public void UnFreezePlayer() => Rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+        public void FlipSpriteX() => _sr.flipX = !_sr.flipX;
+        public void FreezePlayer() => _rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
+        public void UnFreezePlayer() => _rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
         public void SetCanDashFalse() => CanDash = false;
         public int SetDashDirection() => InputHandler.MovementInput != 0 ? InputHandler.MovementInput : FacingDirection;
 
@@ -139,6 +144,21 @@ namespace PlayerFiniteStateMachine {
             transform.position = _checkpointPos;
             HealthPoints = playerData.maxHp;
         }
+
+        public void SetCapsuleToGroundSlide() {
+            _capsule.transform.localPosition = new Vector3(0f, -0.6f, 0f);
+            _capsule.offset = playerData.capsuleProps["groundSlide"][0];
+            _capsule.size = playerData.capsuleProps["groundSlide"][1];
+            _capsule.direction = CapsuleDirection2D.Horizontal;
+        }
+
+        public void SetCapsuleToNormal() {
+            _capsule.transform.localPosition = Vector3.zero;
+            _capsule.offset = playerData.capsuleProps["normal"][0];
+            _capsule.size = playerData.capsuleProps["normal"][1];
+            _capsule.direction = CapsuleDirection2D.Vertical;
+        }
+
         #endregion
 
 
@@ -149,12 +169,19 @@ namespace PlayerFiniteStateMachine {
             }
         }
 
+        public void CheckIfShouldPlaceAfterImg() {
+            if (Vector2.Distance(transform.position, _lastAfterImgPos) >= playerData.distBetweenAfterImgs) {
+                PlaceAfterImage();
+            }
+        }
+
         public bool CheckIfGrounded() => Physics2D.OverlapCapsule(groundChecker.position, playerData.capsuleSize, CapsuleDirection2D.Horizontal, 0, playerData.groundMask);
         public bool CheckIfTouchingWall() => Physics2D.OverlapCapsule(wallChecker.position, new Vector2(0.05f, 0.425f), CapsuleDirection2D.Vertical, 0, playerData.groundMask);
         public bool CheckIfFacingInputDirection(int xInput) => FacingDirection == xInput;
         public bool CheckIfAutoClimbOn() => InputHandler.JumpInput && _hitLeft && _hitRight;
         public bool CheckIfAutoWallJumpOn() => InputHandler.JumpInput && (_hitLeft && !_hitRight && InputHandler.MovementInput == -1 || _hitRight && !_hitLeft && InputHandler.MovementInput == 1);
-        public bool CheckIfDead() => HealthPoints < 0f;
+        public bool CheckIfDead() => HealthPoints <= 0f;
+        public bool CheckIfShouldDieFromNoRoom() => Physics2D.Raycast(transform.position, Vector2.up, 1f, playerData.groundMask);
         #endregion
 
 
@@ -174,7 +201,7 @@ namespace PlayerFiniteStateMachine {
             WallJumpForce = playerData.wallJumpForce[distInInt];
             WallSlideHangDuration = playerData.wallSlideHangDuration[distInInt];
 
-            Rb2D.gravityScale = CheckIfAutoClimbOn() ? playerData.gravityForce[distInInt] : playerData.gravityForce[0];
+            _rb2D.gravityScale = CheckIfAutoClimbOn() ? playerData.gravityForce[distInInt] : playerData.gravityForce[0];
         }
 
         private void SetCanDash() {
@@ -186,6 +213,11 @@ namespace PlayerFiniteStateMachine {
                     _dashCurrCd = 0f;
                 }
             }
+        }
+
+        private void PlaceAfterImage() {
+            var img = PlayerAfterImagePool.Instance.GetFromPool();
+            img.transform.localScale = transform.localScale;
         }
 
         private void AnimationTrigger() => StateMachine.CurrentState.AnimationTrigger();

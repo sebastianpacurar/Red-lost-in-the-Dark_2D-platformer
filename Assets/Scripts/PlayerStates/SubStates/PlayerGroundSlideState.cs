@@ -11,8 +11,10 @@ namespace PlayerStates.SubStates {
             base.Enter();
 
             Player.FlipSpriteX();
+            Player.SetCapsuleToGroundSlide();
         }
 
+        // TODO: fix the branching
         protected internal override void LogicUpdate() {
             base.LogicUpdate();
 
@@ -20,11 +22,21 @@ namespace PlayerStates.SubStates {
 
             if (Time.time >= StartTime + PlayerData.groundSlideMinTime) {
                 if (JumpInput) {
-                    StateMachine.ChangeState(Player.JumpState);
+                    Player.SetCapsuleToNormal();
+
+                    if (Player.CheckIfShouldDieFromNoRoom()) {
+                        Player.HealthPoints = 0f;
+                    } else {
+                        StateMachine.ChangeState(Player.JumpState);
+                    }
                 }
 
                 if (!GroundSlideInput) {
-                    if (XInput != 0) {
+                    Player.SetCapsuleToNormal();
+
+                    if (Player.CheckIfShouldDieFromNoRoom()) {
+                        Player.HealthPoints = 0f;
+                    } else if (XInput != 0) {
                         StateMachine.ChangeState(Player.IdleState);
                     } else {
                         StateMachine.ChangeState(Player.MoveState);
@@ -32,7 +44,6 @@ namespace PlayerStates.SubStates {
                 }
             }
         }
-
 
         protected internal override void Exit() {
             base.Exit();

@@ -5,6 +5,13 @@ using UnityEngine;
 namespace Data {
     [CreateAssetMenu(fileName = "newPlayerData", menuName = "Data/Player Data/ Base Data")]
     public class PlayerData : ScriptableObject {
+        [Header("CapsuleCollider Data")]
+        [SerializedDictionary("Capsule Type", "[offset, size]")]
+        public SerializedDictionary<string, Vector2[]> capsuleProps = new() {
+            { "normal", new Vector2[] { new(0.1056232f, -0.1030393f), new(1.061398f, 1.941665f) } },
+            { "groundSlide", new Vector2[] { new(-0.0825872f, -0.07872185f), new(1.967494f, 0.709112f) } }
+        };
+
         [Header("Move State")]
         public float movementVelocity = 10f;
 

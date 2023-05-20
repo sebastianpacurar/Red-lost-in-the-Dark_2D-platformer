@@ -22,6 +22,10 @@ namespace PlayerStates.SuperStates {
                     StateMachine.ChangeState(Player.InAirState);
                 }
             }
+
+            if (Player.CheckIfDead()) {
+                StateMachine.ChangeState(Player.DeathState);
+            }
         }
 
         protected override void DoChecks() {

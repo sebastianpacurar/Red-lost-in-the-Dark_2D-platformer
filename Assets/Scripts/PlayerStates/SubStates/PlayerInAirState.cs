@@ -21,12 +21,16 @@ namespace PlayerStates.SubStates {
         protected internal override void LogicUpdate() {
             base.LogicUpdate();
             UpdateCurrFallingSpeed();
+
             _xInput = Player.InputHandler.MovementInput;
             _dashInput = Player.InputHandler.DashInput;
-            
+
             _isAutoClimbOn = Player.CheckIfAutoClimbOn();
             _isAutoWallJumpOn = Player.CheckIfAutoWallJumpOn();
 
+            if (_currFallingSpeed < PlayerData.maxSafeFallSpeed) {
+                Player.CheckIfShouldPlaceAfterImg();
+            }
 
             // enter FallDamage state 
             if (_isGrounded && _currFallingSpeed < PlayerData.maxSafeFallSpeed) {
